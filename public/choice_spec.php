@@ -11,7 +11,7 @@ include("layouts/sidebar.php");
 
         <div class="w3-container">
             <p>
-            <a class=" w3-button w3-hover-black " style="margin-bottom: 7px;" href="client_data.php">&laquo;</a>
+            <a class=" w3-button w3-hover-black " style="margin-bottom: 7px;" href="client_data.php?from=step2">&laquo;</a>
             <span class=" w3-tag w3-xlarge w3-teal">1</span>
             <span class=" w3-tag w3-xlarge ">2</span>
             <span class=" w3-tag w3-xlarge w3-teal">3</span>

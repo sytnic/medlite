@@ -6,9 +6,11 @@
 <?php
 // Стираю сессию по get-запросу
 if (isset($_GET["sess"]) && $_GET["sess"] == "zero") {
-      // echo $_GET["sess"];
-      $_SESSION["inputs"] = null;
+    // echo $_GET["sess"];
+    $_SESSION["inputs"] = null;
 }
+
+
 
 // инициализация переменных для html
 $firstname = "";
@@ -93,9 +95,9 @@ include("layouts/sidebar.php");
 <p>Please, fill the form.</p>
 
 <?php  // кнопка стирания сессии появляется, если есть сессия на странице
-       if(isset($_SESSION["inputs"])) { ?>
-            <p><a href="client_data.php?sess=zero" class="w3-button w3-brown">Erase my data</a></p>
-<?php  } ?>
+      // if(isset($_SESSION["inputs"])) { ?>
+      <!--      <p><a href="client_data.php?sess=zero" class="w3-button w3-brown">Erase my data</a></p>  -->
+<?php // } ?>
 
 <p>
   <?php
@@ -120,6 +122,7 @@ include("layouts/sidebar.php");
   <?php echo form_errors($errors); 
         
         /*
+        проблема 1.
         текущее поведение (Step 1. v1): 
           если заполнить форму, вернуться на неё, стереть значение и отправить форму,
           то отправка будет предотвращена php-валидацией, 
@@ -190,6 +193,14 @@ include("layouts/sidebar.php");
     <button class="w3-button w3-block w3-section w3-green w3-ripple w3-padding" type="submit" name="submit">Next &raquo;</button>
   </form>    
 
+<?php
+    // Стираю сессию по get-запросу,
+    // если вернулся со следующего шага.
+    // Это нужно для решения проблемы #1.
+    if (isset($_GET["from"]) && $_GET["from"] == "step2") {
+      $_SESSION["inputs"] = null;
+    }
+?>
 <?php       
 include("layouts/footer.php");                        
 ?>    
