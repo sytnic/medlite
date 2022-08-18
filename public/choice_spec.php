@@ -1,13 +1,7 @@
-<?php require_once("../includes/db_connection.php"); ?>
-<?php require_once("../includes/functions.php"); ?>
-
-<?php
-
-
-
-
+<?php require_once("../includes/session.php");
+      require_once("../includes/db_connection.php");
+      require_once("../includes/functions.php"); 
 ?>
-
 <?php
 include("layouts/header.php");
 include("layouts/sidebar.php");
@@ -26,7 +20,14 @@ include("layouts/sidebar.php");
             </p>
         </div>
 
-        <p>Please, choose your doc. If you dont know, choose doc o.p. (ter.).</p>  
+        <p>Please, choose your doc. If you dont know, choose doc o.p. (ter.).</p> 
+
+<?php  echo message(); 
+       // if(isset($SESSION["message"])) {echo $_SESSION["message"][0]; }
+       echo "<pre>";
+       print_r($_SESSION["inputs"]);
+       echo "</pre>";
+?>         
         
         <div>
             <p>A</p>

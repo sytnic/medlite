@@ -1,10 +1,21 @@
-<?php require_once("../includes/db_connection.php"); ?>
-<?php require_once("../includes/functions.php"); ?>
-<?php require_once("../includes/validation_functions.php"); ?>
+<?php require_once("../includes/session.php");
+      require_once("../includes/db_connection.php");
+      require_once("../includes/functions.php");
+      require_once("../includes/validation_functions.php");
+?>
 <?php
+// Стираю сессию по get-запросу
+if (isset($_GET["sess"]) && $_GET["sess"] == "zero") {
+      // echo $_GET["sess"];
+      $_SESSION["inputs"] = null;
+}
 
+// инициализация переменных для html
 $firstname = "";
+$midname = "";
+$lastname = "";
 $birthday = "";
+$phone = "";
 
 if (isset($_POST['submit'])) {
 
@@ -21,46 +32,39 @@ if (isset($_POST['submit'])) {
   // $_POST берётся из html-формы.
 	  $required_fields = ["firstname", "lastname", "birthday", "phone"];
 	  validate_presences($required_fields);
-
+   
   if (empty($errors)) {
+
+      $_SESSION["inputs"] = [$firstname, $midname, $lastname, $birthday, $phone];
+      redirect_to("choice_spec.php");
   
-    // query  
-      $query  = "INSERT INTO clients (";
-      $query .= "first_name, middle_name, surname, datebirth, phone";
-      $query .= ") VALUES (";
-      $query .= " '{$firstname}', '{$midname}', '{$lastname}', '{$birthday}', '{$phone}'";
-      $query .= ")";
-      $result = mysqli_query($connection, $query);
+    /*  
+      // query  
+        $query  = "INSERT INTO clients (";
+        $query .= "first_name, middle_name, surname, datebirth, phone";
+        $query .= ") VALUES (";
+        $query .= " '{$firstname}', '{$midname}', '{$lastname}', '{$birthday}', '{$phone}'";
+        $query .= ")";
+        $result = mysqli_query($connection, $query);
 
-      //var_dump($firstname);  // string(0) ""
-      //die();
-      /*
-        $value = trim($_POST["firstname"]);  
-          if (!has_presence($value)) {
-            //var_dump($value);
-            echo "!has_presence.<br>";  // !has_presence.
-            var_dump($value);           // string(0) ""
-          }
-      */
-      // echo $query;
-
-    // check query
-      if ($result) {
-        // Success
-        redirect_to("choice_spec.php");
-      } else {
-        // Failure
-          if(mysqli_errno($connection)) {
-            echo "Error: " . 
-                // not for production:
-                mysqli_error($connection) . 
-                // for production:
-                " (" . mysqli_errno($connection) . "). "
-            ;
-            // not for production:
-            echo $query;
-          }
-      }
+      // check query
+        if ($result) {
+          // Success
+          redirect_to("choice_spec.php");
+        } else {
+          // Failure
+            if(mysqli_errno($connection)) {
+              echo "Error: " . 
+                  // not for production:
+                  mysqli_error($connection) . 
+                  // for production:
+                  " (" . mysqli_errno($connection) . "). "
+              ;
+              // not for production:
+              echo $query;
+            }
+        }
+    */
 
   }  // end of - if (empty($errors))
     
@@ -69,7 +73,6 @@ if (isset($_POST['submit'])) {
 }
 
 ?>
-
 <?php
 include("layouts/header.php");
 include("layouts/sidebar.php");
@@ -88,14 +91,42 @@ include("layouts/sidebar.php");
 </div>
 
 <p>Please, fill the form.</p>
+
+<?php  // кнопка стирания сессии появляется, если есть сессия на странице
+       if(isset($_SESSION["inputs"])) { ?>
+            <p><a href="client_data.php?sess=zero" class="w3-button w3-brown">Erase my data</a></p>
+<?php  } ?>
+
 <p>
-<?php
-    // нужно инициализировать пустые строки, 
-    // если эти переменные используются тут 
-      echo "Your name: $firstname <br>" ; 
-      echo "Your birthday: $birthday" ;
-?>
-<?php echo form_errors($errors); ?>
+  <?php
+      /*
+        var_dump($_SESSION["inputs"]);
+        var_dump($_SESSION["inputs"][0]);      
+        if(isset($_SESSION["inputs"])) {echo $_SESSION["inputs"][0]; } 
+        echo "<br>" ; 
+      */
+        // нужно инициализировать пустые строки выше под эти переменные, 
+        // раз эти переменные используются
+        echo "Var name: $firstname. <br>";
+        echo "Var lastname: $lastname. <br>" ;
+        echo "Var birthday: $birthday. <br>" ;
+        echo "Var phone: $phone. <br>" ;  
+        
+        echo "<pre>";
+        print_r($_SESSION["inputs"]);
+        echo "</pre>";
+
+  ?>
+  <?php echo form_errors($errors); 
+        
+        /*
+        текущее поведение (Step 1. v1): 
+          если заполнить форму, вернуться на неё, стереть значение и отправить форму,
+          то отправка будет предотвращена php-валидацией, 
+          но значение будет заполнено из сессии
+        */  
+  ?>
+  
 </p>
 
   <form action="client_data.php" method="post" class="w3-container w3-card-4 w3-light-grey w3-text-green w3-margin">
@@ -104,21 +135,28 @@ include("layouts/sidebar.php");
     <div class="w3-row w3-section">
       <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-pencil"></i></div>
         <div class="w3-rest">
-          <input class="w3-input w3-border" name="firstname" type="text" placeholder="First Name *" >                
+          <input class="w3-input w3-border" name="firstname" type="text" placeholder="First Name *" 
+          value="<?php  if(isset($_SESSION["inputs"])) {
+                            echo $_SESSION["inputs"][0]; 
+                        } else { 
+                            echo $firstname;
+                        } ?>" >
         </div>
     </div>
     
     <div class="w3-row w3-section">
       <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-pencil"></i></div>
         <div class="w3-rest">
-          <input class="w3-input w3-border" name="midname" type="text" placeholder="Middle Name">
+          <input class="w3-input w3-border" name="midname" type="text" placeholder="Middle Name"
+          value="<?php echo (isset($_SESSION["inputs"])) ? $_SESSION["inputs"][1] : $midname; ?>" >
         </div>
     </div>
     
     <div class="w3-row w3-section">
       <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-pencil"></i></div>
         <div class="w3-rest">
-          <input class="w3-input w3-border" name="lastname" type="text" placeholder="Last Name *" >
+          <input class="w3-input w3-border" name="lastname" type="text" placeholder="Last Name *" 
+          value="<?php echo (isset($_SESSION["inputs"])) ? $_SESSION["inputs"][2] : $lastname; ?>" >
         </div>
     </div>        
     
@@ -134,7 +172,8 @@ include("layouts/sidebar.php");
     <div class="w3-row w3-section">
       <div class="w3-col " style="width:50px"><i class="w3-xxlarge fa fa-user"></i></div>
         <div class="w3-rest" style="width: 50%;">              
-          <input class="w3-input w3-border" name="birthday" type="date" >
+          <input class="w3-input w3-border" name="birthday" type="date" 
+          value="<?php if(isset($_SESSION["inputs"])) {echo $_SESSION["inputs"][3]; } else { echo $birthday; } ?>" >
           <label for="birthday">Birthday *</label>
         </div>
     </div>
@@ -142,7 +181,8 @@ include("layouts/sidebar.php");
     <div class="w3-row w3-section">
       <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-phone"></i></div>
         <div class="w3-rest">
-          <input class="w3-input w3-border" name="phone" type="text" placeholder="Phone *" required>
+          <input class="w3-input w3-border" name="phone" type="text" placeholder="Phone *" required 
+          value="<?php echo (isset($_SESSION["inputs"])) ? $_SESSION["inputs"][4] : $phone; ?>" >
           <small>Real number, please</small><br>
         </div>                        
     </div>        
