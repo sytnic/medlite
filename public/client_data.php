@@ -4,13 +4,15 @@
       require_once("../includes/validation_functions.php");
 ?>
 <?php
-// Стираю сессию по get-запросу
+// Стираю сессию по get-запросу.
+// Работает совместно с Кнопкой стирания сессии,
+// но в текущей версии 
+// (возврат со следующего шага и автоматическое стирание сессии)
+// этот блок не нужен.
 if (isset($_GET["sess"]) && $_GET["sess"] == "zero") {
     // echo $_GET["sess"];
     $_SESSION["inputs"] = null;
 }
-
-
 
 // инициализация переменных для html
 $firstname = "";
@@ -94,7 +96,9 @@ include("layouts/sidebar.php");
 
 <p>Please, fill the form.</p>
 
-<?php  // кнопка стирания сессии появляется, если есть сессия на странице
+<?php  // Кнопка стирания сессии,
+      // появляется, если есть сессия на странице
+
       // if(isset($_SESSION["inputs"])) { ?>
       <!--      <p><a href="client_data.php?sess=zero" class="w3-button w3-brown">Erase my data</a></p>  -->
 <?php // } ?>
@@ -122,7 +126,7 @@ include("layouts/sidebar.php");
   <?php echo form_errors($errors); 
         
         /*
-        проблема 1.
+        проблема #1.
         текущее поведение (Step 1. v1): 
           если заполнить форму, вернуться на неё, стереть значение и отправить форму,
           то отправка будет предотвращена php-валидацией, 
