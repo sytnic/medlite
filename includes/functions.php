@@ -18,6 +18,18 @@ function confirm_query($result_set) {
          or its using in another func-s failed.");
     }
 }
+/**
+ * @return mysqli_result
+ */
+function get_all_specs() {
+    global $connection;
+
+    $query = "SELECT * FROM specs";
+    $result_set = mysqli_query($connection, $query);
+    confirm_query($result_set);
+
+    return $result_set;
+}
 
 
 ?>
