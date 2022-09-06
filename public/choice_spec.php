@@ -43,7 +43,10 @@ include("layouts/sidebar.php");
         $result_set = get_all_specs();
         // пустой массив
         $specs = [];
-        // получение массива
+        // получение массива,
+        // т.к. нельзя сразу выводить на экран через while,
+        // для вывода на экран сначала нужно 
+        // разложить все специальности по их буквам по алфавиту.
         while($row = mysqli_fetch_assoc($result_set)) {
             $specs[] = htmlentities($row["specname"]);            
         }
@@ -96,7 +99,7 @@ include("layouts/sidebar.php");
                     
                     // для каждого массива $value выводим его значения $meaning
                     foreach ($value as $meaning) { 
-                        $output = '<a href="choice_doc.php?spec='.$meaning.'" class="w3-button w3-border">';
+                        $output = '<a href="choice_doc.php?specname='.$meaning.'" class="w3-button w3-border">';
                         $output.= $meaning;
                         $output.= '</a>'."\r\n";
                         echo $output;
