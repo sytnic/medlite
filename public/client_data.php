@@ -66,7 +66,7 @@ include("layouts/sidebar.php");
         echo "Var phone: $phone. <br>" ;  
         
         echo "<pre>";
-        print_r($_SESSION["inputs"]);
+        print_r($_SESSION);
         echo "</pre>";
   ?>
   <?php echo form_errors($errors); ?>  
@@ -128,8 +128,8 @@ include("layouts/sidebar.php");
     // По get-запросу стираю сессию и её значения 
     // после первого появления в форме,
     // когда вернулся со следующего шага.
-    if (isset($_GET["from"]) && $_GET["from"] == "step2") {
-      $_SESSION["inputs"] = null;
+    if (isset($_GET["from"]) && $_GET["from"] == "step2") {      
+      $_SESSION["inputs"] = null;      
     }
 ?>
 <?php       

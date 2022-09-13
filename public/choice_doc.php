@@ -1,6 +1,21 @@
 <?php require_once("../includes/session.php");
       require_once("../includes/db_connection.php");
       require_once("../includes/functions.php"); 
+        // если нет Сессии 
+        // (она используется и при шаге вперед, и при шаге назад),
+        // то есть пришли сюда напрямки,
+        // то редирект.
+        // Точнее, если Сессия пуста, т.к. она есть 
+        // и задана с помощью session.php
+        if (empty($_SESSION)) {
+            redirect_to("index.php");
+        }
+        // если я вернулся с прошлого шага,
+        // стереть выбранного ранее дока
+        if (!isset($_GET["wanted_id"])) {
+            $_SESSION["wanted_id"] = null;
+        }
+
 ?>
 <?php
 include("layouts/header.php");
@@ -28,15 +43,20 @@ already is set
 
         <p>Please, choose the doc. </p>  
 <?php
+    // получи $specname из Get-Url,
+    // иначе из сессии,
+    // чтобы ниже можно было заполнить страницу данными из БД (шаг 0.)
     if (isset($_GET["specname"])) {
         // echo $_GET["specname"];
         // тут хорошее место для ю-эр-эл-энкодинга
         $specname = $_GET["specname"];
-        $_SESSION["specname"] = $specname;
-        echo "<pre>";
-        print_r($_SESSION);
-        echo "</pre>";
+        $_SESSION["specname"] = $specname;        
+    } else {
+        $specname = $_SESSION["specname"];
     }
+    echo "<pre>";
+    print_r($_SESSION);
+    echo "</pre>";
 
 ?>  
 <!--      
@@ -55,7 +75,7 @@ already is set
             <p><b>From DB</b></p>
 
 <?php
-            // 0. Получение номера id специмени specname
+            // 0. Получение номера id по специмени specname
             $specid = get_id_by_specname($specname);
 
             // проверка
@@ -66,10 +86,12 @@ already is set
 
             // 2. Перевод результирующего набора в массив и Вывод данных на экран
             while($row = mysqli_fetch_assoc($result_set)) {
+                // лучше передавать id, а не surname,
+                // и получать по id любые данные             
 ?>
-            <a href="confirm.php?wanted=<?php echo $row["surname"]; ?>" class="w3-button w3-border">
-            <?php echo $row["firstname"]." ".$row["surname"]; ?>
-            </a>  
+            <a href="confirm.php?wanted_id=<?php echo $row["id"]; ?>" class="w3-button w3-border">
+                <?php echo $row["firstname"]." ".$row["surname"]; ?>
+            </a>            
             <small><?php echo (isset($row["cost"])) ? "~ ".$row["cost"] : ""; ?></small><br>
 <?php
             }
@@ -78,7 +100,7 @@ already is set
 ?>
 
             <p>It doesn't matter</p>
-            <a href="confirm.php?wanted=doesnt_matter" class="w3-button w3-border">Doesn't matter</a>            
+            <a href="confirm.php?wanted_id=doesnt_matter" class="w3-button w3-border">Doesn't matter</a>            
         </div>
         <br><br>  
     

@@ -5,6 +5,11 @@
 <?php
 include("layouts/header.php");
 include("layouts/sidebar.php");
+        // если я вернулся с прошлого шага,
+        // стереть выбранную спец.
+        if (!isset($_GET["specname"])) {
+            $_SESSION["specname"] = null;
+        }
 ?>
     
     <h2>Spec choosing</h2>
@@ -24,7 +29,7 @@ include("layouts/sidebar.php");
 
 <?php  
        echo "<pre>";
-       print_r($_SESSION["inputs"]);
+       print_r($_SESSION);
        echo "</pre>";
 ?>         
 <!--        

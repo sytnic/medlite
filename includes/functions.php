@@ -77,7 +77,7 @@ function get_active_docs_by_specid($spec_id) {
 
 /**
  * @param  string $spec_name
- * @return int
+ * @return int $id
  */
 function get_id_by_specname($spec_name) {
     global $connection;
@@ -94,6 +94,29 @@ function get_id_by_specname($spec_name) {
     }
 
     return $id;
+}
+
+/**
+ * @param  int $doc_id
+ * @return array||null
+ * 
+ */
+function get_doc_by_id($doc_id) {
+    global $connection;
+
+    $safe_doc_id = mysqli_real_escape_string($connection, $doc_id);
+
+    $query = "SELECT * FROM docs where id = {$safe_doc_id} LIMIT 1";
+
+    $result_set = mysqli_query($connection, $query);
+    // Test if there was a query error
+    confirm_query($result_set, "get_doc_by_id");
+
+    if ($doc_row = mysqli_fetch_assoc($result_set)) {
+        return $doc_row;
+    } else {
+        return null;
+    }
 }
 
 
