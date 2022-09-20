@@ -39,12 +39,21 @@ already is set
         print_r($_SESSION);
         echo "</pre>";
 
-        $specname = $_SESSION["specname"];
+        $specname  = $_SESSION["specname"];
 
         $firstname = $_SESSION["inputs"][0];
         $lastname  = $_SESSION["inputs"][2];
         $phone     = $_SESSION["inputs"][4];
 
+        // 1. Here Create function doesnt_matter_or_id()
+
+        $array = doesnt_matter_or_id($_SESSION["wanted_id"]);
+
+        echo "<pre>";
+        print_r($array);
+        echo "</pre>";
+
+        /*
         // если не "doesnt_matter"
         if ($_SESSION["wanted_id"] != "doesnt_matter") {
             // значит имеем дело с id
@@ -54,11 +63,12 @@ already is set
 
             $output_name = $doc_row['firstname'].' '.$doc_row['surname'];
             $output_cost = "~ ".$doc_row["cost"];
-        } else {
+            // иначек, если имеем дело с doesnt_matter
+        } else { 
             $output_name = "Не имеет значения";
             $output_cost = "~ 1200";
         }
-        
+        */
 
         
 
@@ -76,11 +86,15 @@ already is set
                 <p><b><?php echo $specname; ?></b></p>
 
                 <p><b>
-                <?php echo $output_name; ?>
+                <?php //echo $output_name;
+                        echo  $array['fullname'];                
+                ?>
                 </b></p>
 
                 <small>
-                <?php echo $output_cost; ?>
+                <?php //echo $output_cost;
+                        echo  $array['cost'];                
+                ?>
                 </small><br>                
                 
                 <hr style="height: 2px; width: 40%; background-color: grey;">

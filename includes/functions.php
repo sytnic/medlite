@@ -119,5 +119,34 @@ function get_doc_by_id($doc_id) {
     }
 }
 
+/**
+ * @param int|string $session_wantedid
+ * @return array
+ * 
+ */
+function doesnt_matter_or_id($session_wantedid) {
+
+    
+    // если не "doesnt_matter"
+    if ($session_wantedid != "doesnt_matter") {
+        // значит имеем дело с id
+        $doc_id     = $session_wantedid;
+        // array
+        $doc_row = get_doc_by_id($doc_id);
+
+        $output_name = $doc_row['firstname'].' '.$doc_row['surname'];
+        $output_cost = "~ ".$doc_row["cost"];
+        // иначе, если имеем дело с doesnt_matter
+    } else { 
+        $output_name = "Не имеет значения";
+        $output_cost = "~ 1200";
+    }
+
+    $my_array = ['fullname' => $output_name, 'cost' => $output_cost];
+
+    return $my_array;
+
+}
+
 
 ?>
