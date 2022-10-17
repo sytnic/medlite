@@ -121,7 +121,7 @@ function get_doc_by_id($doc_id) {
 
 /**
  * @param int|string $session_wantedid
- * @return array
+ * @return array ['fullname' => , 'cost' => ]
  * 
  */
 function doesnt_matter_or_id($session_wantedid) {

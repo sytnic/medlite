@@ -1,6 +1,10 @@
 <?php require_once("../includes/session.php");
       require_once("../includes/db_connection.php");
       require_once("../includes/functions.php"); 
+      // На этом шаге нет записи в БД. 
+      // Запись происходит при загрузке следующего шага final,
+      // после к-рого нет шага назад. 
+      // Запись в БД производится только один раз.  
 ?>
 <?php
 include("layouts/header.php");
@@ -47,10 +51,10 @@ already is set
 
         // 1. Here Create function doesnt_matter_or_id()
 
-        $array = doesnt_matter_or_id($_SESSION["wanted_id"]);
+        $array_name_cost = doesnt_matter_or_id($_SESSION["wanted_id"]);
 
         echo "<pre>";
-        print_r($array);
+        print_r($array_name_cost);
         echo "</pre>";
 
         /*
@@ -75,7 +79,7 @@ already is set
 ?>
 
         <p>This is final step. </p>
-        <p>If all right, register it, and we will to call you for confirming.</p>
+        <p>If all right, register it, and we will call you for confirming.</p>
 
         
         <div style="width: 50%;">
@@ -87,13 +91,13 @@ already is set
 
                 <p><b>
                 <?php //echo $output_name;
-                        echo  $array['fullname'];                
+                        echo  $array_name_cost['fullname'];
                 ?>
                 </b></p>
 
                 <small>
                 <?php //echo $output_cost;
-                        echo  $array['cost'];                
+                        echo  $array_name_cost['cost'];
                 ?>
                 </small><br>                
                 

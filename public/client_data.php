@@ -2,14 +2,18 @@
       require_once("../includes/db_connection.php");
       require_once("../includes/functions.php");
       require_once("../includes/validation_functions.php");
+      // Запись в БД на этом шаге отсуствует. 
+      // П.что клиент может вернуться и изменить данные, и неоднократно. 
+      // Запись производится только один раз во время фиксации, в final, 
+      // после к-рого нет шагов назад.
 ?>
 <?php
 // инициализация переменных для html
 $firstname = "";
-$midname = "";
-$lastname = "";
-$birthday = "";
-$phone = "";
+$midname   = "";
+$lastname  = "";
+$birthday  = "";
+$phone     = "";
 
 if (isset($_POST['submit'])) {
 
@@ -105,7 +109,7 @@ include("layouts/sidebar.php");
               
     <div class="w3-row w3-section">
       <div class="w3-col " style="width:50px"><i class="w3-xxlarge fa fa-user"></i></div>
-        <div class="w3-rest" style="width: 50%;">              
+        <div class="w3-rest" style="width: 30%;">              
           <input class="w3-input w3-border" name="birthday" type="date" 
           value="<?php if(isset($_SESSION["inputs"])) {echo $_SESSION["inputs"][3]; } else { echo $birthday; } ?>" >
           <label for="birthday">Birthday *</label>
