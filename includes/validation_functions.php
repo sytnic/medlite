@@ -73,4 +73,34 @@ function validate_max_lengths($fields_with_max_lengths) {
 	}
 }
 
+/**
+ * Проверка на уникальность имени пользователя.  
+ * Специфические данные внутри:
+ * Таблица и поле в запросе SELECT,  
+ * массив errors и соединение с БД connection .
+ * 
+ * @param string $username
+ * @return true|array $errors
+ */
+function validate_uniqname($username) {
+    global $errors;
+    global $connection;
+    
+    $safe_username = mysqli_real_escape_string($connection, $username);
+    
+    $query  = "SELECT * ";
+    $query .= " FROM docadmins ";
+    $query .= " WHERE username = '{$safe_username}' ";
+    $query .= " LIMIT 10";
+    $admin_set = mysqli_query($connection, $query);
+    // Test if there was a query error
+    confirm_query($admin_set);
+
+    if ($admin_set && mysqli_affected_rows($connection) > 0) {      
+      return $errors["uniq"] = "Username '$username' is not unique.";
+    } else {
+      return true;
+    }
+}
+
 ?>

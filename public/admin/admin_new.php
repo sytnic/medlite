@@ -6,6 +6,9 @@
 <?php
 if (isset($_POST['submit'])) {
 	// Process the form
+
+	$username = mysql_prep($_POST["username"]);
+	$hashed_password = password_encrypt($_POST["password"]);
              
     // validations
 	$required_fields = array("username", "password");
@@ -15,12 +18,11 @@ if (isset($_POST['submit'])) {
 	$fields_with_max_lengths = array("username" => 30);
 	validate_max_lengths($fields_with_max_lengths);
 	// здесь $errors[] - global
-   
-    
-    if (empty($errors)) {
 
-		$username = mysql_prep($_POST["username"]);
-	    $hashed_password = password_encrypt($_POST["password"]);
+	// Return true || $errors[]
+	validate_uniqname($username);   
+    
+    if (empty($errors)) {		
        
 		$query  = "INSERT INTO docadmins (";
 		$query .= "  username, password ";

@@ -12,16 +12,21 @@ if (isset($_POST['submit'])) {
     // validations
 	$required_fields = array("username", "password");
 	validate_presences($required_fields);
-	// здесь $errors[] - global	 
+	// здесь $errors[] - global
     
     if (empty($errors)) {
-		// Attempt login
+		// Attempt login 
+		
+		$username = $_POST["username"];
+		$password = $_POST["password"];
 
-        $username = $_POST["username"];
-        $password = $_POST["password"];
-
-		// вернёт массив, строку админа из БД
+		// вернёт массив, строку админа из БД или false
 		$found_admin = attempt_login($username, $password);
+		// Может вызывать false, если возможно наличие в БД 
+		// нескольких пользователей с одинаковым именем.  
+		// Но была внедрена уникальность в функциях валидации.
+
+		// var_dump($found_admin);
 		
 		if ($found_admin) {
 			// Success
@@ -36,7 +41,10 @@ if (isset($_POST['submit'])) {
 			redirect_to("admin.php");
 		} else {
 			// Failure
-			$_SESSION["message"] = "Username/password not found.";			
+			$_SESSION["message"] = "Username/password not found.";
+			// Может ошибочно вызываться, если возможно наличие в БД 
+			// нескольких пользователей с одинаковым именем.  
+			// Но была внедрена уникальность в функциях валидации.
 		}     
 			
 	} else {
