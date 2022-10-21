@@ -1,25 +1,60 @@
-<?php include("layout/top.php"); ?>
+<?php   include("../../includes/db_connection.php");
+        include("../../includes/functions.php");
+        include("../../includes/validation_functions.php");
+        include("../../includes/session.php");
+?>
+<?php
+$username = "";
 
-      <h2>Log in</h2>
+if (isset($_POST['submit'])) {
+	// Process the form
+             
+    // validations
+	$required_fields = array("username", "password");
+	validate_presences($required_fields);
+	// здесь $errors[] - global	 
+    
+    if (empty($errors)) {
+		// Attempt login
 
-      <div class="w3-container">          
-      </div>
+        $username = $_POST["username"];
+        $password = $_POST["password"];
 
-      <div class="w3-container w3-teal">
-          <h2>Input Form</h2>
-      </div>
-        
-      <form action="login_success.html" method="post" class="w3-container">
-        <p>
-        <label>Admin Name</label>
-        <input class="w3-input w3-border" type="text"></p>
+		// вернёт массив, строку админа из БД
+		$found_admin = attempt_login($username, $password);
+		
+		if ($found_admin) {
+			// Success
+			// Mark user as logged in
 
-        <p>
-        <label>Password</label>
-        <input class="w3-input w3-border" type="password"></p>
+			// Можно пометить юзера в куки
+			//$_COOKIE["admin_id"] = $found_admin["id"];
+			// но лучше в сессии (куки видны и могут быть подделаны)
+			$_SESSION["admin_id"] = $found_admin["id"];
+			$_SESSION["username"] = $found_admin["username"];
+			
+			redirect_to("admin.php");
+		} else {
+			// Failure
+			$_SESSION["message"] = "Username/password not found.";			
+		}     
+			
+	} else {
+		// Вероятно, GET запрос
+		// 
+	}	
+}
+?>
+<?php  include("layout/top.php"); ?>
+<?php echo message();   ?>
+<?php echo form_errors($errors); ?>  
 
-        <button class="w3-button w3-block w3-section w3-green w3-ripple w3-padding" type="submit" name="submit">Login </button>
-        <button class="w3-button w3-block w3-section w3-pale-red w3-ripple w3-padding" type="submit" formaction="login_danger.html" name="submit">Login </button>
-      </form> 
-      
+<h2>Login</h2>
+
+<form action="login.php" method="post">       
+    Username:       <input type="text"     name="username" value="<?php echo htmlentities($username); ?>"><br><br>     
+    Password:&nbsp; <input type="password" name="password" value=""><br><br><br>
+                    <input type="submit"   name="submit"   value="Submit">
+</form>
+
 <?php include("layout/bottom.php"); ?>

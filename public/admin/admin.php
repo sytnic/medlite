@@ -6,7 +6,7 @@
 ?>
 
     <h2>Admin Menu</h2>
-	<p>Welcome to the admin area <?php // echo htmlentities($_SESSION["username"]); ?>.</p>
+	<p>Welcome to the admin area, <?php echo htmlentities($_SESSION["username"]); ?>.</p>
 	<ul>
 	  <li><a href="admin_list.php">List of Admins</a></li>
 	  <li><a href="logout.php">Logout</a></li>

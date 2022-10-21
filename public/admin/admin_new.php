@@ -20,13 +20,14 @@ if (isset($_POST['submit'])) {
     if (empty($errors)) {
 
 		$username = mysql_prep($_POST["username"]);
-	    $password = mysql_prep($_POST["password"]);
+	    $hashed_password = password_encrypt($_POST["password"]);
        
 		$query  = "INSERT INTO docadmins (";
 		$query .= "  username, password ";
 		$query .= ") VALUES (";
-		$query .= "  '{$username}', '{$password}' ";
+		$query .= "  '{$username}', '{$hashed_password}' ";
 		$query .= ")";
+		
 		$result = mysqli_query($connection, $query);
 
 		// echo $query; // But It Will cause - Cannot modify header

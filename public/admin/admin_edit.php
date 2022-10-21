@@ -23,12 +23,12 @@
    
       if(empty($errors)){
         $username = mysql_prep($_POST["username"]);
-        $password = mysql_prep($_POST["password"]);
+        $hashed_password = password_encrypt($_POST["password"]);
         $id = $admin["id"];
 
         $query  = "UPDATE docadmins SET ";
         $query .= " username = '{$username}', ";
-        $query .= " password = '{$password}' ";
+        $query .= " password = '{$hashed_password}' ";
         $query .= " WHERE id = {$id} ";
         $query .= " LIMIT 1";
         $result = mysqli_query($connection, $query);
