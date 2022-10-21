@@ -20,9 +20,15 @@ function mysql_prep($string) {
  * @param mysqli_result $result_set
  * @param string $function_name
  */
-function confirm_query($result_set, $function_name) {
+function confirm_query($result_set, $function_name="another function") {
+    global $connection;
+
     if (!$result_set) {        
-        die("Database query failed. Function confirm_query() failed in $function_name.");
+        die("Database query failed. Function confirm_query() failed in $function_name. ".
+            "Error: ".mysqli_errno($connection).". ".
+            "Connect Error: ".mysqli_connect_errno($connection).". ".
+            "SQL State: ".mysqli_sqlstate($connection)
+            );
         // хотя не очень хорошо всё рассказывать в продакшене
     }
 }
@@ -146,6 +152,45 @@ function doesnt_matter_or_id($session_wantedid) {
 
     return $my_array;
 
+}
+/**
+ *  
+ */
+function find_all_admins() {
+    global $connection;
+		
+    $query  = "SELECT * ";
+    $query .= " FROM docadmins ";
+    $query .= " ORDER BY username ASC";
+    $admin_set = mysqli_query($connection, $query);
+    // Test if there was a query error
+    confirm_query($admin_set);
+    
+    return $admin_set;
+}
+
+/**
+ * @param  int $admin_id
+ * @return array||null
+ */
+function find_admin_by_id($admin_id) {
+    global $connection;
+    
+    $safe_admin_id = mysqli_real_escape_string($connection, $admin_id);
+    
+    $query  = "SELECT * ";
+    $query .= " FROM docadmins ";
+    $query .= " WHERE id = {$safe_admin_id} ";
+    $query .= " LIMIT 1";
+    $admin_set_row = mysqli_query($connection, $query);
+    // Test if there was a query error
+    confirm_query($admin_set_row);
+    
+    if ($admin_row = mysqli_fetch_assoc($admin_set_row)) {
+        return $admin_row;
+    } else {
+        return null;
+    }		
 }
 
 

@@ -45,4 +45,32 @@ function form_errors($errors=array()) {
     return $output;
 }
 
+/**
+ * auxiliary function
+ * @param string $value
+ * @param int $max
+ * @return bool
+ * 
+ */
+function has_max_length($value, $max) {
+	return strlen($value) <= $max;
+}
+
+/**
+ * @param array $fields_with_max_lengths
+ * @return do_job if true
+ */
+function validate_max_lengths($fields_with_max_lengths) {
+	global $errors;
+	// Expects an assoc. array
+	foreach($fields_with_max_lengths as $field => $max) {
+		$value = trim($_POST[$field]);
+    // Если предлагаемые поля большие по длине,
+    // то заполняется массив $errors
+	  if (!has_max_length($value, $max)) {
+	    $errors[$field] = fieldname_as_text($field) . " is too long";
+	  }
+	}
+}
+
 ?>
