@@ -326,4 +326,29 @@ function password_encrypt($password) {
 
 /**** */
 
+/**
+ * Check login 
+ * Специфика:
+ * требуется включение сессии перед этими функциями;
+ * эти функции нужны на всех страницах админки, кроме входа.
+ */
+
+/**
+ * @return bool
+ */
+function logged_in() {
+    return isset($_SESSION["admin_id"]);
+}
+
+/**
+ * @return void redirect||nothing
+ */
+function confirm_logged_in() {
+    if(!logged_in()){
+        redirect_to("login.php");
+    }
+}
+
+/**** */
+
 ?>

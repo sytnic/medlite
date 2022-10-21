@@ -1,9 +1,9 @@
 <?php   include("../../includes/db_connection.php");
         include("../../includes/functions.php");
-        include("../../includes/session.php");
+        include("../../includes/session.php");   ?>
+<?php confirm_logged_in(); ?>
+<?php   include("layout/top.php"); ?>
 
-        include("layout/top.php");
-?>
 <?php echo message();?>
 <h2>Manage Admins</h2>
     <table style="width: 300px;">

@@ -1,7 +1,7 @@
 <?php   include("../../includes/db_connection.php");
         include("../../includes/functions.php");
-        include("../../includes/session.php");
-?>
+        include("../../includes/session.php");    ?>
+<?php confirm_logged_in(); ?>
 <?php 
     // array of 1 row
 	$admin_row = find_admin_by_id($_GET["id"]);

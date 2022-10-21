@@ -1,8 +1,8 @@
 <?php   include("../../includes/db_connection.php");
         include("../../includes/functions.php");
         include("../../includes/validation_functions.php");
-        include("../../includes/session.php");
-?>
+        include("../../includes/session.php");   ?>
+<?php confirm_logged_in(); ?>
 <?php
     $admin = find_admin_by_id($_GET["id"]);
     if (!$admin) {

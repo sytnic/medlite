@@ -1,3 +1,6 @@
+<?php include("../../includes/functions.php");
+      include("../../includes/session.php");  ?>
+<?php confirm_logged_in(); ?>
 <?php include("layout/top.php"); ?>
 
     <h2>Header Index</h2>
