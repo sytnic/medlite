@@ -83,15 +83,25 @@ function get_active_docs_by_specid($spec_id) {
 
 /**
  * @param  string $spec_name
- * @return int $id
+ * @return int $id|null
  */
 function get_id_by_specname($spec_name) {
     global $connection;
 
     $query = "SELECT id FROM specs WHERE specname = '$spec_name' LIMIT 1";
 
+    //echo $query;
+
+    // если запрос без ошибки, но ничего не вернул, вернётся null в $result_set
     $result_set = mysqli_query($connection, $query);
+
+    if(!$result_set) {
+        return false;
+    }
+
     confirm_query($result_set, "get_id_by_specname");
+
+    //var_dump($result_set);
 
     // используется if, а не while, п.что 
     // ожидается только одно значение

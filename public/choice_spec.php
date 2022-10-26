@@ -115,6 +115,9 @@ include("layouts/sidebar.php");
                 }
             }
 ?>
+    <a href="choice_doc.php?specname=terapevt" class="w3-button w3-border">
+        Terapevt
+    </a>
         </div>
 <?php       
 include("layouts/footer.php");                        

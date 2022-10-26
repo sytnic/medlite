@@ -75,29 +75,34 @@ already is set
             <p><b>From DB</b></p>
 
 <?php
-            // 0. Получение номера id по специмени specname
+            // 0. Получение номера id по специмени specname или false
             $specid = get_id_by_specname($specname);
 
-            // проверка
-            //die($specid);
+            // если $specid число, а не false, то выполняем все манипуляции из БД
+            if($specid) {            
 
-            // 1. Получение результирующего набора из БД
-            $result_set = get_active_docs_by_specid($specid);            
+                // проверка
+                //var_dump($specid);
+                //die();
 
-            // 2. Перевод результирующего набора в массив и Вывод данных на экран
-            while($row = mysqli_fetch_assoc($result_set)) {
-                // лучше передавать id, а не surname,
-                // и получать по id любые данные             
-?>
-            <a href="confirm.php?wanted_id=<?php echo $row["id"]; ?>" class="w3-button w3-border">
-                <?php echo $row["firstname"]." ".$row["surname"]; ?>
-            </a>            
-            <small><?php echo (isset($row["cost"])) ? "~ ".$row["cost"] : ""; ?></small><br>
-<?php
+                // 1. Получение результирующего набора из БД
+                $result_set = get_active_docs_by_specid($specid);            
+
+                // 2. Перевод результирующего набора в массив и Вывод данных на экран
+                while($row = mysqli_fetch_assoc($result_set)) {
+                    // лучше передавать id, а не surname,
+                    // и получать по id любые данные             
+    ?>
+                <a href="confirm.php?wanted_id=<?php echo $row["id"]; ?>" class="w3-button w3-border">
+                    <?php echo $row["firstname"]." ".$row["surname"]; ?>
+                </a>            
+                <small><?php echo (isset($row["cost"])) ? "~ ".$row["cost"] : ""; ?></small><br>
+    <?php
+                }
+                // 3. освобождение результата
+                mysqli_free_result($result_set);
             }
-            // 3. освобождение результата
-            mysqli_free_result($result_set);
-?>
+    ?>
 
             <p>It doesn't matter</p>
             <a href="confirm.php?wanted_id=doesnt_matter" class="w3-button w3-border">Doesn't matter</a>            

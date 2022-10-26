@@ -86,6 +86,11 @@ if (!empty($_SESSION)) {
     // УБРАТЬ ИЗ ПРОДАКШН:
     echo $query."<br>";
 
+    // ! Длина строки из русских букв умножается на два на каждую букву.
+    // УБРАТЬ ИЗ ПРОДАКШН:
+    echo strlen('Не имеет значения');  // 15*2 + 2 пробела = 32
+    echo "<br>";
+
     if (!$result) {
         die(
         "Database query failed. "."Код: ".mysqli_errno($connection). 
