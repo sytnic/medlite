@@ -38,6 +38,7 @@ already is set
             <span class=" w3-tag w3-xlarge ">3</span>
             <span class=" w3-tag w3-xlarge w3-teal">4</span>
             <span class=" w3-tag w3-xlarge w3-teal">5</span>
+            <span class=" w3-tag w3-xlarge w3-teal">6</span>
             </p>
         </div>
 
@@ -93,7 +94,7 @@ already is set
                     // лучше передавать id, а не surname,
                     // и получать по id любые данные             
     ?>
-                <a href="confirm.php?wanted_id=<?php echo $row["id"]; ?>" class="w3-button w3-border">
+                <a href="choice_time.php?wanted_id=<?php echo $row["id"]; ?>" class="w3-button w3-border">
                     <?php echo $row["firstname"]." ".$row["surname"]; ?>
                 </a>            
                 <small><?php echo (isset($row["cost"])) ? "~ ".$row["cost"] : ""; ?></small><br>
@@ -105,7 +106,7 @@ already is set
     ?>
 
             <p>It doesn't matter</p>
-            <a href="confirm.php?wanted_id=doesnt_matter" class="w3-button w3-border">Doesn't matter</a>            
+            <a href="choice_time.php?wanted_id=doesnt_matter" class="w3-button w3-border">Doesn't matter</a>            
         </div>
         <br><br>  
     

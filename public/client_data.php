@@ -47,16 +47,17 @@ include("layouts/sidebar.php");
 ?>
     <h2>Client data</h2>
 
-<div class="w3-container">
-    <p>
-    <a class=" w3-button w3-hover-black " style="margin-bottom: 7px;" href="index.php">&laquo;</a>
-    <span class=" w3-tag w3-xlarge ">1</span>
-    <span class=" w3-tag w3-xlarge w3-teal">2</span>
-    <span class=" w3-tag w3-xlarge w3-teal">3</span>
-    <span class=" w3-tag w3-xlarge w3-teal">4</span>
-    <span class=" w3-tag w3-xlarge w3-teal">5</span>
-    </p>
-</div>
+    <div class="w3-container">
+        <p>
+        <a class=" w3-button w3-hover-black " style="margin-bottom: 7px;" href="index.php">&laquo;</a>
+        <span class=" w3-tag w3-xlarge ">1</span>
+        <span class=" w3-tag w3-xlarge w3-teal">2</span>
+        <span class=" w3-tag w3-xlarge w3-teal">3</span>
+        <span class=" w3-tag w3-xlarge w3-teal">4</span>
+        <span class=" w3-tag w3-xlarge w3-teal">5</span>
+        <span class=" w3-tag w3-xlarge w3-teal">6</span>
+        </p>
+    </div>
 
 <p>Please, fill the form.</p>
 

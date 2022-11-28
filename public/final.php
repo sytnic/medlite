@@ -19,10 +19,10 @@ already is set
             <p>            
             <span class=" w3-tag w3-xlarge w3-teal">1</span>
             <span class=" w3-tag w3-xlarge w3-teal">2</span>
-            <span class=" w3-tag w3-xlarge w3-teal">3</span>
-           
+            <span class=" w3-tag w3-xlarge w3-teal">3</span>           
             <span class=" w3-tag w3-xlarge w3-teal">4</span>
-            <span class=" w3-tag w3-xlarge ">5</span>
+            <span class=" w3-tag w3-xlarge w3-teal">5</span>
+            <span class=" w3-tag w3-xlarge ">6</span>
             </p>
         </div>
     
@@ -37,6 +37,8 @@ if (!empty($_SESSION)) {
     $phone     = $_SESSION["inputs"][4];
     
     $specname  = $_SESSION["specname"];
+    $date  = $_SESSION["date_meet"];
+    $time  = $_SESSION["time_meet"];
 
     // может быть id или строка "не имеет значения"
     $doc_id    = $_SESSION["wanted_id"];
@@ -74,10 +76,10 @@ if (!empty($_SESSION)) {
     // who_edited: 0 - client, остальные - id доков
     $query = "INSERT INTO client_requests 
         ( firstname, midname, surname, datebirth, phone,
-        doc_name, spec_name, who_edited ) 
+        doc_name, spec_name, date_meet, time_meet, who_edited ) 
         VALUES (
         '$safe_firstname', '$safe_midname', '$safe_lastname', '$born', '$safe_phone',
-        '$safe_doc_name', '$safe_specname', 0)";
+        '$safe_doc_name', '$safe_specname', '$date', '$time', 0)";
 
     // Confirm
 
@@ -158,6 +160,14 @@ echo "</pre>";
     // 2 - Erase Session
     $_SESSION["inputs"] = null;
     $_SESSION["specname"] = null;
+
+    // атавизм
+    //$_SESSION["date"] = null;
+    //$_SESSION["time"] = null;
+    // конец атавизма
+
+    $_SESSION["date_meet"] = null;
+    $_SESSION["time_meet"] = null;
     $_SESSION["wanted_id"] = null;
 
     echo "<pre>";

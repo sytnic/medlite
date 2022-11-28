@@ -17,27 +17,34 @@ already is set
 <div class="w3-container w3-light-grey w3-mobile" style="width: 80%; float:left;">
 
 -->
-        <h2>Header</h2>
+<?php
+    if (isset($_GET["date"])) {
+        $date = $_GET["date"];
+        $_SESSION["date_meet"] = $date; 
+    }
+    if (isset($_GET["time"])) {
+        $time = $_GET["time"];
+        $_SESSION["time_meet"] = $time; 
+    }
+?>
+
+
+      <h2>Header</h2>
 
         <div class="w3-container">
             <p>
-            <a class=" w3-button w3-hover-black " style="margin-bottom: 7px;" href="choice_doc.php">&laquo;</a>
+            <a class=" w3-button w3-hover-black " style="margin-bottom: 7px;" href="choice_time.php">&laquo;</a>
             <span class=" w3-tag w3-xlarge w3-teal">1</span>
             <span class=" w3-tag w3-xlarge w3-teal">2</span>
             <span class=" w3-tag w3-xlarge w3-teal">3</span>
-            <span class=" w3-tag w3-xlarge ">4</span>
-            <span class=" w3-tag w3-xlarge w3-teal">5</span>
+            <span class=" w3-tag w3-xlarge w3-teal">4</span>
+            <span class=" w3-tag w3-xlarge ">5</span>
+            <span class=" w3-tag w3-xlarge w3-teal">6</span>
             </p>
         </div>
 
 <?php
-        // если мы получили в Гете wanted_id,
-        // присвоить его в сессию.
-        // Лучше Дока получать по id, т.к. возможны однофамильцы.
-        if (isset($_GET["wanted_id"])) {
-            $wanted = $_GET["wanted_id"];
-            $_SESSION["wanted_id"] = $wanted; 
-        }
+        
 
         echo "<pre>";
         print_r($_SESSION);
@@ -99,7 +106,26 @@ already is set
                 <?php //echo $output_cost;
                         echo  $array_name_cost['cost'];
                 ?>
-                </small><br>                
+                </small><br>
+                
+                <p><b>
+                <?php //echo $output_name;
+                        echo  $date." ".$time;
+                        echo "<br>";
+
+                        $unix_timestamp = strtotime($date);
+                        echo $unix_timestamp."<br>";
+                        echo strftime("The date today is %m/%d/%y", $unix_timestamp);
+		                echo "<br />";
+                        $mysql_date = strftime("%Y-%m-%d", $unix_timestamp);
+                        echo $mysql_date;
+                        echo "<br>";
+                        $mysql_datetime = date("Y-m-d H:i:s", $unix_timestamp);
+                        echo $mysql_datetime;
+                        echo "<br>";
+                ?>
+                </b></p>
+
                 
                 <hr style="height: 2px; width: 40%; background-color: grey;">
                 <h4>Your Data</h4>

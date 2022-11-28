@@ -25,6 +25,7 @@ include("layouts/sidebar.php");
             <span class=" w3-tag w3-xlarge w3-teal">3</span>
             <span class=" w3-tag w3-xlarge w3-teal">4</span>
             <span class=" w3-tag w3-xlarge w3-teal">5</span>
+            <span class=" w3-tag w3-xlarge w3-teal">6</span>
             </p>
         </div>
 
