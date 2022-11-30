@@ -364,9 +364,10 @@ function confirm_logged_in() {
 /**
  * Вывод (получение) списка наименований из БД по алфавиту
  * 
+ * @param  string
  * @return string|null
  */
-function output_all_specs() {
+function output_all_specs($target_file) {
 
     // 0 Получение массива специальностей
     $result_set = get_all_specs();
@@ -445,7 +446,7 @@ function output_all_specs() {
                 
                 // для каждого массива $value выводим его значения $meaning
                 foreach ($value as $meaning) { 
-                    $output = '<a href="choice_doc.php?specname='.$meaning.'" class="w3-button w3-border">';
+                    $output = "<a href=\"{$target_file}?specname=".$meaning.'" class="w3-button w3-border">';
                     $output.= $meaning;
                     $output.= '</a>'."\r\n";
                     echo $output;

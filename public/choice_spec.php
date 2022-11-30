@@ -55,7 +55,7 @@ include("layouts/sidebar.php");
                 Terapevt
             </a>
 
-        <?php   output_all_specs();  ?>
+        <?php   output_all_specs('choice_doc.php');  ?>
 
         </div>
 <?php       
