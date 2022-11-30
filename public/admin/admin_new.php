@@ -20,7 +20,7 @@ if (isset($_POST['submit'])) {
 	// здесь $errors[] - global
 
 	// Return true || $errors[]
-	validate_uniqname($username);   
+	validate_uniqname($username, 'docadmins', 'username');   
     
     if (empty($errors)) {		
        

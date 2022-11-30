@@ -75,29 +75,33 @@ function validate_max_lengths($fields_with_max_lengths) {
 
 /**
  * Проверка на уникальность имени пользователя.  
- * Специфические данные внутри:
- * Таблица и поле в запросе SELECT,  
+ * Специфические данные внутри:  
  * массив errors и соединение с БД connection .
  * 
- * @param string $username
+ * MySQL: 5.7.39 не чувствительная к регистру при запросах SELECT
+ * 
+ * @param string $string
+ * @param string $table
+ * @param string $field
  * @return true|array $errors
  */
-function validate_uniqname($username) {
+function validate_uniqname($string, $table, $field) {
     global $errors;
     global $connection;
     
-    $safe_username = mysqli_real_escape_string($connection, $username);
+    $safe_string = mysqli_real_escape_string($connection, $string);
     
     $query  = "SELECT * ";
-    $query .= " FROM docadmins ";
-    $query .= " WHERE username = '{$safe_username}' ";
+    $query .= " FROM {$table} ";
+    $query .= " WHERE {$field} = '{$safe_string}' ";
     $query .= " LIMIT 10";
-    $admin_set = mysqli_query($connection, $query);
+   
+    $row_set = mysqli_query($connection, $query);
     // Test if there was a query error
-    confirm_query($admin_set);
+    confirm_query($row_set, 'validate_uniqname');
 
-    if ($admin_set && mysqli_affected_rows($connection) > 0) {      
-      return $errors["uniq"] = "Username '$username' is not unique.";
+    if ($row_set && mysqli_affected_rows($connection) > 0) {      
+      return $errors["uniq"] = "Name '$field' is not unique.";
     } else {
       return true;
     }

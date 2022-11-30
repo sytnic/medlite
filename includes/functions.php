@@ -24,9 +24,9 @@ function confirm_query($result_set, $function_name="another function") {
     global $connection;
 
     if (!$result_set) {        
-        die("Database query failed. Function confirm_query() failed in $function_name. ".
-            "Error: ".mysqli_errno($connection).". ".
-            "Connect Error: ".mysqli_connect_errno($connection).". ".
+        die("Database query failed. Function confirm_query() failed in $function_name. \r\n".
+            "Error: ".mysqli_errno($connection).". \r\n".
+            "Connect Error: ".mysqli_connect_errno($connection).". \r\n".
             "SQL State: ".mysqli_sqlstate($connection)
             );
         // хотя не очень хорошо всё рассказывать в продакшене
