@@ -59,5 +59,6 @@
     <a href="admin_new.php">Add new admin</a>
     <br>
     <br>
+    <a href="index.php">Cancel</a>
 
 <?php include("layout/bottom.php"); ?>

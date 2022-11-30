@@ -38,7 +38,7 @@ if (isset($_POST['submit'])) {
 			$_SESSION["admin_id"] = $found_admin["id"];
 			$_SESSION["username"] = $found_admin["username"];
 			
-			redirect_to("admin.php");
+			redirect_to("index.php");
 		} else {
 			// Failure
 			$_SESSION["message"] = "Username/password not found.";
@@ -53,7 +53,7 @@ if (isset($_POST['submit'])) {
 	}	
 }
 ?>
-<?php  include("layout/top.php"); ?>
+<?php include("layout/top.php"); ?>
 <?php echo message();   ?>
 <?php echo form_errors($errors); ?>  
 
