@@ -63,6 +63,8 @@ if (isset($_POST['submit'])) {
                     <input type="submit" name="submit" class="w3-button w3-teal" value="Save Changes">
                     </p>
             </form>
+
+			<p><a href="spec_list.php" class="w3-button w3-border">&laquo; Назад</a></p>
         </div>        
                         
 <?php include("layout/bottom.php"); ?>

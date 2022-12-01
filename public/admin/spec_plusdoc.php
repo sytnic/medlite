@@ -2,10 +2,17 @@
         include("../../includes/functions.php");
         include("../../includes/session.php");  ?>
 <?php confirm_logged_in(); ?>
+<?php confirm_getparam();  ?>
+<?php
+        if (isset($_GET["specname"])) {
+              $specname = $_GET["specname"];
+        }        
+?>
 <?php   include("layout/top.php"); ?>
 
         <h2>Spec One plus doc</h2>
-        <p>Please, configure this.</p>  
+        <p>Please, configure this.</p> 
+        <p>Current Spec: <?php echo $specname; ?></p> 
         
         <div>
             <form action="#" method="post" class="w3-container w3-card w3-light-grey w3-text-teal w3-margin">
@@ -23,6 +30,8 @@
                     <input type="submit" name="submit" class="w3-button w3-teal" value="Save Changes">
                     </p>
             </form>
+
+            <p><a href="spec_value.php?specname=<?php echo $specname; ?>" class="w3-button w3-border">&laquo; Назад</a></p>
         </div>
 
 <?php include("layout/bottom.php"); ?>

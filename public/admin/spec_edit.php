@@ -2,9 +2,15 @@
         include("../../includes/functions.php");
         include("../../includes/session.php");  ?>
 <?php confirm_logged_in(); ?>
+<?php confirm_getparam();  ?>
+<?php
+        if (isset($_GET["specname"])) {
+              $specname = $_GET["specname"];
+        }        
+?>
 <?php   include("layout/top.php"); ?>
 
-        <h2>Spec Edit</h2>
+        <h2>Spec Edit: <?php echo $specname; ?></h2>
         <p>Please, configure this.</p>  
         
         <div>
@@ -12,16 +18,20 @@
                 <h2 class="w3-center">Spec Edit</h2>
                 
                 Spec:<br>
-                <input class="w3-input w3-border" name="first" type="text" placeholder="Spec name">
+                <input class="w3-input w3-border" name="first" type="text" value="<?php echo $specname; ?>">
 
                 <p>
                   <input type="submit" name="submit" class="w3-button w3-teal" value="Save Changes">
                 </p>
                 <hr style="height: 1px; background-color: darkgrey;">
+                
                 <p>
-                  <input type="submit" name="submit" class="w3-button w3-border w3-border-red" value="Delete All">
+                  <a href="spec_delete.php?specname=<?php echo $specname; ?>" class="w3-button w3-border w3-border-red"
+                     onclick="return confirm('Are you sure?');">Delete</a>
                 </p>
             </form>
+
+                <p><a href="spec_config.php?specname=<?php echo $specname; ?>" class="w3-button w3-border">&laquo; Назад</a></p>
         </div>          
                         
 <?php include("layout/bottom.php"); ?>

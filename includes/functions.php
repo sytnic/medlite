@@ -83,7 +83,7 @@ function get_active_docs_by_specid($spec_id) {
 
 /**
  * @param  string $spec_name
- * @return int $id|null
+ * @return int|false $id|false
  */
 function get_id_by_specname($spec_name) {
     global $connection;
@@ -110,6 +110,40 @@ function get_id_by_specname($spec_name) {
     }
 
     return $id;
+}
+
+/**
+ * Подтверждение правильности get-параметра
+ * 
+ * @return int|redirect
+ */
+function confirm_getparam() {
+    // Получение гет-параметра
+    if (isset($_GET["specname"])) {
+        $specname = $_GET["specname"];
+    } 
+    
+    // Если гет-параметр выдаёт ложь 
+    // напр., пустота или нарушено наименование гет-параметра
+    if (!$specname) {
+        $_SESSION["message"] = "GET-param is false. ";
+        redirect_to("spec_list.php");
+    }
+    
+    // Выяснение id по имени
+    // return int | false
+    $id_spec = get_id_by_specname($specname);    
+
+    // Если id выдаёт ложь
+    if (!$id_spec) {
+        // ID was missing or invalid or 
+        // couldn't be found in database
+        $_SESSION["message"] = "This spec is not found in DB. ";
+        redirect_to("spec_list.php");
+    }
+
+    // Если не случилось редиректов, вернуть id
+    return $id_spec;
 }
 
 /**
