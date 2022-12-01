@@ -31,7 +31,7 @@ function validate_presences($required_fields) {
 function form_errors($errors=array()) {
     $output = "";
     if (!empty($errors)) {
-      $output .= "<div class=\"error\">";
+      $output .= '<div class="w3-panel w3-pale-yellow w3-border" style="width:500px;">';
       $output .= "Please fix the following errors:";
       $output .= "<ul>";
       foreach ($errors as $key => $error) {
