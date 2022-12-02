@@ -65,28 +65,46 @@ function get_all_docs_by_specid($spec_id) {
 
 /**
  * @param  int $spec_id
- * @return mysqli_result
+ * @return mysqli_result | false
  */
 function get_active_docs_by_specid($spec_id) {
     global $connection;
 
-// Получить по id спец-сти всех активных доков, их имена, cost и имена спец-стей.
-// Получаемые в результате запроса столбцы:
-// spec_id,	doc_id,	doc_name, doc_surname, cost, specname
-    $query = 
-    "SELECT docspec.spec_id, docs.id as doc_id, 
-       docs.firstname as doc_name, docs.surname as doc_surname,
-       docs.cost, specs.specname     
-    FROM docspec
-    JOIN docs ON docspec.doc_id = docs.id
-    JOIN specs ON docspec.spec_id = specs.id
-    WHERE docspec.spec_id = {$spec_id}
-    AND docs.active = 1
-    ";
-    $result_set = mysqli_query($connection, $query);
-    confirm_query($result_set, "get_active_docs_by_specid");
+    // если spec_id число или строка с числом, то работаем:
+    //  sandbox в choice_doc.php
+    // Внимание:
+    // Любое случайное число может вернуть пустой объект mysqli_result.
+    if ((int)$spec_id) {
 
-    return $result_set;
+    // Получить по id спец-сти всех активных доков, их имена, cost и имена спец-стей.
+    // Получаемые в результате запроса столбцы:
+    // spec_id,	doc_id,	doc_name, doc_surname, cost, specname
+        $query = 
+        "SELECT docspec.spec_id, docs.id as doc_id, 
+        docs.firstname as doc_name, docs.surname as doc_surname,
+        docs.cost, specs.specname     
+        FROM docspec
+        JOIN docs ON docspec.doc_id = docs.id
+        JOIN specs ON docspec.spec_id = specs.id
+        WHERE docspec.spec_id = {$spec_id}
+        AND docs.active = 1
+        ";
+        $result_set = mysqli_query($connection, $query);
+        confirm_query($result_set, "get_active_docs_by_specid");
+
+        // если объект mysqli_result не пустой, не 0 строк выдано
+        if (mysqli_num_rows($result_set) > 0) {
+            return $result_set;
+        } else {
+            return false;
+        }
+
+        return $result_set;
+
+    // иначе вернем false
+    } else {
+        return false;
+    }
 }
 
 /**
@@ -100,7 +118,8 @@ function get_id_by_specname($spec_name) {
 
     //echo $query;
 
-    // если запрос без ошибки, но ничего не вернул, вернётся null в $result_set
+    // если запрос без ошибки, но не вернул записей, то вернётся false в $result_set:
+    // sandbox в choice_doc.php
     $result_set = mysqli_query($connection, $query);
 
     if(!$result_set) {
@@ -118,6 +137,34 @@ function get_id_by_specname($spec_name) {
     }
 
     return $id;
+}
+
+/**
+ * gettig list of docs via specname
+ * 
+ * @param  string $specname
+ * @return mysqli_result | false
+ * 
+ */
+function get_active_docs_via_specname($specname){
+    // 0. Получение номера id по специмени specname или false
+    // int|false
+    $specid = get_id_by_specname($specname);
+
+    // если $specid число, а не false, то выполняем все манипуляции из БД
+    if($specid) {
+
+        // 1. Получение результирующего набора из БД
+        // mysqli_result|false,
+        // по задумке функции
+        // может вернуться false, если запрос выдаст ноль строк
+        $result_set = get_active_docs_by_specid($specid);
+        
+        return $result_set;  
+
+    } else { // если вместо числа было false, возвращаем false
+        return false;
+    }
 }
 
 /**

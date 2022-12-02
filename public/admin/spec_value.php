@@ -18,21 +18,15 @@
         <div>
             <p>Docs in spec: <?php echo $specname; ?></p>
 
-<?php   // gettig list of docs via specname
-
-            // 0. Получение номера id по специмени specname или false
-            $specid = get_id_by_specname($specname);
-
-            // если $specid число, а не false, то выполняем все манипуляции из БД
-            if($specid) {
-
-                // 1. Получение результирующего набора из БД
-                $result_set = get_active_docs_by_specid($specid);            
+<?php       // gettig list of active docs via specname
+            // mysqli_result | false
+            $result_set = get_active_docs_via_specname($specname);
+            
+            // если result_set не false, то выводим данные...
+            if ($result_set) {   
 
                 // 2. Перевод результирующего набора в массив и Вывод данных на экран
-                while($row = mysqli_fetch_assoc($result_set)) {
-                    // лучше передавать id, а не surname,
-                    // и получать по id любые данные             
+                while($row = mysqli_fetch_assoc($result_set)) {            
     ?>
                   <p>
                      <?php echo $row["doc_name"]." ".$row["doc_surname"]; ?> 
@@ -45,6 +39,8 @@
                 }
                 // 3. освобождение результата
                 mysqli_free_result($result_set);
+            } else {
+                echo "No docs in this spec.";
             }
 ?>
 

@@ -75,20 +75,45 @@ already is set
         <div>
             <p><b>From DB</b></p>
 
-<?php
-            // 0. Получение номера id по специмени specname или false
-            $specid = get_id_by_specname($specname);
+<?php    // sandbox
+    /*
+        $sped = '5';
+        if ((int)$sped) {
+          echo "yes, this num";  // 5, '5'
+        } else {
+            echo "no, this not num";  // 'str'
+        }
+        die;
+    */
+    /*
+                $fal = false;
 
-            // если $specid число, а не false, то выполняем все манипуляции из БД
-            if($specid) {
+                if (!$fal) {
+                    echo "if not false, then here we go <br>";
+                }
+         
+    $query = "SELECT id FROM specs WHERE specname = 'Эспозито' LIMIT 1 <br>";
 
-                // 1. Получение результирующего набора из БД
-                $result_set = get_active_docs_by_specid($specid);            
+    echo $query;
+
+     // если запрос без ошибки, но не вернул записей, то вернётся false в $result_set
+    $result_set = mysqli_query($connection, $query);
+
+    var_dump($result_set);  // false
+    die;
+    */
+?>
+<?php       // gettig list of active docs via specname
+            // mysqli_result | false
+            $result_set = get_active_docs_via_specname($specname);
+
+            // var_dump($result_set);
+            
+            // если result_set не false, то выводим данные...
+            if ($result_set) {
 
                 // 2. Перевод результирующего набора в массив и Вывод данных на экран
-                while($row = mysqli_fetch_assoc($result_set)) {
-                    // лучше передавать id, а не surname,
-                    // и получать по id любые данные             
+                while($row = mysqli_fetch_assoc($result_set)) {         
     ?>
                 <a href="choice_time.php?wanted_id=<?php echo $row["doc_id"]; ?>" class="w3-button w3-border">
                     <?php echo $row["doc_name"]." ".$row["doc_surname"]; ?>
@@ -98,7 +123,11 @@ already is set
                 }
                 // 3. освобождение результата
                 mysqli_free_result($result_set);
+            
+            } else { // ...а если false
+                echo "No docs in here place.";
             }
+            
 ?>
 
             <p>It doesn't matter</p>
