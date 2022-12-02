@@ -76,7 +76,7 @@ if (isset($_POST['submit'])) {
                 </p>
             </form>
 
-                <p><a href="spec_config.php?specname=<?php echo $specname; ?>" class="w3-button w3-border">&laquo; Назад</a></p>
+                <p><a href="spec_config.php?specname=<?php echo $specname; ?>" class="w3-button w3-border">&laquo; Config Spec</a></p>
         </div>          
                         
 <?php include("layout/bottom.php"); ?>

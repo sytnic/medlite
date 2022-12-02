@@ -13,31 +13,10 @@
           <form action="#" method="post" class="w3-container w3-card w3-light-grey w3-text-teal w3-margin">
               <h2 class="w3-center">Doc data</h2>
               
-                    Doc:<br>
+                    <p>Doc:</p>
                     <input class="w3-input w3-border" name="first" type="text" value="First Name">
                     <input class="w3-input w3-border" name="middle" type="text" value="Middle Name">
-                    <input class="w3-input w3-border" name="last" type="text" value="Last Name">              
-
-                    <select class="w3-select w3-border" name="option">
-                      <option value="" disabled selected>Choose Specialization 1</option>
-                      <option value="1" selected>Specialization 1</option>
-                      <option value="2">Option 2</option>
-                      <option value="3">Option 3</option>
-                    </select>
-
-                    <select class="w3-select w3-border " name="option">
-                      <option value="" disabled selected>Choose Specialization 2</option>
-                      <option value="1">Option 1</option>
-                      <option value="2">Option 2</option>
-                      <option value="3">Option 3</option>
-                    </select>
-
-                    <select class="w3-select w3-border" name="option">
-                      <option value="" disabled selected>Choose Specialization 3</option>
-                      <option value="1">Option 1</option>
-                      <option value="2">Option 2</option>
-                      <option value="3">Option 3</option>
-                    </select>
+                    <input class="w3-input w3-border" name="last" type="text" value="Last Name">
 
                     <input class="w3-input w3-border" name="phone" type="text" value="Phone">
                     <input class="w3-input w3-border" name="cost" type="text" value="Cost">
@@ -46,9 +25,19 @@
                   <p>
                   <input type="submit" name="submit" class="w3-button w3-teal" value="Save Changes">
                   </p>
+
+                  <hr style="height: 1px; background-color: darkgrey;">
+                  <p>Specializations:</p>
+                  <ul>
+                    <li class="w3-text-black">Option 1 <a href="##" class="w3-text-teal">Edit</a></li>
+                    <li class="w3-text-black">Option 2 <a href="##" class="w3-text-teal">Edit</a></li>
+                    <li class="w3-text-black">Option 3 <a href="##" class="w3-text-teal">Edit</a></li>
+                    <li class="w3-text-black">Option 4 <a href="##" class="w3-text-teal">Edit</a></li>
+                  </ul>              
+
                   <hr style="height: 1px; background-color: darkgrey;">
                   <p>
-                  <input type="submit" name="submit" class="w3-button w3-border w3-border-red" value="Delete All">
+                  <input type="submit" name="submit" class="w3-button w3-border w3-border-red" value="Delete Doc">
                   </p>
 
           </form>

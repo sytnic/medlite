@@ -11,20 +11,20 @@
     <div class="w3-bar-block">
         <p>A</p>
         
-        <p><a href="#" class="w3-button w3-border">A LinkButton</a></p>
+        <p><a href="#" class="w3-button w3-border">A LinkButton</a> Not Active</p>
         <p><a href="doc_overall.php" class="w3-button w3-border">ALinkBtn Click Here</a></p>
-        <p><a href="#" class="w3-button w3-border">A LinkButton A LinkButton</a></p>        
+        <p><a href="#" class="w3-button w3-border">A LinkButton A LinkButton</a> Not Active</p>        
 
         <p>B</p>
         <p><a href="#" class="w3-button w3-border">B LinkButton</a></p>
         <p><a href="#" class="w3-button w3-border">B Button</a></p>
-        <p><a href="#" class="w3-button w3-border">B LinkButton B LinkButton</a></p>
+        <p><a href="#" class="w3-button w3-border">B LinkButton B LinkButton</a> Not Active</p>
         <p><a href="#" class="w3-button w3-border">B LinkButton B LinkButton</a></p>
         <p><a href="#" class="w3-button w3-border">B Link</a></p>
         <p><a href="#" class="w3-button w3-border">B LinkButton</a></p>
 
         <p>C</p>
-        <p><a href="#" class="w3-button w3-border">C LinkButton C LinkButton</a></p>
+        <p><a href="#" class="w3-button w3-border">C LinkButton C LinkButton</a> Not Active</p>
         <p><a href="#" class="w3-button w3-border">C Link</a></p>
 
         <p>D</p>

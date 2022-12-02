@@ -64,7 +64,7 @@ if (isset($_POST['submit'])) {
                     </p>
             </form>
 
-			<p><a href="spec_list.php" class="w3-button w3-border">&laquo; Назад</a></p>
+			<p><a href="spec_list.php" class="w3-button w3-border">&laquo; Spec List</a></p>
         </div>        
                         
 <?php include("layout/bottom.php"); ?>

@@ -80,11 +80,7 @@ already is set
             $specid = get_id_by_specname($specname);
 
             // если $specid число, а не false, то выполняем все манипуляции из БД
-            if($specid) {            
-
-                // проверка
-                //var_dump($specid);
-                //die();
+            if($specid) {
 
                 // 1. Получение результирующего набора из БД
                 $result_set = get_active_docs_by_specid($specid);            
@@ -94,8 +90,8 @@ already is set
                     // лучше передавать id, а не surname,
                     // и получать по id любые данные             
     ?>
-                <a href="choice_time.php?wanted_id=<?php echo $row["id"]; ?>" class="w3-button w3-border">
-                    <?php echo $row["firstname"]." ".$row["surname"]; ?>
+                <a href="choice_time.php?wanted_id=<?php echo $row["doc_id"]; ?>" class="w3-button w3-border">
+                    <?php echo $row["doc_name"]." ".$row["doc_surname"]; ?>
                 </a>            
                 <small><?php echo (isset($row["cost"])) ? "~ ".$row["cost"] : ""; ?></small><br>
     <?php
@@ -103,7 +99,7 @@ already is set
                 // 3. освобождение результата
                 mysqli_free_result($result_set);
             }
-    ?>
+?>
 
             <p>It doesn't matter</p>
             <a href="choice_time.php?wanted_id=doesnt_matter" class="w3-button w3-border">Doesn't matter</a>            

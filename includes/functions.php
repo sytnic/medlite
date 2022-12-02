@@ -70,11 +70,19 @@ function get_all_docs_by_specid($spec_id) {
 function get_active_docs_by_specid($spec_id) {
     global $connection;
 
-    $query = "SELECT * 
-                FROM docs 
-                WHERE spec_id = $spec_id
-                AND active = 1
-                LIMIT 50";
+// Получить по id спец-сти всех активных доков, их имена, cost и имена спец-стей.
+// Получаемые в результате запроса столбцы:
+// spec_id,	doc_id,	doc_name, doc_surname, cost, specname
+    $query = 
+    "SELECT docspec.spec_id, docs.id as doc_id, 
+       docs.firstname as doc_name, docs.surname as doc_surname,
+       docs.cost, specs.specname     
+    FROM docspec
+    JOIN docs ON docspec.doc_id = docs.id
+    JOIN specs ON docspec.spec_id = specs.id
+    WHERE docspec.spec_id = {$spec_id}
+    AND docs.active = 1
+    ";
     $result_set = mysqli_query($connection, $query);
     confirm_query($result_set, "get_active_docs_by_specid");
 
@@ -113,7 +121,8 @@ function get_id_by_specname($spec_name) {
 }
 
 /**
- * Подтверждение правильности get-параметра
+ * Проверка правильности строкового get-параметра.
+ * Получение id специальности по имени или редирект.
  * 
  * @return int|redirect
  */

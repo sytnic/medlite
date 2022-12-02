@@ -4,7 +4,7 @@
 <?php confirm_logged_in(); ?>
 <?php   include("layout/top.php"); ?>
 <?php echo message(); ?>
-        <h2>Config Specializations</h2>
+        <h2>Spec List</h2>
         <p>Please, configure your docs in specializations.</p>  
         
         <div>
