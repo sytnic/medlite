@@ -40,7 +40,7 @@
                 // 3. освобождение результата
                 mysqli_free_result($result_set);
             } else {
-                echo "No docs in this spec.";
+                echo "No active docs in this spec.";
             }
 ?>
 

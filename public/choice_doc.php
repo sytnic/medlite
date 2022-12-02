@@ -75,34 +75,7 @@ already is set
         <div>
             <p><b>From DB</b></p>
 
-<?php    // sandbox
-    /*
-        $sped = '5';
-        if ((int)$sped) {
-          echo "yes, this num";  // 5, '5'
-        } else {
-            echo "no, this not num";  // 'str'
-        }
-        die;
-    */
-    /*
-                $fal = false;
 
-                if (!$fal) {
-                    echo "if not false, then here we go <br>";
-                }
-         
-    $query = "SELECT id FROM specs WHERE specname = 'Эспозито' LIMIT 1 <br>";
-
-    echo $query;
-
-     // если запрос без ошибки, но не вернул записей, то вернётся false в $result_set
-    $result_set = mysqli_query($connection, $query);
-
-    var_dump($result_set);  // false
-    die;
-    */
-?>
 <?php       // gettig list of active docs via specname
             // mysqli_result | false
             $result_set = get_active_docs_via_specname($specname);
@@ -125,7 +98,7 @@ already is set
                 mysqli_free_result($result_set);
             
             } else { // ...а если false
-                echo "No docs in here place.";
+                echo "No active docs in here place.";
             }
             
 ?>
@@ -144,4 +117,4 @@ already is set
 -->
 <?php       
 include("layouts/footer.php");                        
-?>    
+?>

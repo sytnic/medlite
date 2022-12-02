@@ -21,6 +21,20 @@
                     <p>Docs:</p>
                     <select class="w3-select w3-border" name="option">
                         <option value="" disabled selected>Choose your option</option>
+<?php
+                        $result_set = get_all_active_docs();
+                        var_dump($result_set);
+                        while($row = mysqli_fetch_assoc($result_set)) { 
+?>
+                        <option value="<?php echo $row["id"]; ?>">
+                        <?php echo $row["firstname"]." ".$row["surname"]; ?>
+                        </option>
+<?php
+                        }
+                        mysqli_free_result($result_set);
+?>
+
+
                         <option value="1">Doc 1</option>
                         <option value="2">Doc 2</option>
                         <option value="3">Doc 3</option>

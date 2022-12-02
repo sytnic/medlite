@@ -23,6 +23,8 @@ function mysql_prep($string) {
 function confirm_query($result_set, $function_name="another function") {
     global $connection;
 
+    // пустой объект mysqli_result пройдёт эту проверку
+    // не проходят возвращенные ошибки, false
     if (!$result_set) {        
         die("Database query failed. Function confirm_query() failed in $function_name. \r\n".
             "Error: ".mysqli_errno($connection).". \r\n".
@@ -41,6 +43,9 @@ function get_all_specs() {
 
     $query = "SELECT * FROM specs";
     $result_set = mysqli_query($connection, $query);
+
+    // проверка на возвращенную ошибку,
+    // здесь заложено die
     confirm_query($result_set, "get_all_specs");
 
     return $result_set;
@@ -58,6 +63,9 @@ function get_all_docs_by_specid($spec_id) {
                 WHERE spec_id = {$spec_id}
                 LIMIT 50";
     $result_set = mysqli_query($connection, $query);
+
+    // проверка на возвращенную ошибку,
+    // здесь заложено die
     confirm_query($result_set, "get_all_docs_by_specid");
 
     return $result_set;
@@ -73,7 +81,7 @@ function get_active_docs_by_specid($spec_id) {
     // если spec_id число или строка с числом, то работаем:
     //  sandbox в choice_doc.php
     // Внимание:
-    // Любое случайное число может вернуть пустой объект mysqli_result.
+    // Любое случайное число в запросе может вернуть пустой объект mysqli_result.
     if ((int)$spec_id) {
 
     // Получить по id спец-сти всех активных доков, их имена, cost и имена спец-стей.
@@ -90,18 +98,21 @@ function get_active_docs_by_specid($spec_id) {
         AND docs.active = 1
         ";
         $result_set = mysqli_query($connection, $query);
+
+        // проверка на возвращенную ошибку,
+        // здесь заложено die
         confirm_query($result_set, "get_active_docs_by_specid");
 
-        // если объект mysqli_result не пустой, не 0 строк выдано
+        // если объект mysqli_result не пустой, более 0 строк выдано,
+        // вернем набор результатов
         if (mysqli_num_rows($result_set) > 0) {
             return $result_set;
+          // иначе вернем ложь  
         } else {
             return false;
         }
 
-        return $result_set;
-
-    // иначе вернем false
+    // иначе (если использовалось не число) вернем false
     } else {
         return false;
     }
@@ -116,22 +127,21 @@ function get_id_by_specname($spec_name) {
 
     $query = "SELECT id FROM specs WHERE specname = '$spec_name' LIMIT 1";
 
-    //echo $query;
-
-    // если запрос без ошибки, но не вернул записей, то вернётся false в $result_set:
-    // sandbox в choice_doc.php
+    // если запрос без ошибки, но не вернул записей, 
+    // то вернётся пустой объект mysqli_result в $result_set
     $result_set = mysqli_query($connection, $query);
-
-    if(!$result_set) {
-        return false;
-    }
-
+    
+    // проверка на возвращенную ошибку,
+    // здесь заложено die
     confirm_query($result_set, "get_id_by_specname");
 
-    //var_dump($result_set);
+    // если возвращено ноль строк вернём false
+    if (mysqli_num_rows($result_set) == 0) {
+        return false;
+    }    
 
-    // используется if, а не while, п.что 
-    // ожидается только одно значение
+    // в остальных случаях.
+    // используется if, а не while, п.что ожидается только одно значение
     if ($row = mysqli_fetch_assoc($result_set)) {
         $id = $row['id'];
     }
@@ -165,6 +175,32 @@ function get_active_docs_via_specname($specname){
     } else { // если вместо числа было false, возвращаем false
         return false;
     }
+}
+
+/**
+ * 
+ * @return mysqli_result | false
+ */
+function get_all_active_docs() {
+    global $connection;
+
+    $query = "SELECT * FROM docs WHERE active = 1 LIMIT 190";
+
+    // если запрос без ошибки, но не вернул записей,
+    // то вернётся пустой объект mysqli_result в $result_set
+    $result_set = mysqli_query($connection, $query);
+
+    // проверка на возвращенную ошибку,
+    // здесь заложено die
+    confirm_query($result_set, "get_all_active_docs");
+
+    // если ноль строк возвращено, вернём false
+    if(mysqli_num_rows($result_set) == 0) {
+        return false;
+    }
+
+    return $result_set;
+
 }
 
 /**
