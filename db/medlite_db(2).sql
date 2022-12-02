@@ -60,7 +60,7 @@ DROP TABLE IF EXISTS `docspec`;
 CREATE TABLE `docspec` (
   `doc_id` int(10) unsigned NOT NULL,
   `spec_id` tinyint(3) unsigned NOT NULL,
-  KEY `doc_id` (`doc_id`),
+  UNIQUE KEY `doc_id_spec_id` (`doc_id`,`spec_id`),
   KEY `spec_id` (`spec_id`),
   CONSTRAINT `docspec_ibfk_1` FOREIGN KEY (`doc_id`) REFERENCES `docs` (`id`),
   CONSTRAINT `docspec_ibfk_2` FOREIGN KEY (`spec_id`) REFERENCES `specs` (`id`)
@@ -78,4 +78,4 @@ CREATE TABLE `specs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- 2022-12-01 10:37:39
+-- 2022-12-02 13:24:43

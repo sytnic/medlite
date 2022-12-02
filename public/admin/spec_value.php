@@ -1,5 +1,6 @@
 <?php   include("../../includes/db_connection.php");
         include("../../includes/functions.php");
+        include("../../includes/validation_functions.php");
         include("../../includes/session.php");  ?>
 <?php confirm_logged_in(); ?>
 <?php confirm_getparam();  ?>
@@ -10,6 +11,7 @@
 ?>
 <?php   include("layout/top.php"); ?>
 <?php echo message(); ?>
+<?php echo form_errors($errors); ?>
 
 
         <h2>Value of The Specializations</h2>
