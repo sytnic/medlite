@@ -3,11 +3,18 @@
         include("../../includes/session.php");  ?>
 <?php confirm_logged_in(); ?>
 <?php   include("layout/top.php"); ?>
+<?php
+     echo message();
+?>
 
     <h2>Doc's list</h2>
     <p>Please, choose doc.</p>
     
     <div class="w3-bar-block">
+
+        <p>
+            <a href="doc_create.php" class="w3-button w3-circle w3-xlarge w3-teal"> + </a>
+        </p>
 
 <?php 
         //  mysqli_result | false
@@ -33,11 +40,7 @@
         }
         
 ?>        
-<!--    <p><a href="#" class="w3-button w3-border">A LinkButton</a> Not Active</p>  -->
-    
-        <p>
-            <a href="doc_create.php" class="w3-button w3-circle w3-xlarge w3-teal"> + </a>
-        </p>
+<!--    <p><a href="#" class="w3-button w3-border">A LinkButton</a> Not Active</p>  -->        
 
     </div>
                     
