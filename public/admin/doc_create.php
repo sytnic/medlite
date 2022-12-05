@@ -14,7 +14,7 @@
                 $lastname = mysql_prep($_POST["lastname"]);
 
                 $phone = mysql_prep($_POST["phone"]);
-                $cost = (int)$_POST["cost"];
+                $cost = mysql_prep($_POST["cost"]);                
                      
             // validations
                 $required_fields = array("firstname", "lastname");
@@ -27,14 +27,14 @@
                         $query  = "INSERT INTO docs (";
                         $query .= " firstname, midname, surname, phone, cost  ";
                         $query .= ") VALUES (";
-                        $query .= " '{$firstname}', '{$middlename}', '{$lastname}', '{$phone}', {$cost} ";
+                        $query .= " '{$firstname}', '{$middlename}', '{$lastname}', '{$phone}', '{$cost}' ";
                         $query .= ")";
                         
                         $result = mysqli_query($connection, $query);
 
                         //var_dump($result);
         
-                        //echo $query; // But It Will cause - Cannot modify header
+                        echo $query; // But It Will cause - Cannot modify header
         
                         if ($result) {
                                 // Success

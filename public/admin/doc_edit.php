@@ -1,12 +1,79 @@
 <?php   include("../../includes/db_connection.php");
         include("../../includes/functions.php");
+        include("../../includes/validation_functions.php");
         include("../../includes/session.php");  ?>
 <?php confirm_logged_in(); ?>
+<?php 
+      $doc_id = (int)$_GET["docid"];
+      if (!(int)$doc_id) {
+                redirect_to("doc_list.php");
+      }
+      // redirect if false
+      // or 1 row from DB
+      $row = confirm_doc_id($doc_id);
+?>
+<?php
+  $message = "";
+
+  // Process the form
+  if (isset($_POST['submit'])) {
+
+      $firstname = mysql_prep($_POST["firstname"]);
+      $middlename = mysql_prep($_POST["middlename"]);
+      $lastname = mysql_prep($_POST["lastname"]);
+
+      $phone = mysql_prep($_POST["phone"]);
+      $cost = mysql_prep($_POST["cost"]);     
+	
+      $id = $row["id"];
+	
+             
+        // validations
+      $required_fields = array("firstname", "lastname" );
+      validate_presences($required_fields);
+      // здесь $errors[] - global
+         
+      if (empty($errors)) {		
+       
+          $query  = "UPDATE docs SET ";
+          $query .= " firstname = '{$firstname}',";
+          $query .= " midname = '{$middlename}',";
+          $query .= " surname = '{$lastname}',";
+          $query .= " phone = '{$phone}',";
+          $query .= " cost = '{$cost}'";
+          $query .= " WHERE id = {$id}";
+          $query .= " LIMIT 1";
+          
+		      $result = mysqli_query($connection, $query);
+
+		      //echo $query; // But It Will cause - Cannot modify header
+
+		      if ($result && mysqli_affected_rows($connection) == 1) {
+                // Success
+                $message = "Doc updated succeful.";
+                // чтоб перезаписать массив
+                $row = confirm_doc_id($doc_id);               
+          } else {
+                // Failure
+                $message = "Doc updation failed.";
+          } 
+			
+	    } else {
+        // Вероятно, GET запрос
+        // 
+    	}	
+  }
+?>
 <?php   include("layout/top.php"); ?>
 
         <h2>Edit doc (Delete doc)</h2>
-        <p>Please, configure this.</p>
 
+<?php
+        echo $message;
+        echo form_errors($errors);
+?>
+
+        <p>Please, configure this.</p>
 
       <div class="w3-container w3-light-grey w3-responsive w3-mobile" style="width:100%; float:left;">      
           
@@ -14,12 +81,12 @@
               <h2 class="w3-center">Doc data</h2>
               
                     <p>Doc:</p>
-                    <input class="w3-input w3-border" name="first" type="text" value="First Name">
-                    <input class="w3-input w3-border" name="middle" type="text" value="Middle Name">
-                    <input class="w3-input w3-border" name="last" type="text" value="Last Name">
+                    * <input class="w3-input w3-border" name="firstname" type="text" value="<?php echo $row["firstname"]; ?>">
+                    <input class="w3-input w3-border" name="middlename" type="text" value="<?php echo $row["midname"]; ?>">
+                    * <input class="w3-input w3-border" name="lastname" type="text" value="<?php echo $row["surname"]; ?>">
 
-                    <input class="w3-input w3-border" name="phone" type="text" value="Phone">
-                    <input class="w3-input w3-border" name="cost" type="text" value="Cost">
+                    <input class="w3-input w3-border" name="phone" type="text" value="<?php echo $row["phone"]; ?>">
+                    <input class="w3-input w3-border" name="cost" type="text" value="<?php echo $row["cost"]; ?>">
                     <br>
 
                   <p>
@@ -34,13 +101,12 @@
                     <li class="w3-text-black">Option 3 <a href="##" class="w3-text-teal">Edit</a></li>
                     <li class="w3-text-black">Option 4 <a href="##" class="w3-text-teal">Edit</a></li>
                   </ul>              
-
-                  <hr style="height: 1px; background-color: darkgrey;">
-                  <p>
-                  <input type="submit" name="submit" class="w3-button w3-border w3-border-red" value="Delete Doc">
-                  </p>
-
           </form>
+          
+          <p>
+          <a href="##" class="w3-button w3-border w3-border-red">Delete Doc</a>
+          </p>
       </div>
+                  
 
 <?php include("layout/bottom.php"); ?>

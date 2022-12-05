@@ -10,10 +10,9 @@
         }        
 ?>
 <?php
-
+// Process the form
 if (isset($_POST['submit'])) {
-	// Process the form
-
+	
 	$post_specname = mysql_prep($_POST["specname"]);
              
      // validations
@@ -49,7 +48,6 @@ if (isset($_POST['submit'])) {
 		// 
 	}	
 }
-
 ?>
 <?php   include("layout/top.php"); ?>
 <?php echo $message; ?>
@@ -80,5 +78,3 @@ if (isset($_POST['submit'])) {
         </div>          
                         
 <?php include("layout/bottom.php"); ?>
-
-
