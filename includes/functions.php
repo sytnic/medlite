@@ -230,6 +230,28 @@ function get_all_docs() {
 }
 
 /**
+ * @param int $doc_id
+ * @return array | redirect
+ */
+function confirm_doc_id($doc_id) {
+    global $connection;  
+    
+    $query = "SELECT * FROM docs WHERE id = {$doc_id} LIMIT 1";
+
+    $result_set = mysqli_query($connection, $query);
+
+    confirm_query($result_set, "confirm_doc_id");
+
+    if(mysqli_num_rows($result_set) == 0) {
+        redirect_to("doc_list.php");
+    }
+
+    if($row = mysqli_fetch_assoc($result_set)) {
+        return $row;
+    }    
+}
+
+/**
  * Проверка правильности строкового get-параметра.
  * Получение id специальности по имени или редирект.
  * 

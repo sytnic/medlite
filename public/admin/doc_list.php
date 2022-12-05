@@ -19,7 +19,7 @@
             // if mysqli_result and rows > 0
         } else {
             while($doc = mysqli_fetch_assoc($result)) {
-                $output = '<p><a href="doc_overall.php?docid=';
+                $output = '<p><a href="doc_config.php?docid=';
                 $output.= $doc["id"];
                 $output.= '" class="w3-button w3-border">';
                 $output.= $doc["surname"]." ".$doc["firstname"];
