@@ -4,37 +4,41 @@
 <?php confirm_logged_in(); ?>
 <?php   include("layout/top.php"); ?>
 
-    <h2>Doc's list</h2>  
-
-    <p>Please, choose doc.</p>  
+    <h2>Doc's list</h2>
+    <p>Please, choose doc.</p>
     
     <div class="w3-bar-block">
-        <p>A</p>
+
+<?php 
+        //  mysqli_result | false
+        $result = get_all_docs(); 
+        // if false
+        if (!$result) {
+            echo "No docs yet.";
+
+            // if mysqli_result and rows > 0
+        } else {
+            while($doc = mysqli_fetch_assoc($result)) {
+                $output = '<p><a href="doc_overall.php?docid=';
+                $output.= $doc["id"];
+                $output.= '" class="w3-button w3-border">';
+                $output.= $doc["surname"]." ".$doc["firstname"];
+                $output.= "</a>";
+                if($doc["active"] == 0){
+                    $output.= " Not Active";
+                }
+                $output.= "</p>";
+                echo $output;
+            }
+        }
         
-        <p><a href="#" class="w3-button w3-border">A LinkButton</a> Not Active</p>
-        <p><a href="doc_overall.php" class="w3-button w3-border">ALinkBtn Click Here</a></p>
-        <p><a href="#" class="w3-button w3-border">A LinkButton A LinkButton</a> Not Active</p>        
-
-        <p>B</p>
-        <p><a href="#" class="w3-button w3-border">B LinkButton</a></p>
-        <p><a href="#" class="w3-button w3-border">B Button</a></p>
-        <p><a href="#" class="w3-button w3-border">B LinkButton B LinkButton</a> Not Active</p>
-        <p><a href="#" class="w3-button w3-border">B LinkButton B LinkButton</a></p>
-        <p><a href="#" class="w3-button w3-border">B Link</a></p>
-        <p><a href="#" class="w3-button w3-border">B LinkButton</a></p>
-
-        <p>C</p>
-        <p><a href="#" class="w3-button w3-border">C LinkButton C LinkButton</a> Not Active</p>
-        <p><a href="#" class="w3-button w3-border">C Link</a></p>
-
-        <p>D</p>
-        <p><a href="#" class="w3-button w3-border">D LinkButton D LinkButton</a></p>
-        <p><a href="#" class="w3-button w3-border">D Button</a></p>
-
+?>        
+<!--    <p><a href="#" class="w3-button w3-border">A LinkButton</a> Not Active</p>  -->
+    
         <p>
             <a href="doc_create.php" class="w3-button w3-circle w3-xlarge w3-teal"> + </a>
         </p>
 
-    </div>       
+    </div>
                     
 <?php include("layout/bottom.php"); ?>

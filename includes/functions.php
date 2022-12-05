@@ -184,7 +184,7 @@ function get_active_docs_via_specname($specname){
 function get_all_active_docs() {
     global $connection;
 
-    $query = "SELECT * FROM docs WHERE active = 1 LIMIT 190";
+    $query = "SELECT * FROM docs WHERE active = 1 LIMIT 290";
 
     // если запрос без ошибки, но не вернул записей,
     // то вернётся пустой объект mysqli_result в $result_set
@@ -193,6 +193,32 @@ function get_all_active_docs() {
     // проверка на возвращенную ошибку,
     // здесь заложено die
     confirm_query($result_set, "get_all_active_docs");
+
+    // если ноль строк возвращено, вернём false
+    if(mysqli_num_rows($result_set) == 0) {
+        return false;
+    }
+
+    return $result_set;
+
+}
+
+/**
+ * 
+ * @return mysqli_result | false
+ */
+function get_all_docs() {
+    global $connection;
+
+    $query = "SELECT * FROM docs ORDER BY surname ASC LIMIT 390";
+
+    // если запрос без ошибки, но не вернул записей,
+    // то вернётся пустой объект mysqli_result в $result_set
+    $result_set = mysqli_query($connection, $query);
+
+    // проверка на возвращенную ошибку,
+    // здесь заложено die
+    confirm_query($result_set, "get_all_docs");
 
     // если ноль строк возвращено, вернём false
     if(mysqli_num_rows($result_set) == 0) {
