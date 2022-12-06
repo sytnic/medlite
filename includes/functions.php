@@ -367,7 +367,7 @@ function get_all_specid_by_docid($doc_id) {
  * 
  * @return array | false
  */
-function get_all_specname_by_docid($doc_id) {
+function get_specnames_by_docid($doc_id) {
     global $connection;
 
     $safe_doc_id = mysqli_real_escape_string($connection, $doc_id);
@@ -402,6 +402,45 @@ function get_all_specname_by_docid($doc_id) {
     } else {
         return false;
     }
+}
+
+/**
+ * Получить по id дока объект с его именами,
+ * с id и именами всех его специальностей
+ *  
+ * @param int $doc_id
+ * @return mysqli_result | empty_mysqli_result
+ */
+function get_specdata_by_docid($doc_id) {
+    global $connection;
+
+    $safe_doc_id = mysqli_real_escape_string($connection, $doc_id);
+
+    $query = "
+    SELECT docspec.spec_id, docs.id as doc_id, 
+    docs.firstname as doc_name, docs.surname as doc_surname,
+    specs.specname     
+    FROM docspec
+
+    JOIN docs ON docspec.doc_id = docs.id
+    JOIN specs ON docspec.spec_id = specs.id 
+
+    WHERE docs.id = {$safe_doc_id}
+    LIMIT 30
+    ";
+
+    // mysqli_result
+    $result_set = mysqli_query($connection, $query);
+    // Test if there was a query error
+    confirm_query($result_set, "get_rowspec_by_docid");
+
+    //if(mysqli_num_rows($result_set) == 0) {
+    //    return false;
+    //} else {
+
+        return $result_set;
+
+    //}
 }
 
 

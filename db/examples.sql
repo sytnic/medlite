@@ -81,7 +81,7 @@ WHERE docspec.spec_id = 15
 -- AND docs.active = 1
 ;
 
--- Получить по id дока (активного) его имена, id и имена всех его специальностей
+-- Получить по id дока (активного), его имена, id и имена всех его специальностей
 SELECT docspec.spec_id, docs.id as doc_id, 
        docs.firstname as doc_name, docs.surname as doc_surname,
        specs.specname     

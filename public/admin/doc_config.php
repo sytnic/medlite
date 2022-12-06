@@ -4,7 +4,10 @@
 <?php confirm_logged_in(); ?>
 <?php 
       $doc_id = (int)$_GET["docid"];
-      confirm_get_docid($doc_id);
+      // если doc_id нет в БД:
+      // redirect if false
+      // or 1 row from DB
+      $row = confirm_get_docid($doc_id);
 ?>      
 <?php
         $message = "";
@@ -45,12 +48,12 @@
 ?>
 <?php   include("layout/top.php"); ?>
 <p><?php echo $message; ?></p>
-            <h2>Overall for doc</h2>
+            <h2>Overall for doc: <?php echo $row["firstname"]." ".$row["surname"];  ?> </h2>
             <p>Please, configure this.</p>
 
         <div class="w3-container w3-light-grey w3-responsive w3-mobile" style="width:80%; float:left;">      
             
-            <form action="doc_config.php?docid=<?php echo $row["id"]; ?>" method="post" class="w3-container w3-card w3-light-grey w3-text-teal w3-margin">        
+            <form action="doc_config.php?docid=<?php echo $row["id"]; ?>" method="post" class="w3-container w3-card w3-light-grey w3-text-teal w3-margin">
                     <input class="w3-radio" type="radio" name="activity" value="1" 
                     <?php if($row["active"] == 1) {echo "checked";} ?>  >
                     <label>Active doc</label>

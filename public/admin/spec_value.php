@@ -32,10 +32,11 @@
     ?>
                   <p>
                      <?php echo $row["doc_name"]." ".$row["doc_surname"]; ?> 
-                     <a href="spec_value_delete.php?doc_id=<?php  echo $row["doc_id"]; ?>&specname=<?php echo $specname; ?>" 
+                    <a href="spec_value_delete.php?doc_id=<?php  echo $row["doc_id"]; ?>&specname=<?php echo $specname; ?>" 
                         class="w3-text-red"
                         onclick="return confirm('Are you sure?');">
-                        Delete</a>
+                        Delete
+                    </a>
                   </p>
     <?php
                 }

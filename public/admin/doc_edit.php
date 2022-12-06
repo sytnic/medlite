@@ -93,24 +93,27 @@
                   <ul>
 <?php   
                 // array | false
-                $spec_array =  get_all_specname_by_docid($row["id"]);
-                var_dump($spec_array);
+                $spec_array =  get_specnames_by_docid($row["id"]);
+                // var_dump($spec_array);
 
                 if (!$spec_array) {
-                  echo "Specialties are not specified.";
+                    echo "Specialties are not specified.";
                 } else {
-                  foreach ($spec_array as $specs) {
+                    foreach ($spec_array as $specs) {
                       echo '<li class="w3-text-black"> '.$specs.' </li>';
                   }
                 }
 ?>
-
 <!--                <li class="w3-text-black">Option 4 <a href="##" class="w3-text-teal">Edit</a></li>   -->
-                  </ul>              
+                  </ul> 
+                  <p>
+                    <a href="doc_editspec.php?docid=<?php echo $row["id"]; ?>" class="w3-text-black" > Change It </a> 
+                  </p>            
           </form>
           
           <p>
-          <a href="doc_delete.php?docid=<?php echo $row["id"]; ?>" class="w3-button w3-border w3-border-red">Delete Doc</a>
+          <a href="doc_delete.php?docid=<?php echo $row["id"]; ?>" class="w3-button w3-border w3-border-red"
+          onclick="return confirm('Are you sure?');"> Delete Doc </a>
           </p>
       </div>
 
