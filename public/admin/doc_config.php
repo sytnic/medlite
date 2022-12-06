@@ -4,12 +4,7 @@
 <?php confirm_logged_in(); ?>
 <?php 
       $doc_id = (int)$_GET["docid"];
-      if (!(int)$doc_id) {
-                redirect_to("doc_list.php");
-      }
-      // redirect if false
-      // or 1 row from DB
-      $row = confirm_doc_id($doc_id);
+      confirm_get_docid($doc_id);
 ?>      
 <?php
         $message = "";

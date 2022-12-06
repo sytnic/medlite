@@ -38,7 +38,7 @@
         
                         if ($result) {
                                 // Success
-                                $message = "Doc created succefull.";
+                                $message = "Doc created successful.";
                         } else {
                                 // Failure
                                 $message = "Doc creation failed.";

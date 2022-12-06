@@ -5,12 +5,7 @@
 <?php confirm_logged_in(); ?>
 <?php 
       $doc_id = (int)$_GET["docid"];
-      if (!(int)$doc_id) {
-                redirect_to("doc_list.php");
-      }
-      // redirect if false
-      // or 1 row from DB
-      $row = confirm_doc_id($doc_id);
+      $row = confirm_get_docid($doc_id);
 ?>
 <?php
   $message = "";
@@ -50,7 +45,7 @@
 
 		      if ($result && mysqli_affected_rows($connection) == 1) {
                 // Success
-                $message = "Doc updated succeful.";
+                $message = "Doc updated successful.";
                 // чтоб перезаписать массив
                 $row = confirm_doc_id($doc_id);               
           } else {
@@ -81,12 +76,12 @@
               <h2 class="w3-center">Doc data</h2>
               
                     <p>Doc:</p>
-                    * <input class="w3-input w3-border" name="firstname" type="text" value="<?php echo $row["firstname"]; ?>">
-                    <input class="w3-input w3-border" name="middlename" type="text" value="<?php echo $row["midname"]; ?>">
-                    * <input class="w3-input w3-border" name="lastname" type="text" value="<?php echo $row["surname"]; ?>">
+                    Name * <input class="w3-input w3-border" name="firstname" type="text" value="<?php echo $row["firstname"]; ?>">
+                    Midname <input class="w3-input w3-border" name="middlename" type="text" value="<?php echo $row["midname"]; ?>">
+                    Surname * <input class="w3-input w3-border" name="lastname" type="text" value="<?php echo $row["surname"]; ?>">
 
-                    <input class="w3-input w3-border" name="phone" type="text" value="<?php echo $row["phone"]; ?>">
-                    <input class="w3-input w3-border" name="cost" type="text" value="<?php echo $row["cost"]; ?>">
+                    Phone <input class="w3-input w3-border" name="phone" type="text" value="<?php echo $row["phone"]; ?>">
+                    Cost <input class="w3-input w3-border" name="cost" type="text" value="<?php echo $row["cost"]; ?>">
                     <br>
 
                   <p>
@@ -96,17 +91,27 @@
                   <hr style="height: 1px; background-color: darkgrey;">
                   <p>Specializations:</p>
                   <ul>
-                    <li class="w3-text-black">Option 1 <a href="##" class="w3-text-teal">Edit</a></li>
-                    <li class="w3-text-black">Option 2 <a href="##" class="w3-text-teal">Edit</a></li>
-                    <li class="w3-text-black">Option 3 <a href="##" class="w3-text-teal">Edit</a></li>
-                    <li class="w3-text-black">Option 4 <a href="##" class="w3-text-teal">Edit</a></li>
+<?php   
+                // array | false
+                $spec_array =  get_all_specname_by_docid($row["id"]);
+                var_dump($spec_array);
+
+                if (!$spec_array) {
+                  echo "Specialties are not specified.";
+                } else {
+                  foreach ($spec_array as $specs) {
+                      echo '<li class="w3-text-black"> '.$specs.' </li>';
+                  }
+                }
+?>
+
+<!--                <li class="w3-text-black">Option 4 <a href="##" class="w3-text-teal">Edit</a></li>   -->
                   </ul>              
           </form>
           
           <p>
-          <a href="##" class="w3-button w3-border w3-border-red">Delete Doc</a>
+          <a href="doc_delete.php?docid=<?php echo $row["id"]; ?>" class="w3-button w3-border w3-border-red">Delete Doc</a>
           </p>
       </div>
-                  
 
 <?php include("layout/bottom.php"); ?>

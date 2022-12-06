@@ -230,6 +230,9 @@ function get_all_docs() {
 }
 
 /**
+ * Проверка doc id по базе данных,
+ * use in confirm_get_docid
+ * 
  * @param int $doc_id
  * @return array | redirect
  */
@@ -249,6 +252,24 @@ function confirm_doc_id($doc_id) {
     if($row = mysqli_fetch_assoc($result_set)) {
         return $row;
     }    
+}
+
+/**
+ * Проверка doc id по гет-параметру и БД
+ * 
+ *  @param int $doc_id
+ *  @return array | redirect
+ */
+function confirm_get_docid($doc_id) {
+      // если doc_id не число, то редирект
+      if (!(int)$doc_id) {
+                redirect_to("doc_list.php");
+      }
+      // если doc_id нет в БД:
+      // redirect if false
+      // or 1 row from DB
+      $row = confirm_doc_id($doc_id);
+      return $row;
 }
 
 /**
@@ -308,6 +329,81 @@ function get_doc_by_id($doc_id) {
         return null;
     }
 }
+
+/**
+ * Получить id специальностей дока по его id,
+ * (не используется)
+ * 
+ * @return array | false
+ */
+function get_all_specid_by_docid($doc_id) {
+    global $connection;
+
+    $safe_doc_id = mysqli_real_escape_string($connection, $doc_id);
+
+    $query = "SELECT * FROM docspec where doc_id = {$safe_doc_id} LIMIT 30";
+
+    // mysqli_result
+    $result_set = mysqli_query($connection, $query);
+    // Test if there was a query error
+    confirm_query($result_set, "get_doc_by_id");
+
+    $spec_array = [];
+    while ($row = mysqli_fetch_assoc($result_set)) {
+        $spec_array[] = $row["spec_id"];
+    }
+
+    // если массив не пустой, вернуть его
+    if(!empty($spec_array)){
+        return $spec_array;
+    // иначе вернуть false    
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Получить названия специальностей дока по doc_id
+ * 
+ * @return array | false
+ */
+function get_all_specname_by_docid($doc_id) {
+    global $connection;
+
+    $safe_doc_id = mysqli_real_escape_string($connection, $doc_id);
+
+    $query = "
+    SELECT docspec.spec_id, docs.id as doc_id, 
+    docs.firstname as doc_name, docs.surname as doc_surname,
+    specs.specname     
+    FROM docspec
+
+    JOIN docs ON docspec.doc_id = docs.id
+    JOIN specs ON docspec.spec_id = specs.id 
+
+    WHERE docs.id = {$safe_doc_id}
+    LIMIT 30
+    ";
+
+    // mysqli_result
+    $result_set = mysqli_query($connection, $query);
+    // Test if there was a query error
+    confirm_query($result_set, "get_doc_by_id");
+
+    $specname_array = [];
+    while ($row = mysqli_fetch_assoc($result_set)) {
+        $specname_array[] = $row["specname"];
+    }
+
+    // если массив не пустой, вернуть его
+    if(!empty($specname_array)){
+        return $specname_array;
+    // иначе вернуть false    
+    } else {
+        return false;
+    }
+}
+
 
 /**
  * @param int|string $session_wantedid

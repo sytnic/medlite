@@ -47,7 +47,7 @@ CREATE TABLE `docs` (
   `midname` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `surname` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
   `phone` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `cost` smallint(5) DEFAULT NULL,
+  `cost` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `active` tinyint(3) NOT NULL DEFAULT '1',
   `docadmin_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -78,4 +78,4 @@ CREATE TABLE `specs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- 2022-12-02 13:24:43
+-- 2022-12-05 13:40:53
