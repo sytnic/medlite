@@ -13,6 +13,7 @@
   // Process the form
   if (isset($_POST['submit'])) {
 
+    // variables
       $firstname = mysql_prep($_POST["firstname"]);
       $middlename = mysql_prep($_POST["middlename"]);
       $lastname = mysql_prep($_POST["lastname"]);
@@ -23,11 +24,12 @@
       $id = $row["id"];
 	
              
-        // validations
+    // validations
       $required_fields = array("firstname", "lastname" );
       validate_presences($required_fields);
       // здесь $errors[] - global
-         
+    
+    // query
       if (empty($errors)) {		
        
           $query  = "UPDATE docs SET ";
