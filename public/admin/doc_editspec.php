@@ -35,13 +35,17 @@
 
           if ($result) {
             // Success
-            $message = "Spec inserted successfully.";
+            $message = '<div class="w3-panel w3-pale-yellow w3-border" style="width:300px;"><p>';
+            $message.= "Spec inserted successfully.";
+            $message.= '</p></div>';
           } else {
             // Failure
-            $message = "Spec insertion failed. <br>".
+            $message = '<div class="w3-panel w3-pale-yellow w3-border" style="width:300px;"><p>';
+            $message.= "Spec insertion failed. <br>".
             " (" . mysqli_errno($connection) . ") <br>".
             "Not for production:  " .mysqli_error($connection)            
             ;
+            $message.= '</p></div>';
           }    
 			
 	    } else {
@@ -56,6 +60,7 @@
         <h2>Doc edit specs: <?php echo $row["firstname"]." ".$row["surname"]; ?> </h2>
 
 <?php   echo $message;  ?>
+<?php   echo message();  ?>
 <?php   echo form_errors($errors);  ?>
         
         <p>Please, configure this.</p>
@@ -108,6 +113,8 @@
                   echo '<li class="w3-text-black"> '.$spec["specname"].' ';                      
                   echo '<a href="doc_editspec_delete.php?specid=';
                   echo $spec["spec_id"];
+                  echo '&docid=';
+                  echo $row["id"];
                   echo '"';
                   echo ' class="w3-text-red" ';
                   echo " onclick=\"return confirm('Are you sure?');\"> ";

@@ -47,12 +47,16 @@
 
 		      if ($result && mysqli_affected_rows($connection) == 1) {
                 // Success
-                $message = "Doc updated successful.";
+                $message = '<div class="w3-panel w3-pale-yellow w3-border" style="width:300px;"><p>';
+                $message.= "Doc updated successful.";
+                $message.= '</p></div>';
                 // чтоб перезаписать массив
                 $row = confirm_doc_id($doc_id);               
           } else {
                 // Failure
-                $message = "Doc updation failed.";
+                $message = '<div class="w3-panel w3-pale-yellow w3-border" style="width:300px;"><p>';
+                $message.= "Doc updation failed.";
+                $message.= '</p></div>';
           } 
 			
 	    } else {
