@@ -443,6 +443,35 @@ function get_specdata_by_docid($doc_id) {
     //}
 }
 
+/**
+ * Получить все времена дока по его id
+ * 
+ * @param int $doc_id
+ * @return mysqli_result | empty_mysqli_result
+ */
+function get_times_by_docid($doc_id) {
+    global $connection;
+
+    $safe_doc_id = mysqli_real_escape_string($connection, $doc_id); 
+    
+    // выбор всех дат с запасом в семь дней назад
+    $query = "
+        SELECT *
+        FROM doctime
+        WHERE doc_id = {$safe_doc_id}
+        AND date > (CURDATE() - 1)
+        ORDER BY date ASC
+        LIMIT 500;
+    ";
+
+     // mysqli_result
+     $result_set = mysqli_query($connection, $query);
+
+     // Test if there was a query error
+    confirm_query($result_set, "get_rowspec_by_docid");
+
+    return $result_set;
+}
 
 /**
  * @param int|string $session_wantedid

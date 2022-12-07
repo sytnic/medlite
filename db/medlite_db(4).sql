@@ -67,6 +67,20 @@ CREATE TABLE `docspec` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
+DROP TABLE IF EXISTS `doctime`;
+CREATE TABLE `doctime` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `doc_id` int(10) unsigned NOT NULL,
+  `date` date NOT NULL,
+  `time` time NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `date_time` (`date`,`time`),
+  KEY `doc_id` (`doc_id`),
+  CONSTRAINT `doctime_ibfk_1` FOREIGN KEY (`doc_id`) REFERENCES `docs` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
 DROP TABLE IF EXISTS `specs`;
 CREATE TABLE `specs` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
@@ -78,4 +92,4 @@ CREATE TABLE `specs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- 2022-12-05 13:40:53
+-- 2022-12-07 13:50:25
