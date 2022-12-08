@@ -90,25 +90,25 @@
 <?php
       $result_set = get_times_by_docid($row["id"]);  
 
-      while($row = mysqli_fetch_assoc($result_set)) {
-        if ($row["status"] == 0) {
+      while($row_time = mysqli_fetch_assoc($result_set)) {
+        if ($row_time["status"] == 0) {
           $status = '<td class="w3-text-teal">';
           $status.= "Free";
           $status.= '</td>';
         }
 
-        if ($row["status"] == 1) {
+        if ($row_time["status"] == 1) {
           $status = '<td>';
           $status.= "Busy";
           $status.= '</td>';
         }
       
 ?>                <tr> 
-                    <td><?php echo date("d.m.y", strtotime($row["date"])); ?></td>
-                    <td><?php echo date("l", strtotime($row["date"]));  ?></td>
-                    <td><?php echo substr($row["time"], 0, -3);  ?></td>              
+                    <td><?php echo date("d.m.y", strtotime($row_time["date"])); ?></td>
+                    <td><?php echo date("l", strtotime($row_time["date"]));  ?></td>
+                    <td><?php echo substr($row_time["time"], 0, -3);  ?></td>              
                     <?php echo $status; ?> 
-                    <td><a href="##" onclick="return confirm('Are you sure?');"> Delete </a></td>                  
+                    <td><a href="doctime_delete.php?timeid=<?php echo $row_time["id"]; ?>&docid=<?php echo $row["id"]; ?>" onclick="return confirm('Are you sure?');"> Delete </a></td>                  
                   </tr>
 <?php  
       }

@@ -454,7 +454,7 @@ function get_times_by_docid($doc_id) {
 
     $safe_doc_id = mysqli_real_escape_string($connection, $doc_id); 
     
-    // выбор всех дат с запасом в семь дней назад
+    // выбор всех дат с запасом в день назад
     $query = "
         SELECT *
         FROM doctime
