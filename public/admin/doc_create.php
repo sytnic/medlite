@@ -34,14 +34,14 @@
 
                         //var_dump($result);
         
-                        echo $query; // But It Will cause - Cannot modify header
+                        // echo $query; // But It Will cause - Cannot modify header
         
                         if ($result) {
                                 // Success
-                                $message = "Doc created successful.";
+                                $message = "<b>Doc created successful.</b>";
                         } else {
                                 // Failure
-                                $message = "Doc creation failed.";
+                                $message = "<b>Doc creation failed.</b>";
                         }    
                                 
                 } else {

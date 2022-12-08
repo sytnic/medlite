@@ -700,14 +700,14 @@ function confirm_logged_in() {
 /**** */
 
 /**
- * Вывод (получение) списка наименований из БД по алфавиту
+ * Вывод (получение) списка спец-тей из БД по алфавиту
  * 
  * @param  string
  * @return string|null
  */
 function output_all_specs($target_file) {
 
-    // 0 Получение массива специальностей
+    // 0 Получение mysqli_result специальностей
     $result_set = get_all_specs();
     
     // если $result_set пустой, остановить функцию
@@ -793,7 +793,23 @@ function output_all_specs($target_file) {
         }
 }
 
+/**
+ * Получение mysqli_object спец-тей из БД по алфавиту
+ *  
+ * @return mysqli_result
+ */
+function get_all_specs_asc() {
+    global $connection;
 
+    $query = "SELECT * FROM specs ORDER by specname ASC;";
+    $result_set = mysqli_query($connection, $query);
+
+    // проверка на возвращенную ошибку,
+    // здесь заложено die
+    confirm_query($result_set, "get_all_specs");
+
+    return $result_set;
+}
 
 
 

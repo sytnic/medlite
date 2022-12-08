@@ -48,16 +48,28 @@ include("layouts/sidebar.php");
 -->
 
         <div style="margin-bottom:20px;">
-            <p><b>Displaying in Arrays</b></p>
-
+            <p><b>Specs</b></p>
+<!--
             <p>Док общей практики</p>
             <a href="choice_doc.php?specname=terapevt" class="w3-button w3-border">
                 Terapevt
             </a>
+-->
+        <?php  // output_all_specs('choice_doc.php');  ?>
+<?php
+        // mysqli_result
+        $result_set = get_all_specs_asc();
 
-        <?php   output_all_specs('choice_doc.php');  ?>
+        while($row = mysqli_fetch_assoc($result_set)) {  
+            $output = "<a href=\"choice_doc.php?specid=".$row["id"].'" class="w3-button w3-border">';
+            $output.= $row["specname"];
+            $output.= '</a>'."<br><br>";
+            echo $output;
+        }
+
+
+?>
 
         </div>
-<?php       
-include("layouts/footer.php");                        
-?>    
+
+<?php  include("layouts/footer.php");  ?>    

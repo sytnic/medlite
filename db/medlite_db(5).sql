@@ -7,6 +7,29 @@ SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 SET NAMES utf8mb4;
 
+DROP TABLE IF EXISTS `client_reqs`;
+CREATE TABLE `client_reqs` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `firstname` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `midname` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `surname` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `datebirth` date NOT NULL,
+  `phone` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `doc_id` int(10) unsigned DEFAULT NULL,
+  `spec_id` tinyint(3) unsigned NOT NULL,
+  `doctime_id` int(10) unsigned DEFAULT NULL,
+  `who_edited` tinyint(1) DEFAULT NULL,
+  `when_edited` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `doc_id` (`doc_id`),
+  KEY `spec_id` (`spec_id`),
+  KEY `doctime_id` (`doctime_id`),
+  CONSTRAINT `client_reqs_ibfk_1` FOREIGN KEY (`doc_id`) REFERENCES `docs` (`id`),
+  CONSTRAINT `client_reqs_ibfk_2` FOREIGN KEY (`spec_id`) REFERENCES `specs` (`id`),
+  CONSTRAINT `client_reqs_ibfk_3` FOREIGN KEY (`doctime_id`) REFERENCES `doctime` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
 DROP TABLE IF EXISTS `client_requests`;
 CREATE TABLE `client_requests` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -92,4 +115,4 @@ CREATE TABLE `specs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- 2022-12-07 13:50:25
+-- 2022-12-08 08:45:20
