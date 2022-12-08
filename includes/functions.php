@@ -273,6 +273,39 @@ function confirm_get_docid($doc_id) {
 }
 
 /**
+ * Проверка гет-параметра id
+ * 
+ *  @param int|string $spec_id
+ *  @param string $redirect
+ *  @return array|redirect
+ */
+function confirm_get_id($spec_id, $redirect) {
+    // если id не число, то редирект
+    if (!(int)$spec_id) {
+        redirect_to($redirect);
+    }
+
+    // если id нет в БД, то redirect,
+    // или же получить 1 row from DB
+    global $connection;  
+    
+    $query = "SELECT * FROM specs WHERE id = {$spec_id} LIMIT 1";
+
+    $result_set = mysqli_query($connection, $query);
+
+    confirm_query($result_set, "confirm_get_id");
+
+    if(mysqli_num_rows($result_set) == 0) {
+        redirect_to($redirect);
+    }
+
+    if($row = mysqli_fetch_assoc($result_set)) {
+        return $row;
+    }    
+
+}
+
+/**
  * Проверка правильности строкового get-параметра.
  * Получение id специальности по имени или редирект.
  * 

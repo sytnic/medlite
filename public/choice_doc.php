@@ -17,6 +17,12 @@
         }
 
 ?>
+<?php 
+      $spec_id = (int)$_GET["specid"];
+      // int, spec : array from DB |redirect
+      $row_spec = confirm_get_id($spec_id, "choice_spec.php");
+      $_SESSION["spec_id"] = $row_spec["id"];
+?>
 <?php
 include("layouts/header.php");
 include("layouts/sidebar.php");
@@ -44,6 +50,8 @@ already is set
 
         <p>Please, choose the doc. </p>  
 <?php
+/*  Удалить блок
+
     // получи $specname из Get-Url,
     // иначе из сессии,
     // чтобы ниже можно было заполнить страницу данными из БД (шаг 0.)
@@ -55,6 +63,7 @@ already is set
     } else {
         $specname = $_SESSION["specname"];
     }
+ */
     echo "<pre>";
     print_r($_SESSION);
     echo "</pre>";
@@ -76,9 +85,11 @@ already is set
             <p><b>From DB</b></p>
 
 
-<?php       // gettig list of active docs via specname
-            // mysqli_result | false
-            $result_set = get_active_docs_via_specname($specname);
+<?php       // gettig list of active docs
+            // int: mysqli_result|false
+            // Получаемые в результате запроса столбцы:
+            // spec_id,	doc_id,	doc_name, doc_surname, cost, specname
+            $result_set = get_active_docs_by_specid($spec_id);
 
             // var_dump($result_set);
             
