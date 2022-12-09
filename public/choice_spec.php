@@ -5,13 +5,10 @@
 <?php
 include("layouts/header.php");
 include("layouts/sidebar.php");
-        // если я вернулся с прошлого шага (нет в url-параметрах "specname"),
-        // стереть выбранную спец-ть
-        // (вероятно, отрабатывает и при шаге вперёд, стирая то, чего нет ($_SESSION["specname"]))
-        // (вероятно, можно убрать условие и оставить стирание null, п.что 
-        //  всегда заходишь сюда без параметров и всегда нужно чистое значение спец-сти)
-        if (!isset($_GET["specname"])) {
-            $_SESSION["specname"] = null;
+
+        // очищение сессии при переходе назад из след. шага
+        if (isset($_GET["fromnext"])) {
+            $_SESSION["spec_id"] = null;
         }
 ?>
     
@@ -49,13 +46,7 @@ include("layouts/sidebar.php");
 
         <div style="margin-bottom:20px;">
             <p><b>Specs</b></p>
-<!--
-            <p>Док общей практики</p>
-            <a href="choice_doc.php?specname=terapevt" class="w3-button w3-border">
-                Terapevt
-            </a>
--->
-        <?php  // output_all_specs('choice_doc.php');  ?>
+
 <?php
         // mysqli_result
         $result_set = get_all_specs_asc();

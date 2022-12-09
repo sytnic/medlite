@@ -273,19 +273,18 @@ function confirm_get_docid($doc_id) {
 }
 
 /**
- * Проверка гет-параметра id
+ * Проверка гет-параметра spec_id в БД
  * 
- *  @param int|string $spec_id
- *  @param string $redirect
- *  @return array|redirect
+ *  @param int $spec_id
+ *  @return array|false
  */
-function confirm_get_id($spec_id, $redirect) {
-    // если id не число, то редирект
+function confirm_get_specid($spec_id) {
+    // если id не число
     if (!(int)$spec_id) {
-        redirect_to($redirect);
+        return false;
     }
 
-    // если id нет в БД, то redirect,
+    // если id нет в БД, то false,
     // или же получить 1 row from DB
     global $connection;  
     
@@ -293,16 +292,15 @@ function confirm_get_id($spec_id, $redirect) {
 
     $result_set = mysqli_query($connection, $query);
 
-    confirm_query($result_set, "confirm_get_id");
+    confirm_query($result_set, "confirm_get_specid");
 
     if(mysqli_num_rows($result_set) == 0) {
-        redirect_to($redirect);
+        return false;
     }
 
     if($row = mysqli_fetch_assoc($result_set)) {
         return $row;
-    }    
-
+    }
 }
 
 /**
@@ -488,13 +486,65 @@ function get_times_by_docid($doc_id) {
     $safe_doc_id = mysqli_real_escape_string($connection, $doc_id); 
     
     // выбор всех дат с запасом в день назад
-    $query = "
+    $query_delete = "
         SELECT *
         FROM doctime
         WHERE doc_id = {$safe_doc_id}
         AND date > (CURDATE() - 1)
         ORDER BY date ASC
         LIMIT 500;
+    ";
+
+    $query = "
+        SELECT docs.id as id_doc, docs.firstname, docs.surname,
+        doctime.id as id_time, doctime.date, doctime.time
+        FROM docs
+        JOIN doctime ON docs.id = doctime.doc_id
+        WHERE docs.id = {$safe_doc_id}
+
+        AND date > (CURDATE() - 1)
+        ORDER by date ASC
+        LIMIT 500
+    ";
+
+     // mysqli_result
+     $result_set = mysqli_query($connection, $query);
+
+     // Test if there was a query error
+    confirm_query($result_set, "get_rowspec_by_docid");
+
+    return $result_set;
+}
+
+/**
+ * Получить все времена активных доков по id спец-сти
+ * 
+ * @param int $spec_id
+ * @return mysqli_result | empty_mysqli_result
+ */
+function get_times_by_specid($spec_id) {
+    global $connection;
+
+    $safe_spec_id = mysqli_real_escape_string($connection, $spec_id); 
+    
+    // выбор всех дат с запасом в день назад
+    $query = "
+    SELECT docspec.spec_id, specs.specname, 
+       docs.id as id_doc, docs.firstname, docs.surname, 
+       doctime.id as id_time, doctime.date, doctime.time
+    
+    FROM docspec
+
+    JOIN docs ON docspec.doc_id = docs.id
+    JOIN doctime ON docs.id = doctime.doc_id
+    JOIN specs ON docspec.spec_id = specs.id
+
+    WHERE docspec.spec_id = {$safe_spec_id}
+    AND docs.active = 1
+    AND date > (CURDATE() - 1)
+    
+    ORDER by date ASC
+    LIMIT 500
     ";
 
      // mysqli_result

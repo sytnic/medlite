@@ -1,11 +1,41 @@
 <?php require_once("../includes/session.php");
       require_once("../includes/db_connection.php");
       require_once("../includes/functions.php"); 
-        // если пришли сюда напрямки (Сессия пуста),
-        // то редирект.
+        // если вся Сессия пуста, то редирект
         if (empty($_SESSION)) {
             redirect_to("index.php");
         }
+
+        // очищение сессии при переходе назад из след. шага
+        if (isset($_GET["fromnext"])) {
+            $_SESSION["date"] = null;
+            $_SESSION["time"] = null;
+        }
+
+        // если мы получили в Гете wanted_id,
+        // присвоить его в сессию.
+        // Лучше Дока получать по id, т.к. возможны однофамильцы.
+        if (isset($_GET["wanted_id"])) {
+            // подразумевается id или строка 'seeall',
+            // но нужны проверки на другие значения
+            $wanted = $_GET["wanted_id"];
+            $_SESSION["wanted_id"] = $wanted; 
+        }
+
+        // присвоение переменных
+        $spec_id =  $_SESSION["spec_id"];
+        
+        $wanted_id = $_SESSION["wanted_id"];
+
+        if (is_numeric($wanted_id)) {
+            $doc_id = $wanted_id;
+            $result_set = get_times_by_docid($doc_id);
+        } elseif($wanted_id == "seeall") {
+            $seeall = $wanted_id;
+            $result_set = get_times_by_specid($spec_id);
+        }
+
+       
 ?>
 <?php
 include("layouts/header.php");
@@ -22,7 +52,7 @@ already is set
 
 <div class="w3-container">
     <p>
-    <a class=" w3-button w3-hover-black " style="margin-bottom: 7px;" href="choice_doc.php">&laquo;</a>
+    <a class=" w3-button w3-hover-black " style="margin-bottom: 7px;" href="choice_doc.php?fromnext=1">&laquo;</a>
     <span class=" w3-tag w3-xlarge w3-teal">1</span>
     <span class=" w3-tag w3-xlarge w3-teal">2</span>
     <span class=" w3-tag w3-xlarge w3-teal">3</span>
@@ -32,17 +62,9 @@ already is set
     </p>
 </div>
 
-<p>Please, choose the time. </p>   
+<p>Please, choose the time.</p>   
 
 <?php
-      // если мы получили в Гете wanted_id,
-        // присвоить его в сессию.
-        // Лучше Дока получать по id, т.к. возможны однофамильцы.
-      if (isset($_GET["wanted_id"])) {
-          $wanted = $_GET["wanted_id"];
-          $_SESSION["wanted_id"] = $wanted; 
-      }
-
       echo "<pre>";
       print_r($_SESSION);
       echo "</pre>";
@@ -50,13 +72,30 @@ already is set
 
 <table class="w3-table w3-bordered" style="width: 50%;">
     <tr>
-      <th>Date <small>(Year-Month-Date)</small></th>          
+      <th>Date</th>          
       <th>Day</th>
       <th>Time</th>
-      <th>Action</th>          
-    </tr>
-    <tr>
-    <!-- Эти значения будут получены из БД -->
+      <th>Doc</th>
+      <th>Action</th>      
+    </tr>    
+<?php
+      
+
+      while($row = mysqli_fetch_assoc($result_set)) {      
+?>    
+          <tr> 
+            <td><?php echo date("d.m.y", strtotime($row["date"])); ?></td>
+            <td><?php echo date("l", strtotime($row["date"]));  ?></td>
+            <td><?php echo substr($row["time"], 0, -3);  ?></td>
+            <td><?php echo $row["firstname"]." ".$row["surname"]; ?></td>
+            <td><a href="confirm.php?date=<?php echo $row["date"]; ?>&time=<?php echo $row["time"]; ?>" 
+                   class="w3-button w3-border">Choose</a></td>                             
+          </tr>
+<?php  
+      }
+?>    
+<!--   
+    <tr>       
       <td>2022-11-23</td>
       <td>Tue</td>
       <td>10:30</td>              
@@ -74,7 +113,9 @@ already is set
       <td>12:00</td>
       <td><a href="confirm.php?date=27/07/22&time=12:00" class="w3-button w3-border">Choose</a></td>
     </tr>
-</table>                
+-->    
+</table>
+
 <!--
 already is set
 

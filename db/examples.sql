@@ -93,3 +93,27 @@ JOIN specs ON docspec.spec_id = specs.id
 WHERE docs.id = 3
 -- AND docs.active = 1
 ;
+
+-- Получить по id спец-сти все id (активных) доков этой спец-сти и id всех времён этих доков 
+
+SELECT docspec.spec_id, docs.id as id_doc, docs.surname, 
+       doctime.id as id_time, doctime.date, doctime.time
+FROM docspec
+JOIN docs ON docspec.doc_id = docs.id
+JOIN doctime ON docs.id = doctime.doc_id
+WHERE docspec.spec_id = 12
+AND docs.active = 1
+AND date > (CURDATE() - 1)
+ORDER by date ASC
+LIMIT 500
+;
+
+-- Получить по id дока
+-- его имена, id всех его времён, даты и часы
+SELECT docs.id as id_doc, docs.firstname, docs.surname,
+       doctime.id as id_time, doctime.date, doctime.time
+FROM docs
+JOIN doctime ON docs.id = doctime.doc_id
+WHERE docs.id = 3
+;
+

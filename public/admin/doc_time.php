@@ -108,7 +108,8 @@
                     <td><?php echo date("l", strtotime($row_time["date"]));  ?></td>
                     <td><?php echo substr($row_time["time"], 0, -3);  ?></td>              
                     <?php echo $status; ?> 
-                    <td><a href="doctime_delete.php?timeid=<?php echo $row_time["id"]; ?>&docid=<?php echo $row["id"]; ?>" onclick="return confirm('Are you sure?');"> Delete </a></td>                  
+                    <td><a href="doctime_delete.php?timeid=<?php echo $row_time["id"]; ?>&docid=<?php echo $row["id"]; ?>"
+                           onclick="return confirm('Are you sure?');"> Delete </a></td>                  
                   </tr>
 <?php  
       }

@@ -1,27 +1,38 @@
 <?php require_once("../includes/session.php");
       require_once("../includes/db_connection.php");
       require_once("../includes/functions.php"); 
-        // если нет Сессии 
-        // (она используется и при шаге вперед, и при шаге назад),
-        // то есть пришли сюда напрямки,
-        // то редирект.
-        // Точнее, если Сессия пуста, т.к. она есть 
-        // и задана с помощью session.php
+        // Если вся Сессия пуста, redirect
         if (empty($_SESSION)) {
             redirect_to("index.php");
         }
-        // если я вернулся с прошлого шага,
-        // стереть выбранного ранее дока
-        if (!isset($_GET["wanted_id"])) {
+
+        // очищение сессии при переходе назад из след. шага
+        if (isset($_GET["fromnext"])) {
             $_SESSION["wanted_id"] = null;
         }
 
-?>
-<?php 
-      $spec_id = (int)$_GET["specid"];
-      // int, spec : array from DB |redirect
-      $row_spec = confirm_get_id($spec_id, "choice_spec.php");
-      $_SESSION["spec_id"] = $row_spec["id"];
+        // При переходе вперёд.
+        // проверить значение GET["specid"] на наличие в БД
+        // и если он есть, то
+        // записать в сессию значение из гет-параметра
+        // иначе - стереть значения и редирект
+        
+        if (isset($_GET["specid"])) {
+
+            $spec_id = (int)$_GET["specid"];
+            // array|false
+            $row_spec = confirm_get_specid($spec_id);
+
+            if($row_spec) {
+                $_SESSION["spec_id"] = $_GET["specid"];
+            } else {
+                $_SESSION["spec_id"] = null;
+                redirect_to("index.php");
+            }
+        } else { // При переходе назад.
+            $spec_id = $_SESSION["spec_id"];
+        }
+
 ?>
 <?php
 include("layouts/header.php");
@@ -38,7 +49,7 @@ already is set
 
         <div class="w3-container">
             <p>
-            <a class=" w3-button w3-hover-black " style="margin-bottom: 7px;" href="choice_spec.php">&laquo;</a>
+            <a class=" w3-button w3-hover-black " style="margin-bottom: 7px;" href="choice_spec.php?fromnext=1">&laquo;</a>
             <span class=" w3-tag w3-xlarge w3-teal">1</span>
             <span class=" w3-tag w3-xlarge w3-teal">2</span>
             <span class=" w3-tag w3-xlarge ">3</span>
@@ -50,20 +61,6 @@ already is set
 
         <p>Please, choose the doc. </p>  
 <?php
-/*  Удалить блок
-
-    // получи $specname из Get-Url,
-    // иначе из сессии,
-    // чтобы ниже можно было заполнить страницу данными из БД (шаг 0.)
-    if (isset($_GET["specname"])) {
-        // echo $_GET["specname"];
-        // тут хорошее место для ю-эр-эл-энкодинга
-        $specname = $_GET["specname"];
-        $_SESSION["specname"] = $specname;        
-    } else {
-        $specname = $_SESSION["specname"];
-    }
- */
     echo "<pre>";
     print_r($_SESSION);
     echo "</pre>";
@@ -115,7 +112,7 @@ already is set
 ?>
 
             <p>It doesn't matter</p>
-            <a href="choice_time.php?wanted_id=doesnt_matter" class="w3-button w3-border">Doesn't matter</a>            
+            <a href="choice_time.php?wanted_id=seeall" class="w3-button w3-border">See all</a>            
         </div>
         <br><br>  
     
