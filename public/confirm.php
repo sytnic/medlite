@@ -18,17 +18,11 @@ already is set
 
 -->
 <?php
-    if (isset($_GET["date"])) {
-        $date = $_GET["date"];
-        $_SESSION["date_meet"] = $date; 
-    }
-    if (isset($_GET["time"])) {
-        $time = $_GET["time"];
-        $_SESSION["time_meet"] = $time; 
+    if (isset($_GET["time_id"])) {
+        $date = (int)$_GET["time_id"];
+        $_SESSION["time_id"] = $date; 
     }
 ?>
-
-
       <h2>Header</h2>
 
         <div class="w3-container">
@@ -42,109 +36,83 @@ already is set
             <span class=" w3-tag w3-xlarge w3-teal">6</span>
             </p>
         </div>
-
 <?php
-        
 
         echo "<pre>";
         print_r($_SESSION);
         echo "</pre>";
 
-        $specname  = $_SESSION["specname"];
-
         $firstname = $_SESSION["inputs"][0];
+        $midname   = $_SESSION["inputs"][1];
         $lastname  = $_SESSION["inputs"][2];
+        $birthday  = $_SESSION["inputs"][3];
         $phone     = $_SESSION["inputs"][4];
 
-        // 1. Here Create function doesnt_matter_or_id()
+        $spec_id   = (int)$_SESSION["spec_id"];
+        $time_id   = (int)$_SESSION["time_id"];
+        // int or string
+        $doc_id    = $_SESSION["wanted_id"];
 
-        $array_name_cost = doesnt_matter_or_id($_SESSION["wanted_id"]);
-
-        echo "<pre>";
-        print_r($array_name_cost);
-        echo "</pre>";
-
-        /*
-        // если не "doesnt_matter"
-        if ($_SESSION["wanted_id"] != "doesnt_matter") {
-            // значит имеем дело с id
-            $doc_id     = $_SESSION["wanted_id"];
-            // array
-            $doc_row = get_doc_by_id($doc_id);
-
-            $output_name = $doc_row['firstname'].' '.$doc_row['surname'];
-            $output_cost = "~ ".$doc_row["cost"];
-            // иначек, если имеем дело с doesnt_matter
-        } else { 
-            $output_name = "Не имеет значения";
-            $output_cost = "~ 1200";
+        // overwright doc_id, if doc_id is string
+        if ($_SESSION["wanted_id"] == 'seeall') {
+            // int|null
+            $doc_id = get_docid_by_timeid($time_id);
         }
-        */
 
-        
+        // Vars for html output
+        // str|null
+        $specname = get_specname_by_specid($spec_id);
+
+        // array | null
+        $doc = get_doc_by_id($doc_id);
+        $first_docname = $doc["firstname"];
+        $last_docname  = $doc["surname"];
+        $cost = $doc["cost"];
+
+        // array of 1 row | null
+        $doctimerow = get_doctimerow_by_doctimeid($time_id);
+        $date = $doctimerow["date"];
+        $time = $doctimerow["time"];
 
 ?>
-
         <p>This is final step. </p>
         <p>If all right, register it, and we will call you for confirming.</p>
-
         
         <div style="width: 50%;">
 
             <div class="w3-container w3-card-4" style="margin-bottom: 25px;" >
                 <h3>Confirm Your Choice</h3> 
                 <hr style="height: 2px; width: 40%; background-color: grey;">
-                <p><b><?php echo $specname; ?></b></p>
+<?php        
+                // Specname
+                echo "<p>".$specname."</p>";
+                // Doc name
+                echo "<p>".$first_docname." ".$last_docname."</p>";
+                // Date
+                echo "<p>".date("d.m.y", strtotime($date))."</p>";
+                // Day
+                echo "<p>".date("l", strtotime($date))."</p>";
+                // Time
+                echo "<p>".substr($time, 0, -3)."</p>";
+                // Cost
+                echo "<p>".$cost."</p>";
+?>
 
-                <p><b>
-                <?php //echo $output_name;
-                        echo  $array_name_cost['fullname'];
-                ?>
-                </b></p>
-
-                <small>
-                <?php //echo $output_cost;
-                        echo  $array_name_cost['cost'];
-                ?>
-                </small><br>
-                
-                <p><b>
-                <?php //echo $output_name;
-                        echo  $date." ".$time;
-                        echo "<br>";
-
-                        $unix_timestamp = strtotime($date);
-                        echo $unix_timestamp."<br>";
-                        echo strftime("The date today is %m/%d/%y", $unix_timestamp);
-		                echo "<br />";
-                        $mysql_date = strftime("%Y-%m-%d", $unix_timestamp);
-                        echo $mysql_date;
-                        echo "<br>";
-                        $mysql_datetime = date("Y-m-d H:i:s", $unix_timestamp);
-                        echo $mysql_datetime;
-                        echo "<br>";
-                ?>
-                </b></p>
-
-                
                 <hr style="height: 2px; width: 40%; background-color: grey;">
                 <h4>Your Data</h4>
-                <p><?php echo $firstname; ?></p>                
-                <p><?php echo $lastname; ?></p>                
+                <p><?php echo $firstname; ?></p>
+                <p><?php echo $lastname; ?></p> 
+                <p><?php echo date("d.m.y", strtotime($birthday)); ?></p>  
                 <p><?php echo $phone; ?></p>
 
             <p><a href="final.php" class="w3-btn w3-teal">Register Request</a></p>
             </div>
             
         </div>
-    
-
 <!--
 already is set
 
   </div> -- End of Main Content --  
 </div> -- End of Main Div --
 -->
-<?php       
-include("layouts/footer.php");                        
-?>    
+<?php include("layouts/footer.php"); ?>

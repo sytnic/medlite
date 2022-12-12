@@ -557,6 +557,81 @@ function get_times_by_specid($spec_id) {
 }
 
 /**
+ * Получить id дока по id времени
+ * 
+ * @param int $time_id
+ * @return int $doc_id|null
+ */
+function get_docid_by_timeid($time_id) {
+    global $connection;
+
+    $safe_time_id = (int)$time_id;
+
+    $query = "SELECT doc_id FROM doctime WHERE id = {$safe_time_id} LIMIT 1";
+
+    // mysqli_result
+    $result_set = mysqli_query($connection, $query);
+    // Test if there was a query error
+    confirm_query($result_set, "get_docid_by_timeid");
+
+    // int
+    if($row = mysqli_fetch_assoc($result_set)) {
+        return $row["doc_id"]; 
+    } return null;
+}
+
+
+/**
+ * Получить specname по spec_id
+ * 
+ * @param int $spec_id
+ * @return string|null
+ */
+function get_specname_by_specid($spec_id) {
+    global $connection;
+
+    $safe_spec_id = mysql_prep($spec_id);
+
+    $query = "SELECT specname FROM specs WHERE id = {$safe_spec_id} LIMIT 1";
+
+    // mysqli_result
+    $result_set = mysqli_query($connection, $query);
+    // Test if there was a query error
+    confirm_query($result_set, "get_specname_by_specid");
+
+    // str
+    if($row = mysqli_fetch_assoc($result_set)) {
+        return $row["specname"]; 
+    } return null;
+}
+
+/**
+ * Получить doctime_row по doctime_id
+ * 
+ * @param int $doctime_id
+ * @return array|null
+ */
+function get_doctimerow_by_doctimeid($doctime_id) {
+    global $connection;
+
+    $safe_doctime_id = mysql_prep($doctime_id);
+
+    $query = "SELECT * FROM doctime WHERE id = {$safe_doctime_id} LIMIT 1";
+
+    // mysqli_result
+    $result_set = mysqli_query($connection, $query);
+    // Test if there was a query error
+    confirm_query($result_set, "get_doctimerow_by_doctimeid");
+
+    // array
+    if($row = mysqli_fetch_assoc($result_set)) {
+        return $row; 
+    } return null;
+}
+
+
+
+/**
  * @param int|string $session_wantedid
  * @return array ['fullname' => , 'cost' => ]
  * 
@@ -584,6 +659,7 @@ function doesnt_matter_or_id($session_wantedid) {
     return $my_array;
 
 }
+
 /**
  *  
  */

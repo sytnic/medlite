@@ -88,7 +88,7 @@ already is set
             <td><?php echo date("l", strtotime($row["date"]));  ?></td>
             <td><?php echo substr($row["time"], 0, -3);  ?></td>
             <td><?php echo $row["firstname"]." ".$row["surname"]; ?></td>
-            <td><a href="confirm.php?date=<?php echo $row["date"]; ?>&time=<?php echo $row["time"]; ?>" 
+            <td><a href="confirm.php?time_id=<?php echo $row["id_time"]; ?>" 
                    class="w3-button w3-border">Choose</a></td>                             
           </tr>
 <?php  
