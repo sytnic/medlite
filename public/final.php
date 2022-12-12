@@ -14,7 +14,6 @@ already is set
 <div class="w3-container w3-light-grey w3-mobile" style="width: 80%; float:left;">
 
 -->
-
         <div class="w3-container">
             <p>            
             <span class=" w3-tag w3-xlarge w3-teal">1</span>
@@ -28,103 +27,93 @@ already is set
     
 <?php
 
+    echo "<pre>";
+    print_r($_SESSION);
+    echo "</pre>";
 
-if (!empty($_SESSION)) {
     $firstname = $_SESSION["inputs"][0];
     $midname   = $_SESSION["inputs"][1];
     $lastname  = $_SESSION["inputs"][2];
-    $born      = $_SESSION["inputs"][3];
+    $birthday  = $_SESSION["inputs"][3];
     $phone     = $_SESSION["inputs"][4];
-    
-    $specname  = $_SESSION["specname"];
-    $date  = $_SESSION["date_meet"];
-    $time  = $_SESSION["time_meet"];
 
-    // может быть id или строка "не имеет значения"
+    $spec_id   = (int)$_SESSION["spec_id"];
+    $time_id   = (int)$_SESSION["time_id"];
+    // int or string
     $doc_id    = $_SESSION["wanted_id"];
 
-    $array_name_cost = doesnt_matter_or_id($doc_id);
-
-    echo "<pre>";
-    print_r($array_name_cost);
-    echo "</pre>";
-
-    $doc_name = $array_name_cost["fullname"];
-    $safe_doc_name = mysqli_real_escape_string($connection, $doc_name);
-
-    // 1 - Save into DB
-    // - сохранить БД в архив
-    // - создать новую версию БД,
-    //   в ней планируется одна таблица со списком запросов вместо трёх,
-    //   т.к. в этой lite версии нет необходимости
-    //   создавать отдельные таблицы под клиентов и их запросы,
-    //   т.к. используются только запросы и не используется лич.кабинет.
-    // - создать функции для сохранения данных в разные таблицы
-
-    // Mysqli real escape string
-    
-    $safe_firstname = mysqli_real_escape_string($connection, $firstname);
-    $safe_midname   = mysqli_real_escape_string($connection, $midname);
-    $safe_lastname  = mysqli_real_escape_string($connection, $lastname);
-
-    $safe_phone     = mysqli_real_escape_string($connection, $phone);    
-    $safe_specname  = mysqli_real_escape_string($connection, $specname);
-
-    // 1. Create a database connection - работает в db_connection
-
-    // 2. Perform database query
-    // who_edited: 0 - client, остальные - id доков
-    $query = "INSERT INTO client_requests 
-        ( firstname, midname, surname, datebirth, phone,
-        doc_name, spec_name, date_meet, time_meet, who_edited ) 
-        VALUES (
-        '$safe_firstname', '$safe_midname', '$safe_lastname', '$born', '$safe_phone',
-        '$safe_doc_name', '$safe_specname', '$date', '$time', 0)";
-
-    // Confirm
-
-    $result = mysqli_query($connection, $query);
-
-    // УБРАТЬ ИЗ ПРОДАКШН:
-    echo $query."<br>";
-
-    // ! Длина строки из русских букв умножается на два на каждую букву.
-    // УБРАТЬ ИЗ ПРОДАКШН:
-    echo strlen('Не имеет значения');  // 15*2 + 2 пробела = 32
-    echo "<br>";
-
-    if (!$result) {
-        die(
-        "Database query failed. "."Код: ".mysqli_errno($connection). 
-        // УБРАТЬ ИЗ ПРОДАКШН:
-        ". Ошибка: ".mysqli_error($connection)    
-        );
+    // overwright doc_id, if doc_id is string
+    if ($_SESSION["wanted_id"] == 'seeall') {
+        // int|null
+        $doc_id = get_docid_by_timeid($time_id);
     }
 
-    // 3. Use returned data (if any) - не нужно
+    // Vars for html output
 
-    // 4. Release returned data - не нужен, 
-    // т.к. это не select и
-    // возвращает не объект mysqli, а true или false .
-    // mysqli_free_result($result);
+    // str|null
+    $specname = get_specname_by_specid($spec_id);
 
-    // 5. Close database connection - отрабатывает в футере.
-    
-}
+    // array of 1 row | null
+    $doc = get_doc_by_id($doc_id);
+    $first_docname = $doc["firstname"];
+    $last_docname  = $doc["surname"];
+    $cost = $doc["cost"];
 
-echo "<pre>";
-print_r($_POST);
-echo "</pre>";
+    // array of 1 row | null
+    $doctimerow = get_doctimerow_by_doctimeid($time_id);
+    $date = $doctimerow["date"];
+    $time = $doctimerow["time"];
 
-echo "<pre>";
-print_r($_SESSION);
-echo "</pre>";
 ?>
+<?php
+    // Query for DB
 
+        // Mysqli real escape string
+    
+        $safe_firstname = mysql_prep($firstname);
+        $safe_midname   = mysql_prep($midname);
+        $safe_lastname  = mysql_prep($lastname);
+        $safe_birthday  = mysql_prep($birthday);
+        $safe_phone     = mysql_prep($phone);
 
+        $safe_doc_id  = mysql_prep($doc_id);
+        $safe_spec_id = mysql_prep($spec_id);
+        $safe_doctime_id = mysql_prep($time_id);
 
+    
+        // Create a database connection - работает в db_connection
+    
+        // Perform database query
+        // who_edited: 0 - client, остальные - id доков
+        $query = "INSERT INTO client_reqs 
+            ( firstname, midname, surname, datebirth, phone,
+            doc_id, spec_id, doctime_id, who_edited, when_edited ) 
+            VALUES (
+            '$safe_firstname', '$safe_midname', '$safe_lastname', '$safe_birthday', '$safe_phone',
+            '$safe_doc_id', '$safe_spec_id', '$safe_doctime_id', 0, NOW()
+            )";
+    
+        // Confirm    
+        $result = mysqli_query($connection, $query);
 
+        if (!$result) {
+            die(
+            "Database query failed. "."Код: ".mysqli_errno($connection). 
+            // УБРАТЬ ИЗ ПРОДАКШН:
+            ". Ошибка: ".mysqli_error($connection)    
+            );
+        }
 
+    // еще раз проверка массива
+    echo "<pre>";
+    print_r($_SESSION);
+    echo "</pre>";
+
+    // и нет ли в Посте что-нибудь
+    echo "<pre>";
+    print_r($_POST);
+    echo "</pre>";
+?>
         <p>Thanks for register.</p>  
         
         <div class="w3-mobile" style="width: 50%;">
@@ -134,13 +123,8 @@ echo "</pre>";
                 <hr style="height: 2px; width: 40%; background-color: grey;">
 
                 <p><b><?php echo $specname; ?></b></p>
-                <p><b><?php //echo $doc_id;
-                            echo $array_name_cost['fullname'];
-                             
-                ?></b></p>
-                <p><?php
-                            echo $array_name_cost['cost'];
-                ?></p>
+                <p><b><?php echo "<p>".$first_docname." ".$last_docname."</p>"; ?></b></p>
+                <p><?php echo "<p>".$cost."</p>";?></p>
                 
                 <hr style="height: 2px; width: 40%; background-color: grey;">
                 <h4>Your Data</h4>
@@ -157,19 +141,13 @@ echo "</pre>";
             
         </div>
 <?php
-    // 2 - Erase Session
+    // Erase Session
     $_SESSION["inputs"] = null;
-    $_SESSION["specname"] = null;
-
-    // атавизм
-    //$_SESSION["date"] = null;
-    //$_SESSION["time"] = null;
-    // конец атавизма
-
-    $_SESSION["date_meet"] = null;
-    $_SESSION["time_meet"] = null;
+    $_SESSION["spec_id"] = null;
     $_SESSION["wanted_id"] = null;
-
+    $_SESSION["time_id"] = null;
+    
+    // проверка массива
     echo "<pre>";
     print_r($_SESSION);
     echo "</pre>";
