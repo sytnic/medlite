@@ -29,10 +29,10 @@
 
         if (is_numeric($wanted_id)) {
             $doc_id = $wanted_id;
-            $result_set = get_times_by_docid($doc_id);
+            $result_set = get_times_by_docid($doc_id, "free");
         } elseif($wanted_id == "seeall") {
             $seeall = $wanted_id;
-            $result_set = get_times_by_specid($spec_id);
+            $result_set = get_times_by_specid($spec_id, "free");
         }
 
        

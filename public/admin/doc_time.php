@@ -27,6 +27,8 @@
     if (empty($errors)) {		
     
       // int, date, time, int
+      // 0 == Free
+      // 1 == Busy 
       $query  = "INSERT INTO doctime ( doc_id, date, time, status) ";
       $query .= " VALUES ( {$doc_id}, '{$date}', '{$time}', 0 )";
       
@@ -88,9 +90,9 @@
                 </tr>
                 
 <?php
-      $result_set = get_times_by_docid($row["id"]);  
+      $result_set = get_times_by_docid($row["id"], "all");  
 
-      while($row_time = mysqli_fetch_assoc($result_set)) {
+      while($row_time = mysqli_fetch_assoc($result_set)) {       
         if ($row_time["status"] == 0) {
           $status = '<td class="w3-text-teal">';
           $status.= "Free";
@@ -108,8 +110,8 @@
                     <td><?php echo date("l", strtotime($row_time["date"]));  ?></td>
                     <td><?php echo substr($row_time["time"], 0, -3);  ?></td>              
                     <?php echo $status; ?> 
-                    <td><a href="doctime_delete.php?timeid=<?php echo $row_time["id"]; ?>&docid=<?php echo $row["id"]; ?>"
-                           onclick="return confirm('Are you sure?');"> Delete </a></td>                  
+                    <td><a href="doctime_delete.php?timeid=<?php echo $row_time["id_time"]; ?>&docid=<?php echo $row["id"]; ?>"
+                           onclick="return confirm('Are you sure?');"> Delete </a></td>
                   </tr>
 <?php  
       }

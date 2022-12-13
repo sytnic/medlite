@@ -478,9 +478,10 @@ function get_specdata_by_docid($doc_id) {
  * Получить все времена дока по его id
  * 
  * @param int $doc_id
+ * @param string $status 0 free, 1 busy, all
  * @return mysqli_result | empty_mysqli_result
  */
-function get_times_by_docid($doc_id) {
+function get_times_by_docid($doc_id, $status) {
     global $connection;
 
     $safe_doc_id = mysqli_real_escape_string($connection, $doc_id); 
@@ -495,17 +496,17 @@ function get_times_by_docid($doc_id) {
         LIMIT 500;
     ";
 
-    $query = "
-        SELECT docs.id as id_doc, docs.firstname, docs.surname,
-        doctime.id as id_time, doctime.date, doctime.time
+    $query = "SELECT docs.id as id_doc, docs.firstname, docs.surname,
+        doctime.id as id_time, doctime.date, doctime.time, doctime.status
         FROM docs
         JOIN doctime ON docs.id = doctime.doc_id
-        WHERE docs.id = {$safe_doc_id}
-
-        AND date > (CURDATE() - 1)
+        WHERE docs.id = {$safe_doc_id}";
+    if ($status == "free") {
+        $query.=" AND status = 0";
+    }
+    $query.=" AND date > (CURDATE() - 1)
         ORDER by date ASC
-        LIMIT 500
-    ";
+        LIMIT 500";
 
      // mysqli_result
      $result_set = mysqli_query($connection, $query);
@@ -520,9 +521,10 @@ function get_times_by_docid($doc_id) {
  * Получить все времена активных доков по id спец-сти
  * 
  * @param int $spec_id
+ * @param string $status 0 free, 1 busy, all
  * @return mysqli_result | empty_mysqli_result
  */
-function get_times_by_specid($spec_id) {
+function get_times_by_specid($spec_id, $status) {
     global $connection;
 
     $safe_spec_id = mysqli_real_escape_string($connection, $spec_id); 
@@ -531,7 +533,7 @@ function get_times_by_specid($spec_id) {
     $query = "
     SELECT docspec.spec_id, specs.specname, 
        docs.id as id_doc, docs.firstname, docs.surname, 
-       doctime.id as id_time, doctime.date, doctime.time
+       doctime.id as id_time, doctime.date, doctime.time, doctime.status
     
     FROM docspec
 
@@ -541,11 +543,13 @@ function get_times_by_specid($spec_id) {
 
     WHERE docspec.spec_id = {$safe_spec_id}
     AND docs.active = 1
-    AND date > (CURDATE() - 1)
-    
-    ORDER by date ASC
-    LIMIT 500
-    ";
+    AND date > (CURDATE() - 1)";
+    if ($status == "free") {
+        $query.=" AND status = 0";
+    }
+    $query.= " AND doctime.status = 0
+                ORDER by date, time ASC
+                LIMIT 500";
 
      // mysqli_result
      $result_set = mysqli_query($connection, $query);

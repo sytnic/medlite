@@ -95,13 +95,24 @@ already is set
     
         // Confirm    
         $result = mysqli_query($connection, $query);
-
         if (!$result) {
             die(
             "Database query failed. "."Код: ".mysqli_errno($connection). 
             // УБРАТЬ ИЗ ПРОДАКШН:
             ". Ошибка: ".mysqli_error($connection)    
-            );
+            );     
+        }
+
+        $query2 = "UPDATE doctime SET status = 1  WHERE id = {$safe_doctime_id} LIMIT 1";
+
+        // Confirm    
+        $result2 = mysqli_query($connection, $query2);   
+        if (!$result2) {
+            die(
+            "Database query failed. "."Код: ".mysqli_errno($connection). 
+            // УБРАТЬ ИЗ ПРОДАКШН:
+            ". Ошибка: ".mysqli_error($connection)    
+            );     
         }
 
     // еще раз проверка массива
