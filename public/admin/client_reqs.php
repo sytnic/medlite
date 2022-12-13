@@ -3,6 +3,9 @@
         include("../../includes/session.php");  ?>
 <?php confirm_logged_in(); ?>
 <?php   include("layout/top.php"); ?>
+<?php  
+    echo message();
+?>
 
         <h2>List of clients</h2>
         <p>Please, configure this.</p>

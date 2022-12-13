@@ -90,7 +90,7 @@ if($row = mysqli_fetch_assoc($result)) {
         </form>   
 
         <p>
-          <a href="client_reqdelete.php?docid=<?php echo $req_id; ?>" class="w3-button w3-border w3-border-red"
+          <a href="client_reqdelete.php?req_id=<?php echo $req_id; ?>" class="w3-button w3-border w3-border-red"
              onclick="return confirm('Are you sure?');">Delete All</a>
         </p>       
     </div> 
