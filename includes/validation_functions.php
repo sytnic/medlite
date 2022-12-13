@@ -17,6 +17,12 @@ function has_presence($value) {
 	return isset($value) && $value !== "";
 }
 
+/**
+ * Проверяет присутствие необходимых полей из формы
+ * 
+ * @param array $required_fields
+ * @return void
+ */
 function validate_presences($required_fields) {
     global $errors;
 
