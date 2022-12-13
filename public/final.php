@@ -84,7 +84,7 @@ already is set
         // Create a database connection - работает в db_connection
     
         // Perform database query
-        // who_edited: 0 - client, остальные - id доков
+        // who_edited: 0 - client, остальные - id администраторов
         $query = "INSERT INTO client_reqs 
             ( firstname, midname, surname, datebirth, phone,
             doc_id, spec_id, doctime_id, who_edited, when_edited ) 
@@ -122,15 +122,19 @@ already is set
                 <h3>This is Your Data</h3> 
                 <hr style="height: 2px; width: 40%; background-color: grey;">
 
-                <p><b><?php echo $specname; ?></b></p>
-                <p><b><?php echo "<p>".$first_docname." ".$last_docname."</p>"; ?></b></p>
-                <p><?php echo "<p>".$cost."</p>";?></p>
+                <p><?php echo $specname; ?></p>
+                <p><?php echo $first_docname." ".$last_docname; ?></p>                
+                <p><?php echo date("d.m.y", strtotime($date)); ?></p>                
+                <p><?php echo date("l", strtotime($date)); ?></p>
+                <p><?php echo substr($time, 0, -3); ?></p>
+                <p><?php echo $cost; ?></p>
                 
                 <hr style="height: 2px; width: 40%; background-color: grey;">
                 <h4>Your Data</h4>
 
                 <p><?php echo $firstname; ?></p>
-                <p><?php echo $lastname; ?></p>                
+                <p><?php echo $lastname; ?></p>
+                <p><?php echo date("d.m.y", strtotime($birthday)); ?></p> 
                 <p><?php echo $phone; ?></p>
             </div>
 
