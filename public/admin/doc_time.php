@@ -60,8 +60,11 @@
 
 ?>
 <?php   include("layout/top.php"); ?>
-
-        <h2>Doc time</h2>
+<?php
+    $doc_row = get_doc_by_id($doc_id);
+    $output_name = $doc_row['firstname'].' '.$doc_row['surname'];
+?>
+        <h2>Doc time: <?php  echo $output_name; ?></h2>
 <?php
   echo $message;
   echo message();
@@ -80,12 +83,13 @@
                 </p>
             </form>
 
-            <table class="w3-table w3-bordered" style="width: 50%;">
+            <table class="w3-table w3-bordered" style="width: 100%;">
                 <tr>
                   <th>Date</th>          
                   <th>Day</th>
                   <th>Time</th>
                   <th>Status</th>
+                  <th>Client Request</th>
                   <th>Delete</th>        
                 </tr>
                 
@@ -97,11 +101,17 @@
           $status = '<td class="w3-text-teal">';
           $status.= "Free";
           $status.= '</td>';
+          $status.= '<td class="w3-text-teal">';
+          $status.= "No Request";
+          $status.= '</td>';
         }
 
         if ($row_time["status"] == 1) {
           $status = '<td>';
           $status.= "Busy";
+          $status.= '</td>';
+          $status.= '<td>';
+          $status.= "<a href=\"client_editreqs.php?id=".$row_time["clientreqs_id"]."\">Request Link</a>";
           $status.= '</td>';
         }
       
@@ -109,7 +119,7 @@
                     <td><?php echo date("d.m.y", strtotime($row_time["date"])); ?></td>
                     <td><?php echo date("l", strtotime($row_time["date"]));  ?></td>
                     <td><?php echo substr($row_time["time"], 0, -3);  ?></td>              
-                    <?php echo $status; ?> 
+                    <?php echo $status; ?>                     
                     <td><a href="doctime_delete.php?timeid=<?php echo $row_time["id_time"]; ?>&docid=<?php echo $row["id"]; ?>"
                            onclick="return confirm('Are you sure?');"> Delete </a></td>
                   </tr>

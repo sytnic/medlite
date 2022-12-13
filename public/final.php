@@ -103,7 +103,13 @@ already is set
             );     
         }
 
-        $query2 = "UPDATE doctime SET status = 1  WHERE id = {$safe_doctime_id} LIMIT 1";
+        $last_id = mysqli_insert_id($connection);
+        var_dump($last_id);
+
+        $query2 = "UPDATE doctime SET";
+        $query2.= " status = 1 , ";
+        $query2.= " clientreqs_id = {$last_id} ";
+        $query2.= " WHERE id = {$safe_doctime_id} LIMIT 1";
 
         // Confirm    
         $result2 = mysqli_query($connection, $query2);   

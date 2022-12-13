@@ -497,7 +497,8 @@ function get_times_by_docid($doc_id, $status) {
     ";
 
     $query = "SELECT docs.id as id_doc, docs.firstname, docs.surname,
-        doctime.id as id_time, doctime.date, doctime.time, doctime.status
+        doctime.id as id_time, doctime.date, doctime.time, doctime.status,
+        doctime.clientreqs_id
         FROM docs
         JOIN doctime ON docs.id = doctime.doc_id
         WHERE docs.id = {$safe_doc_id}";

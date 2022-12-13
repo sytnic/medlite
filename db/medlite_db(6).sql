@@ -30,24 +30,6 @@ CREATE TABLE `client_reqs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-DROP TABLE IF EXISTS `client_requests`;
-CREATE TABLE `client_requests` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `firstname` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `midname` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `surname` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `datebirth` date NOT NULL,
-  `phone` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `doc_name` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `spec_name` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `date_meet` date DEFAULT NULL,
-  `time_meet` time DEFAULT NULL,
-  `who_edited` tinyint(1) NOT NULL,
-  `when_edited` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
 DROP TABLE IF EXISTS `docadmins`;
 CREATE TABLE `docadmins` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
@@ -97,6 +79,7 @@ CREATE TABLE `doctime` (
   `date` date NOT NULL,
   `time` time NOT NULL,
   `status` tinyint(1) NOT NULL,
+  `clientreqs_id` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `date_time` (`date`,`time`),
   KEY `doc_id` (`doc_id`),
@@ -115,4 +98,4 @@ CREATE TABLE `specs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- 2022-12-08 08:45:20
+-- 2022-12-13 12:31:04
