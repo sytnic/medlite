@@ -1,30 +1,147 @@
 <?php   include("../../includes/db_connection.php");
         include("../../includes/functions.php");
-        include("../../includes/session.php");  ?>
+        include("../../includes/session.php");
+        include("../../includes/database.php");         // oop
+        include("../../includes/database_object.php");  // oop
+        include("../../includes/requests.php");         // oop
+        include("../../includes/pagination.php");       // oop
+?>
 <?php confirm_logged_in(); ?>
+<?php
+// Prepare of pagination
+
+// 1. the curent page number ($current_page)
+$page = !empty($_GET["page"]) ? (int)$_GET["page"] : 1 ;
+
+// 2. record per page ($per_page)
+$per_page = 5;
+
+// 3. total record count ($total_count)
+$total_count = Requests::count_all();
+
+// Find all requests
+// use pagination instead
+// $requests = Requests::find_all();
+
+$pagination = new Pagination($page, $per_page, $total_count);
+
+// Instead of finding all records, just find the records 
+// for this page
+$sql = "SELECT * FROM client_reqs ";
+$sql .= "LIMIT {$per_page} ";
+// offset uses $page and $per_page
+$sql .= "OFFSET {$pagination->offset()}";
+
+// массив из объектов
+// выбирается на основе гет-параметра
+// используется в пагинации
+$requests = Requests::find_by_sql($sql);
+
+// массив объектов
+// используется при выводе всех без пагинации
+$reqs = Requests::find_all();
+
+// Need to add ?page=$page to all links we want to 
+// maintain the current page (or store $page in $session)
+
+
+?>
 <?php   include("layout/top.php"); ?>
 <?php  
     echo message();
+
+
+    // echo "Hou: ".$total_count;
 ?>
 
         <h2>List of clients</h2>
         <p>Please, configure this.</p>
 
-        <div class="w3-container w3-light-grey w3-responsive w3-mobile" style="width:100%; float:left;">      
-            
+        <div class="w3-container w3-light-grey w3-responsive w3-mobile" style="width:100%; float:left;">            
             <table class="w3-table w3-bordered">
-                <tr>
-                  <th>Client Name</th>          
-                  <th>Date Born</th>
-                  <th>Client Phone</th>
-                  <th>Specname</th>
-                  <th>Doc name</th>
-                  <th>Date</th>          
-                  <th>Day</th>
-                  <th>Time</th>
-                  <th class="w3-text-grey">Action</th>
-                </tr>
+              <tr>
+                <th>Client Name</th>          
+                <th>Date Born</th>
+                <th>Client Phone</th>
+                <th>Specname</th>
+                <th>Doc name</th>
+                <th>Date</th>          
+                <th>Day</th>
+                <th>Time</th>
+                <th class="w3-text-grey">Action</th>
+              </tr>
 <?php
+// Объектно-ориентированный вывод на страницу
+
+// работа с массивом объектов
+
+// если выводить все без навигации:
+// foreach($reqs as $onereq):
+
+// если выводить с навигацией:
+// foreach($requests as $onereq):
+
+foreach($requests as $onereq): ?>
+
+              <tr>
+                <td><?php echo $onereq->firstname; ?></td>
+                <td><?php echo $onereq->datebirth; ?></td>
+                <td><?php echo $onereq->phone; ?></td>
+                <td><?php echo "spec: ".$onereq->spec_id; ?></td>
+                <td><?php echo "doc : ".$onereq->doc_id; ?></td>
+                <td><?php echo "doctime : ".$onereq->doctime_id; ?> </td>
+                <td><?php echo "doctime : ".$onereq->doctime_id; ?> </td>
+                <td><?php echo "doctime : ".$onereq->doctime_id; ?> </td>
+                <td class="w3-text-grey">Action</td>
+              </tr>
+
+<?php endforeach; ?>
+            </table>
+        </div>
+
+<div id="pagination" style="clear: both;">
+<?php
+// Пагинация. Pagination
+
+// если количество пагинационных страниц больше одной, то
+// выводим навигацию
+  if($pagination->total_pages() > 1) {
+		
+    // Если есть предыдущая страница
+    // if(bool)
+		if($pagination->has_previous_page()) { 
+    	echo "<a href=\"client_reqs.php?page=";
+      echo $pagination->previous_page();
+      echo "\">&laquo; Previous</a> "; 
+    }
+
+    for($i=1; $i <= $pagination->total_pages(); $i++) {
+      // если число $i, по к-рому мы проходим, равна числу $page (основана на $_GET['page']),
+      // то выводим span class, a не ссылку   
+      if($i == $page) {
+			  	echo " <span class=\"selected\">{$i}</span> ";
+			} else {
+      // иначе, в остальных случаях, выводим ссылку
+          echo  "<a href=\"client_reqs.php?page={$i}\">{$i}</a> ";
+      }
+    }
+
+    // Если есть следующая страница
+    // if(bool)
+    if($pagination->has_next_page()) { 
+			echo " <a href=\"client_reqs.php?page=";
+			echo $pagination->next_page();
+			echo "\">Next &raquo;</a> "; 
+    }
+  }
+?>
+</div>
+
+<?php
+// Процедурный вывод всех записей на страницу
+// Закомментировать полностью
+
+/*
       // SELECT all FROM client_reqs
 
       $query = "SELECT * FROM client_reqs";
@@ -93,6 +210,8 @@
 
       // mysqli_free_result()
       mysqli_free_result($result);
+
+*/
 ?>
 <!--
                 <tr>
@@ -107,7 +226,6 @@
                   <td><a href="client_editreqs.php?id=2" class="">Edit</a></td>
                 </tr>
 -->
-              </table>
-        </div>
+              
           
 <?php include("layout/bottom.php"); ?>
