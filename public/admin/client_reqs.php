@@ -96,7 +96,9 @@ foreach($requests as $onereq): ?>
             </table>
         </div>
 
-<div id="pagination" style="clear: both;">
+<div class="w3-bar" style="clear: both;">
+<br>
+
 <?php
 // Пагинация. Pagination
 
@@ -109,17 +111,18 @@ foreach($requests as $onereq): ?>
 		if($pagination->has_previous_page()) { 
     	echo "<a href=\"client_reqs.php?page=";
       echo $pagination->previous_page();
-      echo "\">&laquo; Previous</a> "; 
+      echo "\" class='w3-button w3-sand'";
+      echo " >&laquo; Previous</a> "; 
     }
 
     for($i=1; $i <= $pagination->total_pages(); $i++) {
       // если число $i, по к-рому мы проходим, равна числу $page (основана на $_GET['page']),
-      // то выводим span class, a не ссылку   
+      // то выводим span class
       if($i == $page) {
-			  	echo " <span class=\"selected\">{$i}</span> ";
+			  	echo " <span class='w3-button'>{$i}</span> ";
 			} else {
       // иначе, в остальных случаях, выводим ссылку
-          echo  "<a href=\"client_reqs.php?page={$i}\">{$i}</a> ";
+          echo  "<a href=\"client_reqs.php?page={$i}\" class='w3-button w3-sand'>{$i}</a> ";
       }
     }
 
@@ -128,7 +131,8 @@ foreach($requests as $onereq): ?>
     if($pagination->has_next_page()) { 
 			echo " <a href=\"client_reqs.php?page=";
 			echo $pagination->next_page();
-			echo "\">Next &raquo;</a> "; 
+      echo "\" class='w3-button w3-sand'";
+			echo " >Next &raquo;</a> "; 
     }
   }
 ?>
