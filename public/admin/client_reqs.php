@@ -89,7 +89,7 @@ foreach($requests as $onereq): ?>
                 <td><?php echo $onereq->date_meet(); ?></td>
                 <td><?php echo $onereq->day_meet();  ?></td>
                 <td><?php echo $onereq->time_meet(); ?></td>
-                <td class="w3-text-grey">Edit</td>
+                <td><?php echo "<a href=\"client_editreqs.php?id=".$onereq->id."\" class=\"\">Edit</a>"; ?></td>
               </tr>
 
 <?php endforeach; ?>

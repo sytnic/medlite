@@ -153,7 +153,12 @@ if($row = mysqli_fetch_assoc($result)) {
             <p>
             <input type="submit" name="submit" class="w3-button w3-teal" value="Save Changes">
             </p>            
-        </form>   
+        </form>
+
+        <p>
+          <a href="client_reqs.php" class="w3-button w3-border">
+          &laquo; Cancel</a>
+        </p>   
 
         <p>
           <a href="client_reqdelete.php?req_id=<?php echo $req_id; ?>" class="w3-button w3-border w3-border-red"
