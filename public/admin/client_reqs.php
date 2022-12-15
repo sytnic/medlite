@@ -49,9 +49,6 @@ $reqs = Requests::find_all();
 <?php   include("layout/top.php"); ?>
 <?php  
     echo message();
-
-
-    // echo "Hou: ".$total_count;
 ?>
 
         <h2>List of clients</h2>
@@ -84,15 +81,15 @@ $reqs = Requests::find_all();
 foreach($requests as $onereq): ?>
 
               <tr>
-                <td><?php echo $onereq->firstname; ?></td>
-                <td><?php echo $onereq->datebirth; ?></td>
+                <td><?php echo $onereq->fullname();  ?></td>
+                <td><?php echo $onereq->humandate(); ?></td>
                 <td><?php echo $onereq->phone; ?></td>
-                <td><?php echo "spec: ".$onereq->spec_id; ?></td>
-                <td><?php echo "doc : ".$onereq->doc_id; ?></td>
-                <td><?php echo "doctime : ".$onereq->doctime_id; ?> </td>
-                <td><?php echo "doctime : ".$onereq->doctime_id; ?> </td>
-                <td><?php echo "doctime : ".$onereq->doctime_id; ?> </td>
-                <td class="w3-text-grey">Action</td>
+                <td><?php echo $onereq->get_specname(); ?></td>
+                <td><?php echo $onereq->doc_fullname(); ?></td>
+                <td><?php echo $onereq->date_meet(); ?></td>
+                <td><?php echo $onereq->day_meet();  ?></td>
+                <td><?php echo $onereq->time_meet(); ?></td>
+                <td class="w3-text-grey">Edit</td>
               </tr>
 
 <?php endforeach; ?>

@@ -42,6 +42,7 @@ class MySQLDatabase {
     // "database neutral" functions
     
     public function fetch_array($result_set) {
+        // применение процедурного подхода
         return mysqli_fetch_array($result_set);
     }
 

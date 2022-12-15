@@ -17,8 +17,13 @@ class DatabaseObject {
 
         $result_set = $database->query($sql);
         $object_array = array();
-           while ($row = $database->fetch_array($result_set)) {
-           // while ($row = mysqli_fetch_assoc($result_set)) {
+        // while ($row = $database->fetch_array($result_set)) {
+        // while ($row = mysqli_fetch_assoc($result_set)) {
+            // oop:
+            while ($row = $result_set->fetch_array()) {
+              // здесь инстанцируется (создаётся) объект со значениями для его свойств
+              // для каждой строки (асссоц.массива), вытащенного из бд,
+              // и все объекты помещаются в массив из объектов.
             $object_array[] = static::instantiate($row);
         }
         // массив из объектов
