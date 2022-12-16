@@ -127,7 +127,7 @@ WHERE docs.id = {$safe_doc_id}
 
 AND status = 0
 
-AND date > (CURDATE() - 1)
+AND date > (CURDATE() - INTERVAL 30 DAY)
 ORDER by date, time ASC
 LIMIT 500
 ;

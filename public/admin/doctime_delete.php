@@ -20,7 +20,8 @@ if ($result && mysqli_affected_rows($connection) == 1) {
     redirect_to("doc_time.php?docid={$doc_id}");
 } else {
     // Failure
-    $_SESSION["message"] = "Time deletion failed.";
+    $_SESSION["message"] = "Time deletion failed. <br>".
+        "Not for production:  " .mysqli_error($connection) ;
     redirect_to("doc_time.php?docid={$doc_id}");
 }
 

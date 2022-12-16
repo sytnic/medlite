@@ -38,12 +38,12 @@
 
       if ($result) {
         // Success
-        $message = '<div class="w3-panel w3-pale-yellow w3-border" style="width:300px;"><p>';
+        $message = '<div class="w3-panel w3-pale-yellow w3-border" style="width:500px;"><p>';
         $message.= "Time inserted successfully.";
         $message.= '</p></div>';
       } else {
         // Failure
-        $message = '<div class="w3-panel w3-pale-yellow w3-border" style="width:300px;"><p>';
+        $message = '<div class="w3-panel w3-pale-yellow w3-border" style="width:500px;"><p>';
         $message.= "Time insertion failed. <br>".
         " (" . mysqli_errno($connection) . ") <br>".
         "Not for production:  " .mysqli_error($connection)            

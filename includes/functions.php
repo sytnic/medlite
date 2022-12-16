@@ -509,7 +509,7 @@ function get_times_by_docid($doc_id, $days_ago, $status) {
     if ($status == "busy") {
         $query.=" AND status = 1";
     }
-    $query.=" AND date > (CURDATE() - {$days_ago})
+    $query.=" AND date > (CURDATE() - INTERVAL {$days_ago} DAY)
         ORDER by date ASC
         LIMIT 500";
 
