@@ -43,7 +43,8 @@
             $message = '<div class="w3-panel w3-pale-yellow w3-border" style="width:300px;"><p>';
             $message.= "Spec insertion failed. <br>".
             " (" . mysqli_errno($connection) . ") <br>".
-            "Not for production:  " .mysqli_error($connection)            
+            // "Not for production:  " .mysqli_error($connection)
+            "Вероятно, не уникальное значение."           
             ;
             $message.= '</p></div>';
           }    

@@ -14,7 +14,7 @@ if ($result && mysqli_affected_rows($connection) == 1) {
     redirect_to("spec_list.php");
 } else {
     // Failure
-    $_SESSION["message"] = "Spec deletion failed.";
+    $_SESSION["message"] = "Spec deletion failed. Возможно, есть доки в его составе.";
     redirect_to("spec_list.php");
 }
 

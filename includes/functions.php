@@ -890,6 +890,10 @@ function output_all_specs($target_file) {
         // сырая строка из БД
         $raw_string = htmlentities($row["specname"]);
 
+        /* Отменено из-за того, что потом не видно, 
+           какую запись нужно отредактировать вручную
+           через форму редактирования.
+
         // Перевод первой буквы вверх в каждом слове из БД
         // первый символ
         $first_char = mb_substr($raw_string, 0, 1, 'utf-8');
@@ -900,7 +904,10 @@ function output_all_specs($target_file) {
         // соединяем первый символ и все остальные
         $result = $first_upper . $all_characters;
                 
-        $specs[] = $result;            
+        $specs[] = $result;   
+        */
+        
+        $specs[] = $raw_string;
     }        
 
     // освобождение результата
@@ -930,9 +937,12 @@ function output_all_specs($target_file) {
         foreach($specs as $value) {
 
             $first_char = mb_substr($value, 0, 1, 'utf-8');
+            // первый символ вверх,
+            // это чтобы значения с маленьких букв добавлялись к списку с заглавными буквами
+            $first_upper = mb_convert_case($first_char, MB_CASE_UPPER, 'UTF-8');
             
             // как $nested["C"][] = "Center";
-            $nested[$first_char][] = $value;
+            $nested[$first_upper][] = $value;
         }
 
         // 5 Вывод на экран

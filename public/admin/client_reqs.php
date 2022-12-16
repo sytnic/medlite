@@ -28,9 +28,9 @@ $pagination = new Pagination($page, $per_page, $total_count);
 // Instead of finding all records, just find the records 
 // for this page
 $sql = "SELECT * FROM client_reqs ";
-$sql .= "LIMIT {$per_page} ";
+$sql .= " LIMIT {$per_page} ";
 // offset uses $page and $per_page
-$sql .= "OFFSET {$pagination->offset()}";
+$sql .= " OFFSET {$pagination->offset()}";
 
 // массив из объектов
 // выбирается на основе гет-параметра
@@ -47,15 +47,25 @@ $reqs = Requests::find_all();
 
 ?>
 <?php   include("layout/top.php"); ?>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+
+<script src="https://code.jquery.com/jquery-3.6.2.js" 
+        integrity="sha256-pkn2CUZmheSeyssYw3vMp1+xyub4m+e+QK4sQskvuo4=" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+
 <?php  
     echo message();
+    // <script src="https://www.w3schools.com/lib/w3.js"></script>
+    // w3-table w3-bordered
+    // onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(6)')" style="cursor:pointer"
 ?>
 
         <h2>List of clients</h2>
         <p>Please, configure this.</p>
 
         <div class="w3-container w3-light-grey w3-responsive w3-mobile" style="width:100%; float:left;">            
-            <table class="w3-table w3-bordered">
+            <table id="myTable" class="">
+            <thead>
               <tr>
                 <th>Client Name</th>          
                 <th>Date Born</th>
@@ -67,6 +77,8 @@ $reqs = Requests::find_all();
                 <th>Time</th>
                 <th class="w3-text-grey">Action</th>
               </tr>
+            </thead>
+            <tbody>
 <?php
 // Объектно-ориентированный вывод на страницу
 
@@ -78,9 +90,9 @@ $reqs = Requests::find_all();
 // если выводить с навигацией:
 // foreach($requests as $onereq):
 
-foreach($requests as $onereq): ?>
+foreach($reqs as $onereq): ?>
 
-              <tr>
+              <tr class="item">
                 <td><?php echo $onereq->fullname();  ?></td>
                 <td><?php echo $onereq->humandate(); ?></td>
                 <td><?php echo $onereq->phone; ?></td>
@@ -93,6 +105,7 @@ foreach($requests as $onereq): ?>
               </tr>
 
 <?php endforeach; ?>
+              </tbody>
             </table>
         </div>
 
@@ -104,6 +117,9 @@ foreach($requests as $onereq): ?>
 
 // если количество пагинационных страниц больше одной, то
 // выводим навигацию
+
+/* Пагинация на ооп отключена из-за применения Datatables и jquery.
+
   if($pagination->total_pages() > 1) {
 		
     // Если есть предыдущая страница
@@ -119,7 +135,7 @@ foreach($requests as $onereq): ?>
       // если число $i, по к-рому мы проходим, равна числу $page (основана на $_GET['page']),
       // то выводим span class
       if($i == $page) {
-			  	echo " <span class='w3-button'>{$i}</span> ";
+			  	echo " <span class='w3-button w3-border'>{$i}</span> ";
 			} else {
       // иначе, в остальных случаях, выводим ссылку
           echo  "<a href=\"client_reqs.php?page={$i}\" class='w3-button w3-sand'>{$i}</a> ";
@@ -135,6 +151,7 @@ foreach($requests as $onereq): ?>
 			echo " >Next &raquo;</a> "; 
     }
   }
+  */
 ?>
 </div>
 
@@ -227,6 +244,9 @@ foreach($requests as $onereq): ?>
                   <td><a href="client_editreqs.php?id=2" class="">Edit</a></td>
                 </tr>
 -->
-              
-          
+<script>              
+$(document).ready( function () {
+    $('#myTable').DataTable();
+} );
+</script>
 <?php include("layout/bottom.php"); ?>

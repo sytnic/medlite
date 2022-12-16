@@ -18,7 +18,7 @@
         <p>Please, configure your docs in specializations.</p>  
         
         <div>
-            <p>Docs in spec: <?php echo $specname; ?></p>
+            <p>Only <b>Active Docs</b> in spec: <?php echo $specname; ?></p>
 
 <?php       // gettig list of active docs via specname
             // mysqli_result | false

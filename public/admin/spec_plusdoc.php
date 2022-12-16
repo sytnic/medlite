@@ -59,7 +59,7 @@
             <form action="spec_plusdoc.php?specname=<?php echo $specname; ?>" method="post" class="w3-container w3-card w3-light-grey w3-text-teal w3-margin">
                 <h2 class="w3-center">Spec One Plus Doc</h2>
                 
-                    <p>Docs:</p>
+                    <p>Only Active Docs:</p>
                     <select class="w3-select w3-border" name="select">
                         <option value="" disabled selected>Choose your option</option>
 <?php

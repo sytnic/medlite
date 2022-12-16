@@ -157,7 +157,7 @@ if($row = mysqli_fetch_assoc($result)) {
 
         <p>
           <a href="client_reqs.php" class="w3-button w3-border">
-          &laquo; Cancel</a>
+          &laquo; List of Requests</a>
         </p>   
 
         <p>
