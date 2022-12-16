@@ -94,7 +94,7 @@
                 </tr>
                 
 <?php
-      $result_set = get_times_by_docid($row["id"], "all");  
+      $result_set = get_times_by_docid($row["id"], 30, "all");  
 
       while($row_time = mysqli_fetch_assoc($result_set)) {       
         if ($row_time["status"] == 0) {

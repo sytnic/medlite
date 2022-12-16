@@ -477,11 +477,12 @@ function get_specdata_by_docid($doc_id) {
 /**
  * Получить все времена дока по его id
  * 
- * @param int $doc_id
- * @param string $status 0 free, 1 busy, all
+ * @param int $doc_id 
+ * @param int $days_ago
+ * @param string $status 0 free, 1 busy, all(any)
  * @return mysqli_result | empty_mysqli_result
  */
-function get_times_by_docid($doc_id, $status) {
+function get_times_by_docid($doc_id, $days_ago, $status) {
     global $connection;
 
     $safe_doc_id = mysqli_real_escape_string($connection, $doc_id); 
@@ -505,7 +506,10 @@ function get_times_by_docid($doc_id, $status) {
     if ($status == "free") {
         $query.=" AND status = 0";
     }
-    $query.=" AND date > (CURDATE() - 1)
+    if ($status == "busy") {
+        $query.=" AND status = 1";
+    }
+    $query.=" AND date > (CURDATE() - {$days_ago})
         ORDER by date ASC
         LIMIT 500";
 
