@@ -9,8 +9,21 @@
 ?>
 <?php
 
-$query = "DELETE FROM client_reqs WHERE id = {$req_id} LIMIT 1";
+$query = "UPDATE doctime SET
+status = 0,
+clientreqs_id = 0
+WHERE clientreqs_id = {$req_id};"
+;
+
 $result = mysqli_query($connection, $query);
+
+confirm_query($result);
+
+$query = "DELETE FROM client_reqs WHERE id = {$req_id} LIMIT 1";
+
+$result = mysqli_query($connection, $query);
+
+confirm_query($result);
 
 if ($result && mysqli_affected_rows($connection) == 1) {
     // Success

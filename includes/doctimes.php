@@ -62,7 +62,7 @@ class Doctimes extends DatabaseObject {
             $mystr = '<a href="client_editreqs.php?id=';
             $mystr.= $this->clientreqs_id;
             $mystr.= '" class="">';
-            $mystr.= $this->clientreqs_id;
+            $mystr.= "# ".$this->clientreqs_id;
             $mystr.= '</a>';
             // $mystr.= '</div>';
             return $mystr;

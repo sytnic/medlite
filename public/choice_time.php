@@ -70,7 +70,7 @@ already is set
       echo "</pre>";
 ?>
 
-<table class="w3-table w3-bordered" style="width: 50%;">
+<table class="w3-table w3-bordered" style="width: 80%;">
     <tr>
       <th>Date</th>          
       <th>Day</th>
