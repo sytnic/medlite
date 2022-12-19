@@ -82,8 +82,7 @@ CREATE TABLE `doctime` (
   `clientreqs_id` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `date_time` (`date`,`time`),
-  KEY `doc_id` (`doc_id`),
-  CONSTRAINT `doctime_ibfk_1` FOREIGN KEY (`doc_id`) REFERENCES `docs` (`id`)
+  KEY `doc_id` (`doc_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
@@ -98,4 +97,4 @@ CREATE TABLE `specs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- 2022-12-13 12:31:04
+-- 2022-12-16 13:50:23

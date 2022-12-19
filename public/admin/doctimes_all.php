@@ -3,6 +3,7 @@
         include("../../includes/functions.php");
         include("../../includes/session.php");        
         include("../../includes/database_object.php");  // oop
+        include("../../includes/mytraits.php");         // trait
         include("../../includes/doctimes.php");         // oop
 ?>
 <?php confirm_logged_in(); ?>
@@ -30,14 +31,12 @@ $alltimes = Doctimes::find_all();
             <table id="myTable" class="">
             <thead>
               <tr>
-                <th>Doc name (id)</th>
-                <th>Specname</th>           
+                <th>Doc name</th>               
                 <th>Date </th>
                 <th>Day</th>
                 <th>Time</th>
                 <th>Status</th>
-                <th>Client_reqs</th>
-                <th class="w3-text-grey">Action</th>
+                <th>Client Reqs</th>
               </tr>
             </thead>
             <tbody>
@@ -45,17 +44,13 @@ $alltimes = Doctimes::find_all();
 <?php foreach($alltimes as $onereq): ?>
 
                 <tr class="item">
-                    <td><?php echo $onereq->doc_id;  ?></td>
-                    <td><?php echo "Specname"; ?></td>
+                    <td><?php echo $onereq->doc_fullname();  ?></td>                    
                     <td><?php echo $onereq->humandate(); ?></td>
                     <td><?php echo $onereq->day();; ?></td>
                     <td><?php echo $onereq->time(); ?></td>
-                    <td><?php echo $onereq->status; ?></td>
-                    <td><?php echo $onereq->clientreqs_id;  ?></td>
-                    <td><?php echo "<a href=\"##\" class=\"\">Edit</a>"; ?></td>
-                </tr>
-
-                
+                    <td><?php echo $onereq->status_str(); ?></td>
+                    <td><?php echo $onereq->clientreq_link(); ?></td>
+                </tr>                
 
 <?php endforeach; ?>
 

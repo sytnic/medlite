@@ -1,6 +1,7 @@
 <?php
 
 class Requests extends DatabaseObject {
+    use Docnames;
 
     protected static $table_name="client_reqs";
 	protected static $db_fields=array('id', 'firstname', 'midname', 

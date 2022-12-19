@@ -3,6 +3,7 @@
         include("../../includes/session.php");
         include("../../includes/database.php");         // oop
         include("../../includes/database_object.php");  // oop
+        include("../../includes/mytraits.php");         // trait
         include("../../includes/requests.php");         // oop
         include("../../includes/pagination.php");       // oop
 ?>
