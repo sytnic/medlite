@@ -16,8 +16,10 @@ class Doctimes extends DatabaseObject {
     public $clientreqs_id;
 
 
-    public function humandate() {
-        return date("d.m.y", strtotime($this->date));
+    public function output_date() {        
+        // $date = date("d.m.Y", strtotime($this->date));
+        $date = $this->date;            
+        return $date;
     }
 
     public function day() {
@@ -37,7 +39,9 @@ class Doctimes extends DatabaseObject {
     public function status_str() {
         $str = "";
         if ($this->status == 0) {
-            $str = "Free"; 
+            $str = '<div class="w3-text-teal">';
+            $str.= 'Free';
+            $str.= '</div>'; 
         } elseif ($this->status == 1) {
             $str = "Busy";
         }

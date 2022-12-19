@@ -32,24 +32,35 @@ $alltimes = Doctimes::find_all();
             <thead>
               <tr>
                 <th>Doc name</th>               
-                <th>Date </th>
+                <th>Date (Y-m-d)</th>
                 <th>Day</th>
                 <th>Time</th>
                 <th>Status</th>
                 <th>Client Reqs</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
 
 <?php foreach($alltimes as $onereq): ?>
 
-                <tr class="item">
+                <tr class="item  
+         <?php  if( (strtotime($onereq->date)) < (strtotime("-1 day")) ) { ?>
+                       w3-text-grey 
+         <?php  }    ?>       
+                ">
                     <td><?php echo $onereq->doc_fullname();  ?></td>                    
-                    <td><?php echo $onereq->humandate(); ?></td>
-                    <td><?php echo $onereq->day();; ?></td>
+                    <td><?php echo $onereq->output_date(); ?></td>
+                    <td><?php echo $onereq->day();  ?></td>
                     <td><?php echo $onereq->time(); ?></td>
                     <td><?php echo $onereq->status_str(); ?></td>
                     <td><?php echo $onereq->clientreq_link(); ?></td>
+        <?php  if($onereq->status == 0) { ?>
+                   <td><a href="doctimes_all_delete.php?timeid=<?php echo $onereq->id; ?>"
+                          onclick="return confirm('Are you sure?');"> Delete </a></td>
+        <?php  } else {  ?> 
+                    <td><?php echo " " ?></td>
+        <?php  }  ?>            
                 </tr>                
 
 <?php endforeach; ?>
