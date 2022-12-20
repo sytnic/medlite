@@ -68,6 +68,7 @@ $reqs = Requests::find_all();
             <table id="myTable" class="">
             <thead>
               <tr>
+                <th>Added</th>   
                 <th>Client Name</th>          
                 <th>Date Born</th>
                 <th>Client Phone</th>
@@ -94,6 +95,7 @@ $reqs = Requests::find_all();
 foreach($reqs as $onereq): ?>
 
               <tr class="item">
+                <td><?php echo $onereq->plus_hours();  ?></td>
                 <td><?php echo $onereq->fullname();  ?></td>
                 <td><?php echo $onereq->humandate(); ?></td>
                 <td><?php echo $onereq->phone; ?></td>

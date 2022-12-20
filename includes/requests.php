@@ -20,6 +20,17 @@ class Requests extends DatabaseObject {
     public $who_edited;
     public $when_edited;
 
+    /**
+     * Добавляет часы к времени UTC+0 из БД
+     * 
+     */
+    public function plus_hours() {
+        $unix_time = strtotime($this->when_edited);
+        $plus_3h =  $unix_time + (60*60*3);
+        $output_time = date("Y-m-d  H:i:s", $plus_3h);
+        echo $output_time;
+    }
+
     public function fullname() {
         return $this->firstname . " " . $this->surname;
     }
