@@ -4,6 +4,43 @@
       // На этом шаге, и только на этом, совершается запись данных в БД. 
 ?>
 <?php
+   // Проверки входящих параметров
+
+   $firstname = $_SESSION["inputs"][0];
+   $midname   = $_SESSION["inputs"][1];
+   $lastname  = $_SESSION["inputs"][2];
+   $birthday  = $_SESSION["inputs"][3];
+   $phone     = $_SESSION["inputs"][4];
+
+   $spec_id   = (int)$_SESSION["spec_id"];   
+   $time_id   = (int)$_SESSION["time_id"];
+   // (int) при отсутствии значения, превратит значение в ноль, 
+   // и это будет означать empty
+
+   // int or string
+   $doc_id    = $_SESSION["wanted_id"];
+
+   // если любое из значений пусто, то
+   // редирект в начало
+   if (
+      empty($firstname) || 
+      empty($lastname)  || 
+      empty($birthday)  || 
+      empty($phone)     || 
+      empty($spec_id)   || 
+      empty($time_id)   || 
+      empty($doc_id)     
+   ) {
+      // echo "There are 0 for some vars and it's mean empty.";
+      redirect_to("index.php");
+   }
+/*
+   echo "<pre>";
+   print_r($_SESSION);
+   echo "</pre>";
+*/
+?>
+<?php
 include("layouts/header.php");
 include("layouts/sidebar.php");
 ?>
@@ -26,21 +63,6 @@ already is set
         </div>
     
 <?php
-
-    echo "<pre>";
-    print_r($_SESSION);
-    echo "</pre>";
-
-    $firstname = $_SESSION["inputs"][0];
-    $midname   = $_SESSION["inputs"][1];
-    $lastname  = $_SESSION["inputs"][2];
-    $birthday  = $_SESSION["inputs"][3];
-    $phone     = $_SESSION["inputs"][4];
-
-    $spec_id   = (int)$_SESSION["spec_id"];
-    $time_id   = (int)$_SESSION["time_id"];
-    // int or string
-    $doc_id    = $_SESSION["wanted_id"];
 
     // overwright doc_id, if doc_id is string
     if ($_SESSION["wanted_id"] == 'seeall') {

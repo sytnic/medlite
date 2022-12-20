@@ -8,8 +8,19 @@
 
         // очищение сессии при переходе назад из след. шага
         if (isset($_GET["fromnext"])) {
-            $_SESSION["date"] = null;
-            $_SESSION["time"] = null;
+            $_SESSION["time_id"] = null;
+            //$_SESSION["date"] = null;
+            //$_SESSION["time"] = null;
+        }
+
+        // при прямом входе без гет-параметра
+        // стирание последних данных сессии 
+        // и redirect в начало     
+        if (empty($_GET)) {
+            $_SESSION["time_id"] = null;
+            $_SESSION["wanted_id"] = null;
+            $_SESSION["spec_id"] = null;
+            redirect_to("index.php");
         }
 
         // если мы получили в Гете wanted_id,

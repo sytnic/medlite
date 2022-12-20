@@ -8,6 +8,14 @@
       // после к-рого нет шагов назад.
 ?>
 <?php
+    // при прямом входе без гет-параметра
+    // стирание последних данных сессии    
+    if (empty($_GET)) {
+      $_SESSION["time_id"] = null;
+      $_SESSION["wanted_id"] = null;
+      $_SESSION["spec_id"] = null;
+    }
+
 // инициализация переменных для html
 $firstname = "";
 $midname   = "";

@@ -10,6 +10,13 @@ include("layouts/sidebar.php");
         if (isset($_GET["fromnext"])) {
             $_SESSION["spec_id"] = null;
         }
+
+        // var_dump($_GET);
+
+        // очищение сессии при прямом входе без гет-параметра
+        if (empty($_GET)) {
+            $_SESSION["spec_id"] = null;
+        }
 ?>
     
     <h2>Spec choosing</h2>

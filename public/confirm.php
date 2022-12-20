@@ -7,6 +7,22 @@
       // Запись в БД производится только один раз.  
 ?>
 <?php
+    if (isset($_GET["time_id"])) {
+        $date = (int)$_GET["time_id"];
+        $_SESSION["time_id"] = $date; 
+    }
+
+    // при прямом входе без гет-параметра
+    // стирание последних данных сессии 
+    // и redirect в начало     
+    if (empty($_GET)) {
+        $_SESSION["time_id"] = null;
+        $_SESSION["wanted_id"] = null;
+        $_SESSION["spec_id"] = null;
+        redirect_to("index.php");
+    }
+?>
+<?php
 include("layouts/header.php");
 include("layouts/sidebar.php");
 ?>
@@ -17,17 +33,12 @@ already is set
 <div class="w3-container w3-light-grey w3-mobile" style="width: 80%; float:left;">
 
 -->
-<?php
-    if (isset($_GET["time_id"])) {
-        $date = (int)$_GET["time_id"];
-        $_SESSION["time_id"] = $date; 
-    }
-?>
+
       <h2>Header</h2>
 
         <div class="w3-container">
             <p>
-            <a class=" w3-button w3-hover-black " style="margin-bottom: 7px;" href="choice_time.php">&laquo;</a>
+            <a class=" w3-button w3-hover-black " style="margin-bottom: 7px;" href="choice_time.php?fromnext=1">&laquo;</a>
             <span class=" w3-tag w3-xlarge w3-teal">1</span>
             <span class=" w3-tag w3-xlarge w3-teal">2</span>
             <span class=" w3-tag w3-xlarge w3-teal">3</span>
