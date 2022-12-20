@@ -45,7 +45,8 @@ $alltimes = Doctimes::find_all();
 <?php foreach($alltimes as $onereq): ?>
 
                 <tr class="item  
-         <?php  if( (strtotime($onereq->date)) < (strtotime("-1 day")) ) { ?>
+         <?php  // если указанная дата в прошлом, то класс - серый
+                if( (strtotime($onereq->date)) < (strtotime("-1 day")) ) { ?>
                        w3-text-grey 
          <?php  }    ?>       
                 ">

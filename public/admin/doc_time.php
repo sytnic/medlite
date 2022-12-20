@@ -115,8 +115,16 @@
           $status.= "<a href=\"client_editreqs.php?id=".$row_time["clientreqs_id"]."\">Request Link</a>";
           $status.= '</td>';
         }
+
+        // если дата в прошлом, подготовить "серый" класс
+        $grey_class = "";
+        $now = strtotime($row_time["date"]);
+        $yesterday = strtotime("-1 day");
+        if ( $now < $yesterday ) {
+            $grey_class = ' class="w3-text-grey" ';
+        }
       
-?>                <tr> 
+?>                <tr  <?php echo $grey_class; ?> > 
                     <td><?php echo date("d.m.y", strtotime($row_time["date"])); ?></td>
                     <td><?php echo date("l", strtotime($row_time["date"]));  ?></td>
                     <td><?php echo substr($row_time["time"], 0, -3);  ?></td>              
@@ -128,18 +136,6 @@
       }
 ?>
 <!--                
-                <tr>              
-                  <td><?php echo date("d.m.y", strtotime("2022-12-07")); ?></td>
-                  <td>Mon</td>
-                  <td>10:50</td>
-                  <td>Busy</td>
-                </tr>
-                <tr>              
-                  <td>11.12</td>
-                  <td><?php echo date("l", strtotime("2022-12-11") );  ?></td>
-                  <td>19:10</td>
-                  <td>Busy</td>
-                </tr>
                 <tr>
                   <td>27.07</td>
                   <td>Sun</td>
