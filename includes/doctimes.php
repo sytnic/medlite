@@ -15,6 +15,10 @@ class Doctimes extends DatabaseObject {
 	public $status;
     public $clientreqs_id;
 
+    public static function find_all() {
+        return parent::find_by_sql("SELECT * FROM ".static::$table_name." ORDER by date, time ASC; ");
+    }
+
 
     public function output_date() {        
         // $date = date("d.m.Y", strtotime($this->date));

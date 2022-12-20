@@ -24,17 +24,17 @@ $alltimes = Doctimes::find_all();
 
 <?php  echo message();  ?>
 
-        <h2>List of clients</h2>
+        <h2>All doctimes list</h2>
         <p>Please, configure this.</p>
 
         <div class="w3-container w3-light-grey w3-responsive w3-mobile" style="width:100%; float:left;">            
             <table id="myTable" class="">
             <thead>
               <tr>
-                <th>Doc name</th>               
                 <th>Date (Y-m-d)</th>
-                <th>Day</th>
                 <th>Time</th>
+                <th>Doc name</th> 
+                <th>Day</th>                
                 <th>Status</th>
                 <th>Client Reqs</th>
                 <th>Delete</th>
@@ -50,10 +50,10 @@ $alltimes = Doctimes::find_all();
                        w3-text-grey 
          <?php  }    ?>       
                 ">
-                    <td><?php echo $onereq->doc_fullname();  ?></td>                    
                     <td><?php echo $onereq->output_date(); ?></td>
-                    <td><?php echo $onereq->day();  ?></td>
                     <td><?php echo $onereq->time(); ?></td>
+                    <td><?php echo $onereq->doc_fullname();  ?></td> 
+                    <td><?php echo $onereq->day();  ?></td>                    
                     <td><?php echo $onereq->status_str(); ?></td>
                     <td><?php echo $onereq->clientreq_link(); ?></td>
         <?php  if($onereq->status == 0) { ?>
