@@ -86,12 +86,12 @@
 
             <table class="w3-table w3-bordered" style="width: 100%;">
                 <tr>
-                  <th>Date</th>          
+                  <th>Date</th>
                   <th>Day</th>
                   <th>Time</th>
                   <th>Status</th>
                   <th>Client Request</th>
-                  <th>Delete</th>        
+                  <th>Delete</th>
                 </tr>
                 
 <?php
@@ -117,14 +117,9 @@
         }
 
         // если дата в прошлом, подготовить "серый" класс
-        $grey_class = "";
-        $now = strtotime($row_time["date"]);
-        $yesterday = strtotime("-1 day");
-        if ( $now < $yesterday ) {
-            $grey_class = ' class="w3-text-grey" ';
-        }
-      
-?>                <tr  <?php echo $grey_class; ?> > 
+        $grey_class = grey_class_for_past($row_time["date"]);
+
+?>                <tr  class="<?php echo $grey_class; ?>" > 
                     <td><?php echo date("d.m.y", strtotime($row_time["date"])); ?></td>
                     <td><?php echo date("l", strtotime($row_time["date"]));  ?></td>
                     <td><?php echo substr($row_time["time"], 0, -3);  ?></td>              

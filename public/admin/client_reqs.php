@@ -67,16 +67,17 @@ $reqs = Requests::find_all();
         <div class="w3-container w3-light-grey w3-responsive w3-mobile" style="width:100%; float:left;">            
             <table id="myTable" class="">
             <thead>
-              <tr>
-                <th>Added</th>   
+    
+              <tr <?php echo $grey_class; ?> >
+                <th>Date</th>          
+                <th>Day</th>
+                <th>Time</th>                 
                 <th>Client Name</th>          
                 <th>Date Born</th>
                 <th>Client Phone</th>
                 <th>Specname</th>
                 <th>Doc name</th>
-                <th>Date</th>          
-                <th>Day</th>
-                <th>Time</th>
+                <th>Added</th>                
                 <th class="w3-text-grey">Action</th>
               </tr>
             </thead>
@@ -92,18 +93,21 @@ $reqs = Requests::find_all();
 // если выводить с навигацией:
 // foreach($requests as $onereq):
 
-foreach($reqs as $onereq): ?>
-
-              <tr class="item">
-                <td><?php echo $onereq->plus_hours();  ?></td>
+foreach($reqs as $onereq): 
+  
+    // если дата в прошлом, подготовить "серый" класс
+    $grey_class = grey_class_for_past($onereq->raw_doctime_date());
+?>
+              <tr class="item <?php echo $grey_class; ?>">
+                <td><?php echo $onereq->date_meet(); ?></td>
+                <td><?php echo $onereq->day_meet();  ?></td>
+                <td><?php echo $onereq->time_meet(); ?></td>                
                 <td><?php echo $onereq->fullname();  ?></td>
                 <td><?php echo $onereq->humandate(); ?></td>
                 <td><?php echo $onereq->phone; ?></td>
                 <td><?php echo $onereq->get_specname(); ?></td>
                 <td><?php echo $onereq->doc_fullname(); ?></td>
-                <td><?php echo $onereq->date_meet(); ?></td>
-                <td><?php echo $onereq->day_meet();  ?></td>
-                <td><?php echo $onereq->time_meet(); ?></td>
+                <td><?php echo $onereq->plus_hours();  ?></td>
                 <td><?php echo "<a href=\"client_editreqs.php?id=".$onereq->id."\" class=\"\">Edit</a>"; ?></td>
               </tr>
 

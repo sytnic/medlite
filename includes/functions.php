@@ -36,6 +36,23 @@ function confirm_query($result_set, $function_name="another function") {
 }
 
 /**
+ * Если дата в прошлом, подготовить "серый" класс
+ * 
+ * @param  string $date 'yyyy-mm-dd'
+ * @return string|empty string
+ */
+function grey_class_for_past($date) {
+    $grey_class = "";
+    $now = strtotime($date);
+    $yesterday = strtotime("-1 day");
+    if ( $now < $yesterday ) {
+        $grey_class = "w3-text-grey";
+    }
+    return $grey_class;
+}
+
+
+/**
  * @return mysqli_result
  */
 function get_all_specs() {

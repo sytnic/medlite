@@ -52,7 +52,7 @@ class Requests extends DatabaseObject {
      * 
      * @return string $date_raw
      */
-    private function raw_doctime_date() {
+    public function raw_doctime_date() {
         $doctimerow = get_doctimerow_by_doctimeid($this->doctime_id);
         $date_raw =  $doctimerow["date"];
         return $date_raw;
