@@ -87,12 +87,14 @@ if (!$result) {
 //     Prepare variables for output
 // }
 if($row = mysqli_fetch_assoc($result)) {
+    $id = $row["id"];
+
     // client
     $firstname = $row["firstname"];
-    $midname = $row["midname"];
-    $surname = $row["surname"];    
+    $midname   = $row["midname"];
+    $surname   = $row["surname"];    
     $datebirth = $row["datebirth"];
-    $phone = $row["phone"];
+    $phone     = $row["phone"];
 
     // doc
     $doc_id = $row["doc_id"];
@@ -127,7 +129,7 @@ if($row = mysqli_fetch_assoc($result)) {
     <div class="w3-container w3-light-grey w3-responsive w3-mobile" style="width:100%; float:left;">      
         
         <form action="client_editreqs.php?id=<?php echo $req_id; ?>" method="post" class="w3-container w3-card w3-light-grey w3-text-teal w3-margin">
-            <h2 class="w3-center">Client data</h2>
+            <h2 class="w3-center">Сlient's request # <?php  echo "$id"; ?></h2>
             
             Client:<br>
             <input class="w3-input w3-border" name="firstname" type="text" value="<?php echo $firstname; ?>">
@@ -137,16 +139,19 @@ if($row = mysqli_fetch_assoc($result)) {
             <input class="w3-input w3-border" name="phone" type="text" value="<?php echo $phone; ?>">
 
             Spec Name:<br>
-            <input class="w3-input w3-border" name="" type="text" value="<?php echo $specname; ?>" disabled>   
+            <input class="w3-input w3-border" name="" type="text" value="<?php echo $specname; ?>" disabled>
+
             Doc Name:<br>
             <input class="w3-input w3-border" name="" type="text" 
             value="<?php echo $docrow['firstname']." ".$docrow['surname']; ?>" disabled>
+
             Date Meet:<br>
             <input class="w3-input w3-border" name="" type="date" 
             value="<?php 
             // сырая строка с датой из БД вписывается в html без доп. обработки
             echo $date_raw; 
             ?>" disabled>
+
             Time Meet:<br>
             <input class="w3-input w3-border" name="" type="time" value="<?php echo $timemeet; ?>" disabled>               
 

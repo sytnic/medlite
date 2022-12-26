@@ -91,6 +91,7 @@
                   <th>Time</th>
                   <th>Status</th>
                   <th>Client Request</th>
+                  <th>Req Id</th>
                   <th>Delete</th>
                 </tr>
                 
@@ -122,8 +123,9 @@
 ?>                <tr  class="<?php echo $grey_class; ?>" > 
                     <td><?php echo date("d.m.y", strtotime($row_time["date"])); ?></td>
                     <td><?php echo date("l", strtotime($row_time["date"]));  ?></td>
-                    <td><?php echo substr($row_time["time"], 0, -3);  ?></td>              
-                    <?php echo $status; ?>                     
+                    <td><?php echo substr($row_time["time"], 0, -3);  ?></td>
+                    <?php echo $status; ?>
+                    <td><?php echo "# ".$row_time["clientreqs_id"]; ?></td>
                     <td><a href="doctime_delete.php?timeid=<?php echo $row_time["id_time"]; ?>&docid=<?php echo $row["id"]; ?>"
                            onclick="return confirm('Are you sure?');"> Delete </a></td>
                   </tr>

@@ -77,8 +77,9 @@ $reqs = Requests::find_all();
                 <th>Client Phone</th>
                 <th>Specname</th>
                 <th>Doc name</th>
-                <th>Added</th>                
+                <th>Added</th>
                 <th class="w3-text-grey">Action</th>
+                <th>Id</th>
               </tr>
             </thead>
             <tbody>
@@ -109,6 +110,7 @@ foreach($reqs as $onereq):
                 <td><?php echo $onereq->doc_fullname(); ?></td>
                 <td><?php echo $onereq->plus_hours();  ?></td>
                 <td><?php echo "<a href=\"client_editreqs.php?id=".$onereq->id."\" class=\"\">Edit</a>"; ?></td>
+                <td><?php echo $onereq->id; ?></td>
               </tr>
 
 <?php endforeach; ?>
