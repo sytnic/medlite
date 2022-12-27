@@ -11,7 +11,7 @@
 
 $query = "UPDATE doctime SET
 status = 0,
-clientreqs_id = 0
+clientreqs_id = NULL
 WHERE clientreqs_id = {$req_id};"
 ;
 

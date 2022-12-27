@@ -100,7 +100,7 @@ foreach($reqs as $onereq):
     $grey_class = grey_class_for_past($onereq->raw_doctime_date());
 ?>
               <tr class="item <?php echo $grey_class; ?>">
-                <td><?php echo $onereq->date_meet(); ?></td>
+                <td><?php echo $onereq->raw_doctime_date(); ?></td>
                 <td><?php echo $onereq->day_meet();  ?></td>
                 <td><?php echo $onereq->time_meet(); ?></td>                
                 <td><?php echo $onereq->fullname();  ?></td>

@@ -73,7 +73,7 @@ already is set
     </p>
 </div>
 
-<p>Please, choose the time.</p>   
+<p>Please, choose the time.</p>
 
 <?php
       echo "<pre>";
@@ -81,13 +81,20 @@ already is set
       echo "</pre>";
 ?>
 
+<?php
+// var_dump($result_set);
+
+  if(mysqli_num_rows($result_set) == 0) {
+    echo "Свободное время отсутствует на данный момент.";
+  }
+?>
 <table class="w3-table w3-bordered" style="width: 80%;">
     <tr>
-      <th>Date</th>          
+      <th>Date</th>
       <th>Day</th>
       <th>Time</th>
       <th>Doc</th>
-      <th>Action</th>      
+      <th>Action</th>
     </tr>    
 <?php
       
