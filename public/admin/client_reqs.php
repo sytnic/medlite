@@ -70,10 +70,10 @@ $reqs = Requests::find_all();
     
               <tr <?php echo $grey_class; ?> >
                 <th>Date</th>          
-                <th>Day</th>
+              <!--  <th>Day</th>  -->
                 <th>Time</th>                 
                 <th>Client Name</th>          
-                <th>Date Born</th>
+              <!--  <th>Date Born</th>  -->
                 <th>Client Phone</th>
                 <th>Specname</th>
                 <th>Doc name</th>
@@ -101,10 +101,10 @@ foreach($reqs as $onereq):
 ?>
               <tr class="item <?php echo $grey_class; ?>">
                 <td><?php echo $onereq->raw_doctime_date(); ?></td>
-                <td><?php echo $onereq->day_meet();  ?></td>
+              <!--  <td><?php echo $onereq->day_meet();  ?></td>  -->
                 <td><?php echo $onereq->time_meet(); ?></td>                
                 <td><?php echo $onereq->fullname();  ?></td>
-                <td><?php echo $onereq->humandate(); ?></td>
+              <!--  <td><?php echo $onereq->humandate(); ?></td>  -->
                 <td><?php echo $onereq->phone; ?></td>
                 <td><?php echo $onereq->get_specname(); ?></td>
                 <td><?php echo $onereq->doc_fullname(); ?></td>

@@ -32,7 +32,7 @@
                 $output.= $doc["surname"]." ".$doc["firstname"];
                 $output.= "</a>";
                 if($doc["active"] == 0){
-                    $output.= " Not Active";
+                    $output.= "<b> not active </b>";
                 }
                 $output.= "</p>";
                 echo $output;

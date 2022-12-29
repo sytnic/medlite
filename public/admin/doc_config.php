@@ -37,8 +37,8 @@
                 $row = confirm_doc_id($doc_id);
                 
                 // дописка в message
-                $active = "active";
-                $no_act = "no active";
+                $active = "<b> active </b>";
+                $no_act = "<b> no active </b>";
                 if($row["active"] == 1) { $message.= $active; } else { $message.= $no_act; };
             } else {
                 // Failure
@@ -49,7 +49,7 @@
 <?php   include("layout/top.php"); ?>
 <p><?php echo $message; ?></p>
         <h2>Overall for doc: <?php echo $row["firstname"]." ".$row["surname"];  ?> </h2>
-        <p>Please, configure this.</p>
+        <p>Предложения от неактивного дока не отображаются в публичной части.</p>
 
         <div class="w3-card w3-light-grey w3-responsive w3-mobile w3-margin-bottom " style="width:80%; float:left;">
         

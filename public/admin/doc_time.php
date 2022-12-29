@@ -72,8 +72,10 @@
   echo form_errors($errors);
 ?>
         <p>Please, configure this.</p>
-        <p>Время отобразится у каждой из специальностей дока. Время окажется забронированным при первом запросе по той или иной специальности. У других специальностей оно перестанет отображаться.</p>
-        <p>The time will be displayed for each of the doc's specialties.
+        <p>Добавленное время в публичной части отобразится у каждой из специальностей дока. 
+           Время здесь отобразится забронированным при первом запросе по той или иной специальности. 
+           В публичной части у всех специальностей оно перестанет отображаться.</p>
+        <p>In public part the time will be displayed for each of the doc's specialties.
            The time will be booked at the first request for a particular specialty. In other specialties, it will no longer be displayed.</p>
 
         <div class="w3-container w3-light-grey w3-responsive w3-mobile" style="width:100%; float:left;">      

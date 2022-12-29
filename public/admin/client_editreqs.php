@@ -159,12 +159,12 @@ if($row = mysqli_fetch_assoc($result)) {
             <input type="submit" name="submit" class="w3-button w3-teal" value="Save Changes">
             </p>            
         </form>
-
+<!--
         <p>
           <a href="client_reqs.php" class="w3-button w3-border">
           &laquo; List of Requests</a>
         </p>   
-
+-->
         <p>
           <a href="client_reqdelete.php?req_id=<?php echo $req_id; ?>" class="w3-button w3-border w3-border-red"
              onclick="return confirm('Are you sure?');">Delete All</a>
