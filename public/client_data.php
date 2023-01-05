@@ -71,9 +71,11 @@ include("layouts/sidebar.php");
 
 <p>
   <?php     
+        // Проверки
+
         // нужно инициализировать пустые строки выше под эти переменные, 
         // раз эти переменные используются
-        echo "Var name: $firstname. <br>";
+/*        echo "Var name: $firstname. <br>";
         echo "Var lastname: $lastname. <br>" ;
         echo "Var birthday: $birthday. <br>" ;
         echo "Var phone: $phone. <br>" ;  
@@ -81,6 +83,7 @@ include("layouts/sidebar.php");
         echo "<pre>";
         print_r($_SESSION);
         echo "</pre>";
+*/
   ?>
   <?php echo form_errors($errors); ?>  
 </p>

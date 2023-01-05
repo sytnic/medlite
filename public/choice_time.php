@@ -76,16 +76,17 @@ already is set
 <p>Please, choose the time.</p>
 
 <?php
-      echo "<pre>";
+/*      echo "<pre>";
       print_r($_SESSION);
       echo "</pre>";
+*/
 ?>
 
 <?php
 // var_dump($result_set);
 
   if(mysqli_num_rows($result_set) == 0) {
-    echo "Свободное время отсутствует на данный момент.";
+    echo "Свободное время отсутствует на данный момент.<br><br>";
   }
 ?>
 <table class="w3-table w3-bordered" style="width: 80%;">

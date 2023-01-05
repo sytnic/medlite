@@ -126,7 +126,7 @@ already is set
         }
 
         $last_id = mysqli_insert_id($connection);
-        var_dump($last_id);
+//        var_dump($last_id);
 
         $query2 = "UPDATE doctime SET";
         $query2.= " status = 1 , ";
@@ -144,14 +144,15 @@ already is set
         }
 
     // еще раз проверка массива
-    echo "<pre>";
+/*    echo "<pre>";
     print_r($_SESSION);
     echo "</pre>";
-
+*/
     // и нет ли в Посте что-нибудь
-    echo "<pre>";
+/*    echo "<pre>";
     print_r($_POST);
     echo "</pre>";
+*/
 ?>
         <p>Thanks for register.</p>  
         
@@ -190,10 +191,11 @@ already is set
     $_SESSION["wanted_id"] = null;
     $_SESSION["time_id"] = null;
     
-    // проверка массива
-    echo "<pre>";
+    // проверка массива на отсутствие значений
+/*    echo "<pre>";
     print_r($_SESSION);
     echo "</pre>";
+*/
 ?>
 <!--
 already is set

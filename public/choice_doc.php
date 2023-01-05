@@ -66,10 +66,10 @@ already is set
 
         <p>Please, choose the doc. </p>  
 <?php
-    echo "<pre>";
+/*    echo "<pre>";
     print_r($_SESSION);
     echo "</pre>";
-
+*/
 ?>  
 <!--      
         <div>
@@ -84,7 +84,7 @@ already is set
         </div>
 -->        
         <div>
-            <p><b>From DB</b></p>
+            <p><b>Active docs</b></p>
 
 
 <?php       // gettig list of active docs

@@ -48,11 +48,11 @@ already is set
             </p>
         </div>
 <?php
-
+/*
         echo "<pre>";
         print_r($_SESSION);
         echo "</pre>";
-
+*/
         $firstname = $_SESSION["inputs"][0];
         $midname   = $_SESSION["inputs"][1];
         $lastname  = $_SESSION["inputs"][2];

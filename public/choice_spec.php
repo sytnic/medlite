@@ -36,9 +36,10 @@ include("layouts/sidebar.php");
         <p>Please, choose your doc. If you dont know, choose doc o.p. (ter.).</p> 
 
 <?php  
-       echo "<pre>";
+/*       echo "<pre>";
        print_r($_SESSION);
        echo "</pre>";
+*/
 ?>         
 <!--        
         <div>
